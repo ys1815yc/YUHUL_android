@@ -1,0 +1,1039 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:id="@+id/userInfoOnlineTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:drawableStart="@drawable/ic_battery_full_black_24dp" />
+
+    <ImageView
+        android:id="@+id/bleStateImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/userInfoOnlineTextView"
+        app:srcCompat="@drawable/ic_bluetooth_black_24dp" />
+
+    <LinearLayout
+        android:id="@+id/resultLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userInfoOnlineTextView"
+        android:layout_marginTop="10dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/resultHRLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hrTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/hr_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/hrValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/hrUnitTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/hr_unit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultSVLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/SVTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/sv_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/SVValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/SVUnitTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/ml_unit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultVTILinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/VTITitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/vti_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/VTIValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/VTIUnitTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/cm_unit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultVpkLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/VpkTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/vpk_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/VpkValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/VpkUnitTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/vpk_unit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultCOLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/COTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/co_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/COValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/COUnitTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/co_unit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/resultLinearLayout"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:id="@+id/trynotifytogglebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/togglebutton_selector"
+            android:text=""
+            android:textOff="@string/try_off"
+            android:textOn="@string/try_on"
+            android:textSize="12sp" />
+
+        <ToggleButton
+            android:id="@+id/recToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/togglebutton_selector"
+            android:text=""
+            android:textOff="@string/rec_off"
+            android:textOn="@string/rec_on"
+            android:textSize="12sp" />
+
+
+        <Button
+            android:id="@+id/notifybtn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/block_g2"
+            android:text="@string/gatt_services_notify"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/calculateOnline"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/block_g2"
+            android:text="@string/calculate"
+            android:textSize="12sp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/block_g2"
+            android:text="@string/title_save"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ecgLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/buttonLinearLayout"
+        android:gravity="start"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <View
+            android:id="@+id/vEcgLeftSpaceOnline"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+        <com.gis.heartio.UIOperationControlSubsystem.EcgView
+            android:id="@+id/ecgOffline"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:visibility="gone"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView0"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView1"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView2"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView3"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView4"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView5"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView6"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView7"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView8"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView9"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView10"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView11"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView12"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView13"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView14"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView15"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView16"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView17"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView18"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView19"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView20"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView21"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView22"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView23"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView24"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView25"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgSegView
+            android:id="@+id/ecgOnlineView26"
+            android:layout_margin="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"/>
+    </LinearLayout>
+
+    <SurfaceView
+        android:id="@+id/svTimeScaleUpSpace"
+        android:layout_width="30dp"
+        android:layout_height="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ecgLinearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:background="@android:color/white"
+        android:visibility="visible" />
+
+    <SurfaceView
+        android:id="@+id/svTimeScaleUp"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/ecgLinearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@id/svTimeScaleUpSpace"
+        android:background="@android:color/white"
+        android:visibility="visible" />
+
+    <SurfaceView
+        android:id="@+id/svSpace"
+        android:layout_width="1dp"
+        android:layout_height="140dp"
+        android:layout_below="@id/ecgLinearLayout"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white"
+        android:visibility="visible"/>
+
+    <SurfaceView
+        android:id="@+id/svScale"
+        android:layout_width="30dp"
+        android:layout_height="140dp"
+        android:layout_below="@+id/svTimeScaleUpSpace"
+        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@id/svSpace"
+        android:background="@android:color/white"
+        android:visibility="visible" />
+    <LinearLayout
+        android:id="@+id/svUltrasoundParant"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:layout_below="@id/svTimeScaleUp"
+        android:layout_toEndOf="@id/svScale"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:orientation="horizontal">
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline0"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline1"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline2"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline3"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline4"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline5"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline6"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline7"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline8"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline9"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline10"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline11"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline12"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline13"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline14"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline15"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline16"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline17"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline18"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline19"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline20"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline21"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline22"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline23"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline24"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline25"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline26"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline27"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline28"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline29"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline30"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOnline31"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+        <SurfaceView
+            android:id="@+id/svUltrasound"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <SurfaceView
+        android:id="@+id/svTimeScaleDownSpace"
+        android:layout_width="30dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/svScale"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white"
+        android:visibility="invisible"/>
+
+    <SurfaceView
+        android:id="@+id/svTimeScaleDown"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/svScale"
+        android:layout_toEndOf="@id/svTimeScaleDownSpace"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white"
+        android:visibility="invisible"/>
+
+
+    <TextView
+        android:id="@+id/textViewTimeScaleTimeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text=""
+        android:textSize="17sp"
+        android:background="@color/green"
+        android:visibility="visible"/>
+
+
+    <RadioGroup
+        android:id="@+id/VTIModeGroupOnline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/svTimeScaleDownSpace"
+        android:layout_alignStart="@+id/resultLinearLayout"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/strongPeakModeOnline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vti_mode_strong_peak"
+            android:visibility="invisible" />
+
+        <RadioButton
+            android:id="@+id/twoPointModeOnline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/vti_mode_two_point"
+            android:visibility="invisible" />
+
+    </RadioGroup>
+
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/singleVpkSwitchOnline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="163dp"
+        android:layout_toEndOf="@+id/svSpace"
+        android:text="singleVpk" />
+
+
+    <ProgressBar
+        android:id="@+id/recordProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/recordSec"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toStartOf="@+id/recordSec"
+        android:layout_toEndOf="@+id/VTIModeGroupOnline" />
+
+    <TextView
+        android:id="@+id/recordSec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/VTIModeGroupOnline"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="8dp"
+        android:text="14" />
+
+    <LinearLayout
+        android:id="@+id/snrTextViews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/VTIModeGroupOnline"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/SNRtitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:text="SNR:"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/SNRValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/velocityTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <TextView
+            android:id="@+id/ampTitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Amp:"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/ampValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/greenlight"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/snrTextViews"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@id/singleVpkSwitchOnline"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/green_color_btn" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/inverseSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/snrTextViews"
+        android:layout_toEndOf="@id/greenlight"
+        android:text="Inverse" />
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/fourthLevelOnline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inverseSwitch"
+        android:layout_toEndOf="@id/greenlight"
+        android:text="4th Level"
+        android:textSize="10sp" />
+
+
+</RelativeLayout>

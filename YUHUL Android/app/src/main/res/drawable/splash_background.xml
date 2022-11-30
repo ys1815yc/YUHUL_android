@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:drawable="@color/colorAccent" />
+    <item>
+        <bitmap
+            android:gravity="fill"
+            android:src="@drawable/login" />
+    </item>
+    <item>
+        <bitmap
+            android:gravity="fill_horizontal|clip_vertical"
+            android:src="@drawable/welcome" />
+    </item>
+
+    <item android:insetLeft="46px"
+        android:insetTop="1300px"
+        >
+<!--        <bitmap android:src="@drawable/heartio_logo"-->
+<!--            android:gravity="center" />-->
+        <bitmap android:src="@drawable/yuhul_logo"
+                    android:gravity="center" />
+            </item>
+        </layer-list>

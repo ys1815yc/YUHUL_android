@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>-->
+
+    <color name="nav_button_tint">#2046F2</color>
+    <color name="nav_button_color">#2C2E47</color>
+
+    <color name="dialogTextColorPrimary">#989898</color>
+
+    <color name="intervalTextColor">#2046F2</color>
+
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#F8F8F9</color>
+
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <!--<color name="colorAccent">#009688</color>-->
+    <color name="colorAccent">#2046f2</color>
+    <color name="colorLogoBackground">#FFFFFF</color>
+    <color name="colorAccentRegister">#353C43</color>
+
+    <color name="main_bg_color">#0c377b</color>
+
+
+    <color name="list_item_title_notactivated">#000</color>
+    <color name="list_item_title_activated">#007aff</color>
+    <color name="list_background">#FFF</color>
+
+
+    <color name="actionbar_bg_color">#0c377b</color>
+    <color name="actionbar_bg_color_light">#900c377b</color>
+    <color name="slider_bg_color">#0a2b61</color>
+    <color name="sensor_hub_segment_color">#e5e5e5</color>
+
+    <!-- Action bar pull to refresh colors -->
+    <color name="dark_blue">#0c377b</color>
+    <color name="medium_blue">#11479c</color>
+    <color name="light_blue">#2a67c8</color>
+    <color name="faint_blue">#9ec2fb</color>
+
+    <!-- Action bar pull to refresh colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!--File Read/Write progress colors-->
+    <color name="file_read_progress">#751abb00</color>
+    <color name="grey">#EFEFF4</color>
+    <color name="green">#701ABB00</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <color name="colorDeviceTitle">#804A4A4A</color>
+    <!--<color name="adminPWDailogBG">#FF1C00B9</color>-->
+    <color name="adminPWDialogBG">#FF2F51CE</color>
+</resources>

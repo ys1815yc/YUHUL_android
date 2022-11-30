@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/userInfoTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/dataInfoTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:singleLine="true" />
+
+    <LinearLayout
+        android:id="@+id/resultOfflineLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/resultHROfflineLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/hrTitleOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/hr_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/hrValueOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/hrUnitOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/hr_unit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultSVOfflineLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/SVTitleOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/sv_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/SVValueOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/SVUnitOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/ml_unit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultVTIOfflineLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/VTITitleOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/vti_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/VTIValueOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/VTIUnitOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/cm_unit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultVpkOfflineLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/VpkTitleOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/vpk_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/VpkValueOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/VpkUnitOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/vpk_unit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultCOOfflineLinearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/COTitleOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/co_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/COValueOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/COUnitOfflineTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/co_unit"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/openfile_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/open_btn"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/calculateBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/block_g2"
+            android:text="@string/calculate"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:visibility="visible" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/vtiSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:text="@string/show_vit_switch"
+            android:textSize="12sp" />
+
+        <ImageButton
+            android:id="@+id/playSoundBtn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/play_btn"
+            app:srcCompat="@android:drawable/ic_media_play" />
+
+        <ImageButton
+            android:id="@+id/pauseSoundBtn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/pause_btn"
+            android:visibility="gone"
+            app:srcCompat="@android:drawable/ic_media_pause" />
+
+    </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:id="@+id/vEcgLeftSpace"
+            android:layout_width="30dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:background="@color/white"
+            android:visibility="gone"/>
+        <com.gis.heartio.UIOperationControlSubsystem.EcgView
+            android:id="@+id/vEcgView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_toEndOf="@+id/vEcgLeftSpace"
+            android:background="@color/white"
+            android:visibility="gone" />
+        <SurfaceView
+            android:id="@+id/svTimeScaleUpSpaceOffline"
+            android:layout_width="30dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_below="@+id/vEcgLeftSpace"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/white"
+            android:visibility="visible"/>
+
+        <SurfaceView
+            android:id="@+id/svTimeScaleUpOffline"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_alignParentStart="false"
+            android:layout_marginTop="0dp"
+            android:layout_below="@+id/vEcgView"
+            android:layout_toEndOf="@+id/svTimeScaleUpSpaceOffline"
+            android:background="@android:color/white"
+            android:visibility="visible" />
+        <SurfaceView
+            android:id="@+id/svSpaceScaleOffline"
+            android:layout_width="1dp"
+            android:layout_height="140dp"
+            android:layout_below="@id/svTimeScaleUpOffline"
+            android:layout_alignParentStart="true"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/white"
+            android:visibility="visible"/>
+
+        <SurfaceView
+            android:id="@+id/svScaleOffline"
+            android:layout_width="30dp"
+            android:layout_height="140dp"
+            android:layout_below="@+id/svTimeScaleUpSpaceOffline"
+            android:layout_centerHorizontal="false"
+            android:background="@android:color/white"
+            android:visibility="visible" />
+
+        <SurfaceView
+            android:id="@+id/svUltrasoundOffline"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_below="@+id/svTimeScaleUpOffline"
+            android:layout_centerHorizontal="true"
+            android:layout_toEndOf="@id/svScaleOffline"
+            android:background="@android:color/white"
+            android:visibility="visible" />
+
+        <SurfaceView
+            android:id="@+id/svTimeScaleDownSpaceOffline"
+            android:layout_width="30dp"
+            android:layout_height="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/svScaleOffline"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:visibility="invisible" />
+
+        <SurfaceView
+            android:id="@+id/svTimeScaleDownOffline"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_below="@id/svScaleOffline"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/svTimeScaleDownSpaceOffline"
+            android:background="@android:color/white"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/VTIModeGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <RadioButton
+                android:id="@+id/strongPeakMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vti_mode_strong_peak"
+                android:textSize="12sp"
+                android:visibility="visible" />
+
+            <RadioButton
+                android:id="@+id/twoPointMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/vti_mode_two_point"
+                android:textSize="12sp"
+                android:visibility="visible" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/updateButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:text="Update"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/spiderButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:text="spider"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/SNRTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="10sp" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/testSwitch"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Test"
+            android:textSize="10sp" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/inverseSwitchOffline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inverse"
+            android:textSize="10sp" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/fourthLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4th Level"
+            android:textSize="10sp"
+            />
+
+        <EditText
+            android:id="@+id/rxRadiusEditTextNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:inputType="number" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/filterSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Filter"
+            android:textSize="10sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/windowSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Window"
+            android:textSize="10sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/dcoffsetSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DC offset"
+            android:textSize="10sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/singleVpkSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SingleVpk"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

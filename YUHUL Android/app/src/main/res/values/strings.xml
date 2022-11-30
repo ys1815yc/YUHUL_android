@@ -1,0 +1,650 @@
+<resources>
+<!--    <string name="app_name">HeartIO</string>-->
+    <string name="app_name">Yuhul</string>
+    <string name="title_interval">Interval</string>
+    <string name="title_home">Online</string>
+    <string name="title_file">Offline</string>
+    <string name="title_history">History</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Settings</string>
+    <string name="title_more">More</string>
+    <string name="title_user">User</string>
+    <string name="title_add_user">Add User</string>
+    <string name="title_edit_user">Edit User</string>
+    <string name="title_height_to_csa">Height to CSA</string>
+    <string name="hint_pulm_dia"><font size="12">Pulm.Dia. (mm) ex. 21±4</font></string>
+    <string name="hint_height"><font size="12">Height(cm)</font></string>
+    <string name="hint_user_id"><font size="12">ID card number ex. A123456789</font></string>
+    <string name="first_name"><font size="12">First Name</font></string>
+    <string name="last_name"><font size="12">Last Name</font></string>
+    <string name="angle_hint"><font size="12">Angle(Degree)</font></string>
+    <string name="apply">Apply</string>
+    <string name="reset">Reset</string>
+    <string name="cancel">Cancel</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_select">Select</string>
+    <string name="action_del">Delete</string>
+    <string name="vti_mode_strong_peak">Strong Peak</string>
+    <string name="vti_mode_two_point">Two Points</string>
+    <string name="title_save">Save</string>
+    <string name="title_action">Action</string>
+
+    <string name="interval_title">Interval(min):</string>
+    <string name="duration_title">Duration(min):</string>
+
+    <string name="hr_title">HR</string>
+    <string name="hr_unit">beats/min</string>
+    <string name="vpk_title">Vpk</string>
+    <string name="vpk_unit">m/sec</string>
+    <string name="co_title">CO</string>
+    <string name="co_unit">liter/min</string>
+    <string name="sv_title">SV</string>
+    <string name="ml_unit">ml</string>
+    <string name="vti_title">VTI</string>
+    <string name="cm_unit">cm</string>
+
+    <string name="try_off">Try</string>
+    <string name="try_on">Stop</string>
+    <string name="calculate">Calculate</string>
+    <string name="rec_off">Rec</string>
+    <string name="rec_on">Stop</string>
+    <string name="open_btn">Open</string>
+
+    <string name="play_btn">Play</string>
+    <string name="pause_btn">Pause</string>
+
+    <string name="show_vit_switch">Show VTI</string>
+
+    <string name="close_btn">Close</string>
+
+    <!-- bluetooth button elements -->
+    <string name="bluetooth_pair_start">Pairing started…\nPlease wait…</string>
+    <string name="bluetooth_pair_unpair_failed">Pair/Unpair failed</string>
+    <!--string name="bluetooth_pair">Paired</string-->
+    <!--string name="bluetooth_unpair">Not Paired</string-->
+    <string name="bluetooth_pair_to_connect">Connect</string>
+    <string name="bluetooth_unpair_to_connect">Connect</string>
+    <string name="alert_message_bluetooth_connect">The BLE device is connected</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_child_home">Home</string>
+    <string name="navigation_drawer_child_ble">BLE Products</string>
+    <string name="navigation_drawer_child_mobile">CySmart Mobile</string>
+    <string name="navigation_drawer_child_contact">Contact Us</string>
+
+    <!-- CAB -->
+    <string name="cab_delete">Delete</string>
+
+    <!-- Image descriptors -->
+    <string name="image_navigation_icon">Navigation icon</string>
+    <string name="image_splash_logo">Splash logo</string>
+    <string name="image_navigation_drawer_logo">navigation logo</string>
+    <string name="image_hrm_ee_icon" translatable="false">heart rate monitor energy icon</string>
+    <string name="image_hrm_rr_icon" translatable="false">heart rate monitor rr icon</string>
+    <string name="image_health_temp_measurement_heart" translatable="false">health temperature thermometer icon</string>
+    <string name="image_battery_service_level" translatable="false">battery level icon</string>
+    <string name="image_bluetooth_logo" translatable="false">bluetooth logo</string>
+    <string name="glucose_icon" translatable="false">glucose icon</string>
+    <string name="capsense_button_item" translatable="false">CapSense button icon</string>
+    <string name="image_actionbar_bg_color">background color</string>
+    <string name="image_sensor_hub_graph" translatable="false">Sensor hub graph image</string>
+    <string name="image_sensor_hub_accelerometer" translatable="false">Sensor hub accelerometer image</string>
+    <string name="image_sensor_hub_accelerometer_cube" translatable="false">Sensor hub accelerometer cube image</string>
+    <string name="image_sensor_hub_temperature" translatable="false">Sensor hub temperature image</string>
+    <string name="image_sensor_hub_battery" translatable="false">Sensor hub battery image</string>
+    <string name="image_sensor_hub_pressure" translatable="false">Sensor hub pressure image</string>
+
+    <!-- Alert dialog elements -->
+    <string name="alert_message_exit">Do you want to exit the application?</string>
+    <string name="alert_message_exit_ok">OK</string>
+    <string name="alert_message_exit_cancel">Cancel</string>
+    <string name="alert_message_connect">Connecting to the device</string>
+    <string name="alert_message_log_read" translatable="false">Reading the log file please wait...</string>
+    <string name="alert_message_connect_title">Device Connection</string>
+    <!--string name="alert_message_bluetooth_connect">The BLE device is connected</string-->
+    <!--string name="alert_message_bluetooth_disconnect">The BLE device is disconnected</string-->
+    <string name="alert_message_bluetooth_reconnect" translatable="false">Please Turn Bluetooth ON</string>
+    <string name="alert_message_reconnect" translatable="false">Your connection has been lost.</string>
+    <string name="alert_message_wait">Please wait..</string>
+    <string name="alert_message_no_internet" translatable="false">No internet connection</string>
+    <string name="alert_message_unkown" translatable="false">Do you want to go to GATT DB ?</string>
+    <string name="alert_message_yes">Yes</string>
+    <string name="alert_message_no">No</string>
+    <string name="alert_message_retry">Retry</string>
+    <string name="alert_message_unknown_title" translatable="false">No custom UI available !</string>
+    <string name="alert_message_bonding_title">Bonding</string>
+    <string name="alert_message_bonding_message" translatable="false">Bonding is in process \nPlease wait..</string>
+    <string name="alert_message_prepare_title" translatable="false">Preparing Notifications</string>
+    <string name="alert_message_prepare_message" translatable="false">Enabling all available notifications</string>
+    <string name="alert_csc_weight" translatable="false">Please enter a valid weight !</string>
+    <string name="alert_title_clear_cache" translatable="false">Clear Bluetooth Cache?</string>
+    <string name="alert_message_clear_cache">Will clear all cache information of connected device. Connection will be lost. Do you want to continue?</string>
+    <string name="alert_message_delete_log">Do you want to delete this log?</string>
+    <string name="alert_message_ota_cancel">Do you want to cancel the OTA update?</string>
+    <string name="alert_message_ota_resume">Do you want to resume the OTA Update?</string>
+    <string name="alert_message_ota_pending">You have firmware upgrade in progress. Going back will stop the firmware upgrade and disconnect from the device. Do you want to continue?</string>
+    <string name="alert_message_ota_user_warning">While firmware upgrade is in progress don\'t press back button or home button. Please stay in the page till the upgrade is complete</string>
+    <string name="alert_message_write_error">Error occurred in writing data.</string>
+    <string name="alert_message_ota_error">Firmware update canceled\nError: </string>
+    <string name="alert_message_silicon_id_error" translatable="false">Error: The SiliconID or SiliconRev does not match</string>
+    <string name="alert_message_checksum_error" translatable="false">Error: The checksum do not match</string>
+    <string name="alert_message_row_out_of_bounds_error" translatable="false">Error: The row number exceeds the bounds</string>
+    <string name="alert_message_write_error_code">Error code:</string>
+    <string name="alert_title_error">Error</string>
+    <string name="alert_message_try_again">Please try again.</string>
+    <string name="alert_message_hid_warning" translatable="false">HID service related access may be restricted by the OS. Accessing the associated characteristics and descriptor may cause the app to crash</string>
+    <string name="alert_message_file_copy" translatable="false">A cyacd file with the same name exists in CySmart folder! Do you want to replace the existing cyacd file?</string>
+    <string name="alert_message_service_undiscovered">No services found</string>
+    <string name="progress_tile_service_discovering">Service Discovery</string>
+    <string name="progress_message_service_discovering">Discovering services. Please wait.</string>
+    <string name="progress_message_reconnect"> Reconnecting to device. Please wait.</string>
+    <!-- Device discovery elements -->
+    <string name="device_unknown">Unknown device</string>
+    <string name="device_ble_not_supported">Bluetooth Low Energy not supported on device</string>
+    <string name="device_bluetooth_on">Bluetooth turned on successfully</string>
+    <string name="device_bluetooth_not_supported">Bluetooth not supported on device</string>
+    <string name="device_signal_strength">RSSI:</string>
+    <string name="device_signal_strength_unit">dBm</string>
+
+    <!-- profile control elements -->
+    <string name="profile_control_unknown_service">Unknown Service</string>
+    <string name="profile_control_no_device_message">Pull down to refresh…</string>
+    <string name="profile_control_device_scanning">Refreshing, Please wait…</string>
+    <string name="profile_cannot_connect_message">Cannot connect to the device</string>
+    <string name="profile_control_stop_notification_toast">Notifications disabled</string>
+    <string name="profile_control_stop_indication_toast">Indications disabled</string>
+    <string name="profile_control_stop_both_notify_indicate_toast">All indications and notifications disabled</string>
+    <string name="enable_notify_failed">Failed to enable notification(s).
+        If you see this error repeatedly, disconnect and connect back to the device.</string>
+
+    <!-- Device information profile elements -->
+    <string name="div_manufacturer_name">Manufacturer Name </string>
+    <string name="div_model_name">Model Number </string>
+    <string name="div_serial_name">Serial Number </string>
+    <string name="div_hardware_name">Hardware Revision </string>
+    <string name="div_firmware_name">Firmware Revision </string>
+    <string name="div_software_name">Software Revision </string>
+    <string name="div_system_name">System ID </string>
+    <string name="div_regulatory_name">Regulatory Certification Data List </string>
+    <string name="div_pnp_name">PnP ID </string>
+
+    <!-- Glucose additional information profile elements -->
+    <string name="gls_carb_id">Carbohydrate ID</string>
+    <string name="gls_carb_unit">Carbohydrate</string>
+    <string name="gls_meal">Meal</string>
+    <string name="gls_tester">Tester</string>
+    <string name="gls_health">Health </string>
+    <string name="gls_exc_duration">Exercise Duration</string>
+    <string name="gls_exc_intensity">Exercise Intensity </string>
+    <string name="gls_med_id">Medication ID</string>
+    <string name="gls_med">Medication</string>
+    <string name="gls_hba1c">HbA1c</string>
+
+    <!-- Gatt DB elements -->
+    <string name="gatt_services_heading">Services</string>
+    <string name="gatt_services_read">Read</string>
+    <string name="gatt_services_write">Write</string>
+    <string name="gatt_services_notify">Notify</string>
+    <string name="gatt_services_indicate">Indicate</string>
+    <string name="gatt_services_details">Details</string>
+    <string name="gatt_descriptors_details">Descriptor Details</string>
+    <string name="gatt_services">Service</string>
+    <string name="gatt_charateristic">Characteristic</string>
+    <string name="gatt_descriptor">Descriptor</string>
+    <string name="gatt_descriptor_hex_value">Descriptor HEX Value</string>
+    <string name="gatt_descriptor_value">Descriptor Value</string>
+    <string name="gatt_services_ascii">ASCII</string>
+    <string name="gatt_services_hex">HEX</string>
+    <string name="gatt_services_date">Date</string>
+    <string name="gatt_services_time">Time</string>
+
+    <string name="gatt_char_properties">Properties : </string>
+    <string name="gatt_services_stop_notify">Stop Notify</string>
+    <string name="gatt_services_stop_indicate">Stop Indicate</string>
+    <string name="gatt_details_popup_ok">OK</string>
+    <string name="gatt_details_popup_cancel">Cancel</string>
+    <string name="gatt_details_popup_heading">Enter Hex values</string>
+    <string name="gatt_details_descriptors">Descriptors</string>
+    <string name="gatt_details_ascii_popup_heading">Enter ASCII values</string>
+
+    <!-- DataLogger elements -->
+    <string name="data_logger_no_log">No Logs Found</string>
+    <string name="data_logger_directory">CySmart</string>
+    <string name="data_logger_characteristic_ascii_value">Characteristic ASCII value </string>
+    <string name="data_logger_characteristic_hex_value">Characteristic HEX value </string>
+    <string name="data_logger_history">History</string>
+    <string name="data_logger_timestamp">Showing data logs up to "</string>
+    <string name="data_logger_scroll_end">Scroll down</string>
+
+    <!-- Capsense elements -->
+    <string name="proximity">CapSense Proximity</string>
+    <string name="proximity_bar_zero">0 - </string>
+    <string name="proximity_bar_twentyfive">25 - </string>
+    <string name="proximity_bar_fifty">50 - </string>
+    <string name="proximity_bar_seventyfive">75 - </string>
+    <string name="proximity_bar_hundred">100 - </string>
+    <string name="slider">CapSense Slider</string>
+    <string name="buttons">CapSense Buttons</string>
+
+    <!-- ActionBar fragment Names -->
+    <string name="profile_control_fragment">Services</string>
+    <string name="capsense">CapSense</string>
+    <string name="health_thermometer_fragment">Health Thermometer</string>
+    <string name="graph">Graph</string>
+    <string name="log">Log</string>
+    <string name="share">Share</string>
+    <string name="heart_rate">Heart Rate</string>
+    <string name="rgb_led">RGB LED</string>
+    <string name="device_info">Device Information</string>
+    <string name="gatt_db">GATT DB</string>
+    <string name="data_logger">Data Logger</string>
+    <string name="glucose_fragment">Glucose</string>
+    <string name="gatt_characteristics_heading" translatable="false">Characteristics</string>
+    <string name="gatt_descriptors_heading" translatable="false">Descriptors</string>
+    <string name="profile_scan_fragment" translatable="false">BLE Devices</string>
+    <string name="battery_info_fragment" translatable="false">Battery Service</string>
+    <string name="findme_fragment" translatable="false">Find Me</string>
+    <string name="proximity_fragment" translatable="false">Proximity</string>
+    <string name="rsc_fragment" translatable="false">Running Speed and Cadence</string>
+    <string name="csc_fragment" translatable="false">Cycling Speed and Cadence</string>
+    <string name="datalogger_history" translatable="false">Data Logger History</string>
+    <string name="search_title">Search Devices</string>
+    <string name="cache" translatable="false">Clear cache on disconnect</string>
+
+    <!-- Find Me profile elements -->
+    <string name="find_linkloss" translatable="false">Link Loss</string>
+    <string name="find_spinner_prompt" translatable="false">Select</string>
+    <string name="find_immediate_alert" translatable="false">Immediate Alert</string>
+    <string name="find_value_read_toast" translatable="false">Value read from kit: </string>
+    <string name="find_value_written_toast" translatable="false">Written </string>
+    <string name="find_value_success_toast"> successfully </string>
+    <string name="find_me_no_alert" translatable="false">No Alert</string>
+    <string name="find_me_mid_alert" translatable="false">Mid Alert</string>
+    <string name="find_me_high_alert" translatable="false">High Alert</string>
+
+    <!-- Blood pressure profile elements -->
+    <string name="blood_pressure">Blood Pressure</string>
+    <string name="blood_pressure_systolic">SYS</string>
+    <string name="blood_pressure_diastolic">DIA</string>
+    <string name="blood_pressure_start_btn">START</string>
+    <string name="blood_pressure_stop_btn">STOP</string>
+    <string name="blood_pressure_mmHg">mmHg</string>
+    <string name="blood_pressure_kPa" translatable="false"> kPa</string>
+
+    <!-- RSC profile elements -->
+    <string name="rsc_weight">Weight:</string>
+    <string name="rsc_weight_unit">kg</string>
+    <string name="rsc_time" translatable="false">Time:</string>
+    <string name="rsc_graph_title" translatable="false">Instantaneous Speed Vs Time</string>
+    <string name="rsc_calories" translatable="false">Calories Burned</string>
+    <string name="rsc_inst_speed" translatable="false">Instantaneous Speed </string>
+    <string name="rsc_avg_speed" translatable="false">Instantaneous Speed (km/h)</string>
+    <string name="rsc_avg_speed_unit">km/h</string>
+    <string name="rsc_distance_unit">km</string>
+    <string name="rsc_total_distance" translatable="false">Total Distance Ran</string>
+
+    <!-- CSC profile elements -->
+    <string name="csc_cadence" translatable="false">Cadence</string>
+    <string name="csc_cadence_graph" translatable="false">Cadence (rpm)</string>
+    <string name="csc_radius" translatable="false">Radius:</string>
+    <string name="csc_radius_unit">mm</string>
+    <string name="csc_cadence_unit">rpm</string>
+    <string name="csc_distance_unit" translatable="false">Distance (km)</string>
+    <string name="csc_cadence_graph_title" translatable="false">Cadence Vs Time</string>
+    <string name="csc_cadence_graph_unit" translatable="false">Cadence (rpm)</string>
+    <string name="csc_total_distance" translatable="false">Total Distance Cycled</string>
+    <string name="csc_weight_toast" translatable="false">Enter a valid weight !</string>
+    <string name="csc_distance_unit_m">m</string>
+    <string name="csc_distance_unit_km">km</string>
+
+    <string name="csc_weight_toast_greater">Warning! The weight entered is greater than 200 kg</string>
+    <string name="csc_weight_toast_zero">Warning! The weight entered is less than 1 kg</string>
+    <string name="csc_weight_toast_empty" translatable="false">Warning!  No value entered in weight field</string>
+
+    <string name="csc_radius_toast_greater" translatable="false">Warning! The wheel radius entered is greater than 725 mm</string>
+    <string name="csc_radius_toast_less" translatable="false">Warning! The wheel radius entered is lower than 300 mm</string>
+    <string name="csc_radius_toast_empty" translatable="false">Warning! No value entered in radius field</string>
+
+
+    <!-- Sensorhub profile elements -->
+    <string name="sen_hub" translatable="false">Sensor Hub</string>
+    <string name="sen_hub_locate" translatable="false">Locate Device</string>
+    <string name="sen_hub_locate_stop" translatable="false">Stop Alert</string>
+    <string name="sen_hub_accelerometer" translatable="false">Accelerometer</string>
+    <string name="sen_hub_accelerometer_x">X: </string>
+    <string name="sen_hub_accelerometer_Y">Y: </string>
+    <string name="sen_hub_accelerometer_Z">Z: </string>
+    <string name="sen_hub_temperature" translatable="false">Temperature</string>
+    <string name="sen_hub_temperature_unit">°C</string>
+    <string name="sen_hub_battery" translatable="false">Battery Level</string>
+    <string name="sen_hub_battery_unit" translatable="false">%</string>
+    <string name="sen_hub_pressure">Pressure</string>
+    <string name="sen_hub_pressure_unit">Kpa</string>
+    <string name="sen_hub_sensor_scan_interval" translatable="false">Sensor Scan Interval</string>
+    <string name="sen_hub_sensor_type">Sensor Type</string>
+    <string name="sen_hub_threshold">Threshold</string>
+
+    <string-array name="findme_immediate_alert_array">
+        <item>No Alert</item>
+        <item>Mid Alert</item>
+        <item>High Alert</item>
+    </string-array>
+    <string-array name="filter_configuration_alert_array">
+        <item>Select Filter Configuration</item>
+        <item>None</item>
+        <item>Average</item>
+        <item>Medium</item>
+        <item>Custom</item>
+    </string-array>
+
+    <string name="send_to" translatable="false">Send to..</string>
+
+    <!-- Battery profile elements -->
+    <string name="battery_stop_notify" translatable="false">Stop Notify</string>
+    <string name="battery_start_notify" translatable="false">Start Notify</string>
+    <string name="battery_read" translatable="false">Read</string>
+
+    <!-- RDK profile elements -->
+    <string name="rdk_emulator_view" translatable="false">Remote Control RDK</string>
+    <string name="rdk_emulator_view_identifier" translatable="false">CY5672</string>
+    <string name="view_trackpad" translatable="false">VIEW TRACK PAD/MOTION SENSOR DATA</string>
+    <string name="view_microphone" translatable="false">VIEW MICROPHONE DATA</string>
+    <string name="volume" translatable="false">VOL</string>
+    <string name="channel" translatable="false">CH</string>
+    <string name="rdk_microphone" translatable="false">MICROPHONE DATA</string>
+    <string name="rdk_motion" translatable="false">TRACK PAD/MOTION SENSOR DATA</string>
+    <string name="property" translatable="false">PROPERTY</string>
+    <string name="format" translatable="false">FORMAT</string>
+    <string name="value" translatable="false">VALUE</string>
+    <string name="motion_x" translatable="false">X</string>
+    <string name="motion_y" translatable="false">Y</string>
+    <string name="motion_zwheel" translatable="false">Z-Wheel</string>
+    <string name="motion_tilt" translatable="false">Tilt</string>
+    <string name="motion_lcd" translatable="false">Left Click Down</string>
+    <string name="motion_lcu" translatable="false">Left Click Up</string>
+    <string name="motion_rcd" translatable="false">Right Click Down</string>
+    <string name="motion_rcu" translatable="false">Right Click Up</string>
+    <string name="motion_keycode" translatable="false">Keycode</string>
+    <string name="motion_default_value" translatable="false">00</string>
+    <string name="motion_clear" translatable="false">CLEAR COUNTERS</string>
+    <string name="motion_clear_data" translatable="false">CLEAR DATA</string>
+    <string name="speech_text" translatable="false">SPEECH TO TEXT</string>
+    <string name="record" translatable="false">RECORD</string>
+    <string name="hex">HEX</string>
+    <string name="record_stop">CANCEL</string>
+    <string name="convert" translatable="false">CONVERT</string>
+    <string name="play_back" translatable="false">PLAY BACK</string>
+    <string name="change_api" translatable="false">CHANGE API KEY</string>
+    <string name="apikey_requirement_text" translatable="false">Please enter your developer API Key
+        for voice to text conversion</string>
+    <string name="volume_up" translatable="false">Volume Up</string>
+    <string name="volume_down" translatable="false">Volume Down</string>
+    <string name="channel_up" translatable="false">Channel Up</string>
+    <string name="channel_down" translatable="false">Channel Down</string>
+    <string name="power_on" translatable="false">On</string>
+    <string name="power_off" translatable="false">Off</string>
+    <string name="source" translatable="false">Source</string>
+    <string name="key_left_ctrl"> Keyboard LeftControl </string>
+    <string name="key_left_shift"> Keyboard LeftShift </string>
+    <string name="key_left_alt"> Keyboard LeftAlt </string>
+    <string name="key_left_gui"> Keyboard Left GUI </string>
+    <string name="key_right_ctrl"> Keyboard RightControl </string>
+    <string name="key_right_shift"> Keyboard RightShift </string>
+    <string name="key_right_alt"> Keyboard RightAlt </string>
+    <string name="key_right_gui"> Keyboard Right GUI </string>
+
+    <!-- OTA profile elements -->
+    <string name="ota_list">Select Upgrade Option</string>
+    <string name="ota_file_list">Select Firmware Upgrade files</string>
+    <string name="ota_list_app_download">Application Upgrade</string>
+    <string name="ota_list_app_stack_down_comb">Application and Stack Upgrade (Combined Files)</string>
+    <string name="ota_list_app_stack_down_sep">Application and Stack Upgrade (Separate Files)</string>
+    <string name="ota_upgrade">UPGRADE</string>
+    <string name="ota_next" translatable="false">NEXT</string>
+    <string name="ota_stop" translatable="false">STOP</string>
+    <string name="ota_file_read" translatable="false">Reading file, Please wait..</string>
+    <string name="ota_file_read_complete" translatable="false">File Read Completed</string>
+    <string name="ota_file_writ" translatable="false">Writing file, Please wait..</string>
+    <string name="ota_enter_bootloader" translatable="false">Executing Enter Bootloader Command…</string>
+    <string name="ota_get_flash_size" translatable="false">Executing Get Flash Size Command…</string>
+    <string name="ota_program_row" translatable="false">Firmware Upgrade in progress…</string>
+    <string name="ota_verify_row" translatable="false">Firmware Upgrade in progress…</string>
+    <string name="ota_verify_checksum" translatable="false">Executing Verify Checksum Command…</string>
+    <string name="ota_end_bootloader" translatable="false">Executing Exit Bootloader Command…</string>
+    <string name="ota_end_success">Firmware upgrade completed successfully.</string>
+    <string name="toast_ota_dev_address">Different devices....!!</string>
+    <string name="toast_ota_no_update">No update found</string>
+    <string name="toast_ota_pending" translatable="false">You have a Second file to Upgrade.</string>
+    <string name="toast_ota_completed" translatable="false">OTA successfully Completed</string>
+    <string name="toast_ota_one_completion" translatable="false">Stack successfully Updated. Please select the same profile to Upgrade the Application</string>
+    <string name="ota_title">OTA Firmware Upgrade</string>
+    <string name="ota_stack_file" translatable="false">Select the Stack Upgrade file</string>
+    <string name="ota_app_file" translatable="false">Select the Application Upgrade file</string>
+    <string name="ota_toast_stack_file_selected" translatable="false">Stack file selected</string>
+    <string name="ota_toast_pair" translatable="false">Please PAIR the device before starting the Upgrade</string>
+    <string name="ota_notification_title">CySmart</string>
+    <string name="ota_notification_ongoing" translatable="false">OTA Upgrade in progress</string>
+    <string name="ota_notification_stack_file" translatable="false">Stack upgrade completed successfully. Application upgrade pending.</string>
+    <string name="ota_notification_both_file" translatable="false">OTA Firmware Upgrade</string>
+    <string name="ota_alert_invalid_file" translatable="false">Invalid or corrupted file</string>
+    <string name="ota_alert_file_application" translatable="false">Select a file for application upgrade!</string>
+    <string name="ota_alert_file_applicationstackcomb" translatable="false">Select a file for both stack and application upgrade with combined file!</string>
+    <string name="ota_alert_file_applicationstacksep_app_sel" translatable="false">Select the application upgrade file to proceed!</string>
+    <string name="ota_alert_file_applicationstacksep_stack_sel" translatable="false">Select the stack upgrade file to proceed!</string>
+
+    <!-- General Toast  -->
+    <string name="toast_swipe_profiles" translatable="false">Swipe across to see more profiles...</string>
+    <string name="toast_selection_cancelled" translatable="false">Selection cancelled</string>
+    <string name="toast_lollipop_notsupported" translatable="false">OTA FU Feature not supported</string>
+    <string name="toast_file_copied" translatable="false">File copied to CySmart folder successfully</string>
+    <string name="toast_descriptor_write" translatable="false">Descriptor Write failed</string>
+    <string name="toast_no_services_found">No Services found in this profile...</string>
+    <string name="toast_pairing_not_supported" translatable="false">Unable to Pair/Pairing is not supported by the profile</string>
+    <string name="toast_unpaired">Device unpaired successfully</string>
+    <string name="toast_paired">Device paired successfully</string>
+    <string name="toast_file_zero">No data found on recorded file</string>
+
+    <!-- Descriptor parser  -->
+    <string name="descriptor_notification_enabled" translatable="false">Notifications enabled</string>
+    <string name="descriptor_notification_disabled" translatable="false">Notifications disabled</string>
+    <string name="descriptor_indication_enabled" translatable="false">Indication enabled</string>
+    <string name="descriptor_indication_disabled" translatable="false">Indication disabled</string>
+    <string name="descriptor_reliablewrite_enabled" translatable="false">Reliable Write enabled</string>
+    <string name="descriptor_reliablewrite_disabled" translatable="false">Reliable Write disabled</string>
+    <string name="descriptor_writableauxillary_enabled">Writable Auxiliaries enabled</string>
+    <string name="descriptor_writableauxillary_disabled">Writable Auxiliaries disabled</string>
+    <string name="descriptor_broadcast_enabled">Broadcast enabled</string>
+    <string name="descriptor_broadcast_disabled">Broadcast disabled</string>
+
+    <string name="descriptor_bluetoothSIGAssignedNo">Bluetooth SIG Assigned Numbers</string>
+    <string name="descriptor_reservedforFutureUse">Reserved for future use</string>
+
+    <string name="descriptor_format">Format</string>
+    <string name="exponent">Exponent</string>
+    <string name="unit">Unit</string>
+    <string name="namespace">Namespace</string>
+    <string name="description">Description</string>
+
+    <string name="exchange_mtu">"Exchange GATT MTU"</string>
+    <string name="exchange_mtu_request">"[%1$s | %2$s] %3$s request, MTU: %4$d, Status: %5$d"</string>
+    <string name="exchange_mtu_rsp">"[%1$s | %2$s] %3$s request completed, MTU: %4$d, Status: %5$d"</string>
+
+    <!-- added by brandon -->
+    <string name="itri_activity_name">ITRI Wearable Ultrasound</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_blood_flow_speed">Blood Flow Speed</string>
+    <string name="action_aux_info">Aux. Info.</string>
+    <string name="action_raw_data">Raw Data</string>
+    <string name="action_test_setting">System Setting</string>
+    <string name="action_user_info_setting">User Info Setting</string>
+    <string name="action_long_start_setting">Long Start Setting</string>
+    <string name="action_user_manager">User Manager</string>
+    <string name="action_data_manager">Data Manager</string>
+    <string name="action_admin_manager">Admin Manager</string>
+    <string name="action_change_password">Change Password</string>
+    <string name="action_about">About</string>
+
+    <string name="hint_input_username">Username</string>
+    <string name="hint_input_password">Password</string>
+    <string name="remeber_id">Remember account ID</string>
+
+    <string name="calibration_current_result">Calibration Result</string>
+    <string name="calibration_formula"> Pulse Pressure = A * Log(Max(Sum(Amp))) + B</string>
+    <string name="calibration_A_title">A=</string>
+    <string name="calibration_B_title">  B=</string>
+    <string name="calibration_RSquare_title">  RSquare=</string>
+    <string name="calibration_begin_start">Start Calibration</string>
+    <string name="calibration_begin_cancel">Cancel Calibration</string>
+    <string name="calibration_create_calibrate">Create Calibration</string>
+    <string name="calibration_in_process">New Calibration Process</string>
+    <string name="calibration_replace">Replace</string>
+    <string name="calibration_cancel">Cancel</string>
+    <string name="calibration_add_input">Add Calibration Input</string>
+    <string name="calibration_measure_new_rmax">Measure Max(Sum(Amp))</string>
+    <string name="calibration_rmax">Max(Sum(Amp)) :</string>
+    <string name="calibration_casp">Systolic :</string>
+    <string name="calibration_diastolic">Diastolic :</string>
+    <string name="calibration_add_list">Add to List</string>
+    <string name="calibration_clear_list">Clear List</string>
+    <string name="calibration_accept_result">Accept Result</string>
+    <string name="calibration_cancel_result">Cancel Result</string>
+    <string name="calibration_data_list">Calibration Data List</string>
+    <string name="calibration_mmHg">mmHg</string>
+    <string name="calibration_cm">cm</string>
+    <string name="debug_message">Debug Message : </string>
+    <string name="sound_on">Sound On</string>
+    <string name="sound_off">Sound Off</string>
+
+    <string name="about_version_title">Version No : </string>
+    <string name="about_version_title_2">Version : </string>
+    <string name="about_version_value">20180423</string>
+    <string name="about_back">Back</string>
+
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
+    <string name="submit">Submit</string>
+    <string name="term_of_serivce">Terms of Service</string>
+
+    <string name="user_info_doppler_degree">#176</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Connection logs-->
+    <string name="dl_connection_request"> Connection request sent </string>
+    <string name="dl_connection_established"> Connection established </string>
+    <string name="dl_connection_establishing"> Connection establishing </string>
+    <string name="dl_connection_pairing_request"> Pairing request sent </string>
+    <string name="dl_connection_pairing_request_received"> Pairing request received </string>
+    <string name="dl_connection_paired"> Paired </string>
+    <string name="dl_connection_unpaired"> Unpaired </string>
+    <string name="dl_connection_pairing_unsupported"> Unable to pair. Check whether the device is advertising and supports pairing. </string>
+    <string name="dl_connection_disconnected"> Disconnected </string>
+    <string name="dl_disconnection_request"> Disconnection request sent </string>
+
+    <!--Service logs-->
+    <string name="dl_service_discovery_request"> Service discovery request sent </string>
+    <string name="dl_service_discovery_status"> Service discovery status </string>
+
+    <!--Characteristics logs-->
+    <string name="dl_characteristic_write_request"> Write request sent with value </string>
+    <string name="dl_characteristic_write_request_status"> Write request status </string>
+    <string name="dl_characteristic_start_notification"> Start notification request sent </string>
+    <string name="dl_characteristic_start_indication"> Start indication request sent </string>
+    <string name="dl_characteristic_notification_response"> Notification received with value </string>
+    <string name="dl_characteristic_indication_response"> Indication received with value </string>
+    <string name="dl_characteristic_stop_notification"> Stop notification request sent </string>
+    <string name="dl_characteristic_stop_indication"> Stop indication request sent </string>
+    <string name="dl_characteristic_read_request"> Read request sent </string>
+    <string name="dl_characteristic_read_request_status"> Read request status </string>
+    <string name="dl_characteristic_read_response"> Read response received with value </string>
+
+    <!--Common logs-->
+    <string name="dl_status_success">" - Success"</string>
+    <string name="dl_status_failure">" - Failed with error code : "</string>
+
+    <string name="title_activity_term_of_service">termOfServiceActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="signup_heartio">Sign Up Yuhul</string>
+
+    <string name="title_activity_register">registerActivity</string>
+
+    <string name="alert_message_bluetooth_disconnect">The device is disconnected</string>
+    <string name="title_historical_data">Historical Data</string>
+    <string name="msg_sure_want_logout">Are you sure want to logout?</string>
+    <string name="hint_old_password">Old password</string>
+    <string name="hint_new_password">New password</string>
+    <string name="hint_confirm_password">Confirm password</string>
+    <string name="msg_original_pw_error">Incorrect original password</string>
+    <string name="msg_confirm_pw_error">Confirm password not the same with new password</string>
+    <string name="msg_change_pw_successfully">Change password successfully</string>
+    <string name="title_click_to_scan_devices">Scan devices</string>
+    <string name="msg_sure_del_user">Are you sure to delete user ID:</string>
+    <string name="spectrum">Spectrum</string>
+    <string name="action_exit">Exit</string>
+    <string name="alert_msg_exit_heartio">Exit Yuhul?</string>
+    <string name="alert_title_failure">Failure</string>
+    <string name="alert_msg_save_csv_to">Saved CSV file to path</string>
+    <string name="alert_msg_autoconnect_to_device">Auto connect to this device?</string>
+    <string name="alert_msg_sure_del_data">Are you sure to delete the data?</string>
+    <string name="alert_msg_low_power_will_stop">Low battery, will stop soon.</string>
+    <string name="alert_msg_low_power_charge">Low battery, please charge.</string>
+
+    <string name="privacy_policy_url">https://drive.google.com/open?id=1hCEakqMA2HQ5xLIVqa-ZX3tzQMT-uXeu</string>
+    <string name="terms_of_service_subtitle">If you click on {accept}, you acknowledge that it makes the content present and all the content of our {terms}Terms of Service{/terms} and implies that you have read our {privacy}Privacy Policy{privacy}.</string>
+
+    <string name="this_app_requires">This application requires bluetooth access and must collect the following information: unique user id, first name and last name height and cardiac output measurement data of user.</string>
+    <string name="all_details_about_use_of_data">All details about the use of data are available in our Privacy Policies, as well as all Terms of Service links below.</string>
+    <string name="successful">Successful</string>
+    <string name="signin_now">Sign in now.</string>
+    <string name="confirm_password_not_the_same">Confirm password not the same with input password.</string>
+    <string name="accunt_exist_or_invalid_password">"Sorry , the account that you inputed has exsited or the password not valid."</string>
+    <string name="filled_all">All fields must be filled.</string>
+    <string name="incorrect_username_password">Incorrect username or passowrd.</string>
+    <string name="account_not_exist">Account not exist.</string>
+
+    <string name="all_permission_granted">All Permission GRANTED !! Thank You :)</string>
+    <string name="permissions_denied_exiting_app">One or More Permissions are DENIED Exiting App :(</string>
+    <string name="app_need_access_to">App need access to </string>
+    <string name="show_location">Show Location</string>
+    <string name="read_external_storage">Read External Storage</string>
+    <string name="write_external_storage">Write External Storage</string>
+
+    <string name="no_account">Don\'t have an account?</string>
+
+    <string name="interval_result_time">TIME</string>
+    <string name="low_battery">Low Battery</string>
+    <string name="msg_pulm_dia_not_number">The Pulm.Dia. is not a number.</string>
+    <string name="msg_pulm_cannot_less_0">Pulm.Dia. can not be ≤ 0 mm.</string>
+    <string name="msg_height_not_number">The height is not a number.</string>
+    <string name="msg_height_cannot_less_50">Height can not be less than 50 cm.</string>
+    <string name="msg_id_cannot_empty">ID can not be empty.</string>
+    <string name="msg_first_name_cannot_empty">First name can not be empty.</string>
+    <string name="msg_last_name_cannot_empty">Last name can not be empty.</string>
+    <string name="msg_id_existed">This user ID had existed.</string>
+    <string name="msg_duration_interval_error">Duration must be longer then interval.</string>
+    <string name="msg_click_try_to_countinu_testing">Click try button, if you want to continue testing.</string>
+    <string name="more_then_interval">> Interval</string>
+    <string name="msg_interval_less_then_30">Interval must be >= 30</string>
+    <string name="create">Create</string>
+    <string name="msg_save_data_or_not_alert_before_leave">Save this data before leaving?</string>
+    <string name="msg_save_data">Save this data?</string>
+    <string name="admin_pw_error">Incorrect password.</string>
+    <string name="input_pw_admin">Input password of admin.</string>
+    <string name="gender_female">Female</string>
+    <string name="title_gender">Gender</string>
+    <string name="gender_male">Male</string>
+    <string name="title_age">Age</string>
+    <string name="msg_pad_recommand">It is recommend to measure pulmonary artery diameter using another imaging method (2D, MRI, etc.) by trained clinicians.</string>
+    <string name="msg_pad_autofill">The auto-filled pulmonary artery diameter is a reference value from random data. It is only used for measuring the trend of cardiac output parameters, NOT for absolute value measurement.</string>
+    <string name="singleVpkResult" translatable="false">%1$.2f\n%2$.2f</string>
+    <string name="ble_scan">BLE scan</string>
+    <string name="ble_connect">BLE connect</string>
+
+</resources>

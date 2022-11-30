@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/YUHUL_Android.iml" filepath="$PROJECT_DIR$/.idea/modules/YUHUL_Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FFTLibrary/YUHUL_Android.FFTLibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/FFTLibrary/YUHUL_Android.FFTLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FFTLibrary/YUHUL_Android.FFTLibrary.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/FFTLibrary/YUHUL_Android.FFTLibrary.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FFTLibrary/YUHUL_Android.FFTLibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/FFTLibrary/YUHUL_Android.FFTLibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FFTLibrary/YUHUL_Android.FFTLibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/FFTLibrary/YUHUL_Android.FFTLibrary.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/YUHUL_Android.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/YUHUL_Android.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/YUHUL_Android.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/YUHUL_Android.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/YUHUL_Android.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/YUHUL_Android.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/YUHUL_Android.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/YUHUL_Android.app.unitTest.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: us.hebi.matlab.mat:mfl-ejml:0.5.7">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/us.hebi.matlab.mat/mfl-ejml/0.5.7/60d67141d17db21d9ba3435e7be939cea35f93d5/mfl-ejml-0.5.7.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/us.hebi.matlab.mat/mfl-ejml/0.5.7/5931f986c65aec6f9cb9c653726825648b033408/mfl-ejml-0.5.7-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/us.hebi.matlab.mat/mfl-ejml/0.5.7/aa1442729cda0f047c2e2fe65f4d049b9e4efd70/mfl-ejml-0.5.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

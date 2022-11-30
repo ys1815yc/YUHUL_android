@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap android:src="@drawable/battery"
+            android:gravity="center" />
+    </item>
+    <item android:left="52dp">
+        <bitmap android:src="@drawable/battery_2"
+            android:gravity="center" />
+    </item>
+    <item android:right="260dp" android:bottom="20dp">
+        <bitmap android:src="@drawable/caveat"
+            android:gravity="center"/>
+    </item>
+    <item android:right="130dp">
+        <bitmap android:src="@drawable/battery_25"
+            android:gravity="center"/>
+    </item>
+    <item android:right="18dp">
+        <bitmap android:src="@drawable/battery_50"
+            android:gravity="center" />
+    </item>
+    <item android:left="95dp">
+        <bitmap
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:src="@drawable/battery_75" />
+    </item>
+    <item android:left="210dp">
+        <bitmap android:src="@drawable/battery_100"
+            android:gravity="center" />
+    </item>
+</layer-list>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_user"
+        android:icon="@drawable/user_w"
+        android:title="@string/title_user" />
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/single_w"
+        android:title="@string/title_home" />
+
+    <item
+    android:id="@+id/navigation_interval"
+    android:icon="@drawable/multiple_w"
+    android:title="@string/title_interval" />
+
+    <item
+        android:id="@+id/navigation_file"
+        android:icon="@drawable/history_w"
+        android:title="@string/title_history" />
+
+    <!--item
+        android:id="@+id/navigation_user"
+        android:icon="@drawable/ic_supervisor_account_black_24dp"
+        android:title="@string/title_user" /-->
+
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/more_w"
+        android:title="@string/title_more" />
+
+    <!--item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/title_notifications" /-->
+
+</menu>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E5E5E5"
+    tools:context=".UIOperationControlSubsystem.registerActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/shap"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fullscreen_content"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:keepScreenOn="true"
+            android:text="@string/signup_heartio"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="250dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:textColorHint="#353C43"
+            app:counterEnabled="true"
+            app:counterMaxLength="12"
+            app:counterTextAppearance="?android:attr/textAppearanceMedium"
+            app:errorEnabled="true"
+            app:errorTextAppearance="?android:attr/textAppearanceSmall"
+            app:hintAnimationEnabled="true"
+            app:hintTextAppearance="@style/TextAppearance.Design.Hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userIDEditText"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/more_square_r"
+                android:hint="@string/hint_input_username"
+                android:paddingStart="5dp"
+                android:textColor="#353C43"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="250dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:textColorHint="#353C43"
+            app:counterEnabled="true"
+            app:counterMaxLength="12"
+            app:counterTextAppearance="?android:attr/textAppearanceMedium"
+            app:errorEnabled="true"
+            app:errorTextAppearance="?android:attr/textAppearanceSmall"
+            app:hintAnimationEnabled="true"
+            app:hintTextAppearance="@style/TextAppearance.Design.Hint"
+            app:passwordToggleDrawable="@drawable/visible"
+            app:passwordToggleEnabled="false"
+            app:passwordToggleTint="#353C43"
+            app:passwordToggleTintMode="multiply">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/more_square_r"
+                android:hint="@string/hint_input_password"
+                android:inputType="textPassword"
+                android:paddingStart="5dp"
+                android:textColor="#353C43"
+                android:textColorLink="#353C43"
+                android:textSize="14sp" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="250dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:textColorHint="#353C43"
+            app:counterEnabled="true"
+            app:counterMaxLength="12"
+            app:counterTextAppearance="?android:attr/textAppearanceMedium"
+            app:errorEnabled="true"
+            app:errorTextAppearance="?android:attr/textAppearanceSmall"
+            app:hintAnimationEnabled="true"
+            app:hintTextAppearance="@style/TextAppearance.Design.Hint"
+            app:passwordToggleDrawable="@drawable/visible"
+            app:passwordToggleEnabled="false"
+            app:passwordToggleTint="#353C43"
+            app:passwordToggleTintMode="multiply">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/confirmPwEditText"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/more_square_r"
+                android:hint="@string/hint_confirm_password"
+                android:inputType="textPassword"
+                android:paddingStart="5dp"
+                android:textColor="#353C43"
+                android:textColorLink="#353C43"
+                android:textSize="14sp" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_controls"
+            style="?metaButtonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal|center"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <Button
+                android:id="@+id/cancelBtn"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/block_g2"
+                android:text="@string/cancel"
+                android:textColor="#9E9E9E" />
+
+            <Button
+                android:id="@+id/submitBtn"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/block_b"
+                android:onClick="submit"
+                android:text="@string/sign_up"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:visibility="gone">
+
+
+    </FrameLayout>
+
+</FrameLayout>

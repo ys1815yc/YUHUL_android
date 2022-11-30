@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.hookedonplay.decoviewlib.DecoView
+        android:id="@+id/vpkDynamicArcView"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@id/hrDynamicArcView"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.hookedonplay.decoviewlib.DecoView>
+
+    <com.hookedonplay.decoviewlib.DecoView
+        android:id="@+id/hrDynamicArcView"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.hookedonplay.decoviewlib.DecoView>
+
+    <com.hookedonplay.decoviewlib.DecoView
+        android:id="@+id/vtiDynamicArcView"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/hrDynamicArcView"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.hookedonplay.decoviewlib.DecoView>
+
+    <com.hookedonplay.decoviewlib.DecoView
+        android:id="@+id/svDynamicArcView"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.hookedonplay.decoviewlib.DecoView>
+
+    <com.hookedonplay.decoviewlib.DecoView
+        android:id="@+id/coDynamicArcView"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="108dp"
+        app:layout_constraintStart_toEndOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.hookedonplay.decoviewlib.DecoView>
+
+    <TextView
+        android:id="@+id/HrText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/hrDynamicArcView"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="@+id/hrDynamicArcView"
+        app:layout_constraintTop_toTopOf="@+id/hrDynamicArcView" />
+
+    <TextView
+        android:id="@+id/VpkText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/vpkDynamicArcView"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="@+id/vpkDynamicArcView"
+        app:layout_constraintTop_toTopOf="@+id/vpkDynamicArcView" />
+
+    <TextView
+        android:id="@+id/VtiText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="@id/vtiDynamicArcView"
+        app:layout_constraintLeft_toLeftOf="@id/vtiDynamicArcView"
+        app:layout_constraintRight_toRightOf="@id/vtiDynamicArcView"
+        tools:layout_editor_absoluteX="340dp" />
+
+    <TextView
+        android:id="@+id/svText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/svDynamicArcView"
+        app:layout_constraintHorizontal_bias="0.536"
+        app:layout_constraintStart_toStartOf="@+id/svDynamicArcView"
+        app:layout_constraintTop_toTopOf="@+id/svDynamicArcView" />
+
+    <TextView
+        android:id="@+id/CoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/coDynamicArcView"
+        app:layout_constraintHorizontal_bias="0.536"
+        app:layout_constraintStart_toStartOf="@+id/coDynamicArcView"
+        app:layout_constraintTop_toTopOf="@+id/coDynamicArcView" />
+
+    <info.hoang8f.android.segmented.SegmentedGroup
+        android:id="@+id/timePeriodSegmented"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="104dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hrDynamicArcView"
+        segmentedgroup:sc_border_width="1dp"
+        segmentedgroup:sc_corner_radius="5dp"
+        segmentedgroup:sc_tint_color="@color/colorAccent">
+
+        <RadioButton
+            android:id="@+id/dayButton"
+            style="@style/RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Day" />
+
+        <RadioButton
+            android:id="@+id/weekButton"
+            style="@style/RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Week" />
+
+        <RadioButton
+            android:id="@+id/monthButton"
+            style="@style/RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Month" />
+    </info.hoang8f.android.segmented.SegmentedGroup>
+
+    <TextView
+        android:id="@+id/dtTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:text="00/00 00:00"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/relativeLayout"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/relativeLayout"
+        app:layout_constraintTop_toBottomOf="@+id/timePeriodSegmented" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dtTextView">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/dataChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/dateButton"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="192dp"
+        app:layout_constraintStart_toEndOf="@+id/timePeriodSegmented"
+        app:layout_constraintTop_toTopOf="parent"
+        segmentedgroup:srcCompat="@drawable/ic_date_range_black_24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        segmentedgroup:layout_constraintGuide_begin="167dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

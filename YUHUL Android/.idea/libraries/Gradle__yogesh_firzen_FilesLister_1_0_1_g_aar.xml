@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="Gradle: yogesh.firzen:FilesLister:1.0.1.g@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/70ca8789cb550b7bc8be4a93edab1319/transformed/jetified-FilesLister-1.0.1.g/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/70ca8789cb550b7bc8be4a93edab1319/transformed/jetified-FilesLister-1.0.1.g/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/70ca8789cb550b7bc8be4a93edab1319/transformed/jetified-FilesLister-1.0.1.g/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/86f2de165289ed0510c9a35090107189/transformed/jetified-FilesLister-1.0.1.g/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/86f2de165289ed0510c9a35090107189/transformed/jetified-FilesLister-1.0.1.g/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/86f2de165289ed0510c9a35090107189/transformed/jetified-FilesLister-1.0.1.g/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b51d90c2c85af12461d0f7f4dde85615/transformed/jetified-FilesLister-1.0.1.g/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b51d90c2c85af12461d0f7f4dde85615/transformed/jetified-FilesLister-1.0.1.g/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b51d90c2c85af12461d0f7f4dde85615/transformed/jetified-FilesLister-1.0.1.g/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/yogesh.firzen/FilesLister/1.0.1.g/37859785c9c214a87ef24b187866e0cc14fefd7f/FilesLister-1.0.1.g-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/yogesh.firzen/FilesLister/1.0.1.g/f6be62700c40d9b83c9eec3ac55c736de3e5807d/FilesLister-1.0.1.g-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
