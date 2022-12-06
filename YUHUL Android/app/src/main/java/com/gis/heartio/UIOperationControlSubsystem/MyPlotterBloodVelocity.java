@@ -1417,14 +1417,16 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             canvas.drawText("m/s", 0, iDrawTextSize, paintVar);
 
             // *2.0 => divided by cos60, change to *2 / (cosTx + cosRx)
-            double rxRadius = SystemConfig.rxRadius;//72.0;
-            double txRadius = rxRadius- 5.0;
-            double cosRx = Math.cos(((rxRadius/(double)180.0)*Math.PI));
-            double cosTx = Math.cos(((txRadius/(double)180.0)*Math.PI));
+
+            double rxAngle = SystemConfig.rxAngle;
+            double txAngle = rxAngle - 5.0;
+            double cos_rxAngle = Math.cos(((rxAngle / 180.0) * Math.PI));
+            double cos_txAngle = Math.cos(((txAngle / 180.0) * Math.PI));
+
             for (int iVar = 0; iVar < iScaleSize; iVar++) {
                 doubleScale = (iVar + 1) * doubleScaleGap;
                 if(SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_0_SNSI_GM) {
-                    canvas.drawText("-" + String.format("%.2f", doubleScale * 2.0/(cosRx+cosTx)), 0, iDrawPosition[iVar], paintVar);
+                    canvas.drawText("-" + String.format("%.2f", doubleScale * 2.0/(cos_rxAngle+cos_txAngle)), 0, iDrawPosition[iVar], paintVar);
                 }else{
                     canvas.drawText("-" + String.format("%.2f", doubleScale), 0, iDrawPosition[iVar], paintVar);
                 }

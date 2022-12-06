@@ -381,8 +381,8 @@ public class offlineFragment extends Fragment {
         Button updateButton = rootView.findViewById(R.id.updateButton);
 
 
-        rxEditText = rootView.findViewById(R.id.rxRadiusEditTextNumber);
-        rxEditText.setText(""+(int)SystemConfig.rxRadius);
+        rxEditText = rootView.findViewById(R.id.rxAngleEditTextNumber);
+        rxEditText.setText(""+(int)SystemConfig.rxAngle);
         rxEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -399,7 +399,7 @@ public class offlineFragment extends Fragment {
                 if (editable.toString().length()>0){
                     int inputValue = Integer.valueOf(editable.toString());
                     if (inputValue>0&&inputValue<90){
-                        SystemConfig.rxRadius = (double) inputValue;
+                        SystemConfig.rxAngle = (double) inputValue;
                     }
                 }
 

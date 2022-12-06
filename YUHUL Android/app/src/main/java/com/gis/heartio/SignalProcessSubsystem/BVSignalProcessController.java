@@ -1039,37 +1039,18 @@ public class BVSignalProcessController {
         double doubleCSArea = doubleRadius * doubleRadius * Math.PI;
 
         result.HR = (int)SystemConfig.mDopplerInfo.HR;
-        Log.d("BVSPC","SystemConfig.rxRadius ="+SystemConfig.rxRadius);
+
+        Log.d("BVSPC","SystemConfig.rxAngle ="+SystemConfig.rxAngle);
+
         if (SystemConfig.mIntSingleVpkEnabled == SystemConfig.INT_SINGLE_VPK_ENABLED_YES){
             result.VTI = getVpkOrgFromTwoPointWu(startPoint,endPoint);
-            int c = 1450; // phantom
-            int ft=2500000;
-            double rxRadius = SystemConfig.rxRadius;//72.0;
-            double txRadius = rxRadius- 5.0;
-            double cosRx = Math.cos(((rxRadius/(double)180.0)*Math.PI));//0.829038;
-            double cosTx = Math.cos(((txRadius/(double)180.0)*Math.PI));//0.87462;
-            Log.d("BVSPC","cos"+txRadius+"="+cosTx);
-            Log.d("BVSPC","cos"+rxRadius+"="+cosRx);
-
-            double fd = result.VTI*31.00775;
-            result.Vpk = (c*fd)/(ft*(cosTx+cosRx));
-
+            result.Vpk = Doppler.frequency_to_velocity_By_Angle(result.VTI, Doppler.PHANTON_C);
         }else{
             result.VTI = getVTIFromTwoPointWu(startPoint, endPoint);
             //result.Vpk = getVpkFromTwoPointWu(startPoint, endPoint);
             //Cavin test start
             double doubleVpkOrg = getVpkOrgFromTwoPointWu(startPoint,endPoint);
-            int c = 1540; // human
-            int ft=2500000;
-            double rxRadius = SystemConfig.rxRadius;//72.0;
-            double txRadius = rxRadius- 5.0;
-            double cosRx = Math.cos(((rxRadius/(double)180.0)*Math.PI));//0.829038;
-            double cosTx = Math.cos(((txRadius/(double)180.0)*Math.PI));//0.87462;
-            Log.d("BVSPC","cos"+txRadius+"="+cosTx);
-            Log.d("BVSPC","cos"+rxRadius+"="+cosRx);
-
-            double fd = doubleVpkOrg*31.00775;
-            result.Vpk = (c*fd)/(ft*(cosTx+cosRx));
+            result.Vpk = Doppler.frequency_to_velocity_By_Angle(result.VTI, Doppler.HUMAN_C);
             //Cavin test end
         }
 

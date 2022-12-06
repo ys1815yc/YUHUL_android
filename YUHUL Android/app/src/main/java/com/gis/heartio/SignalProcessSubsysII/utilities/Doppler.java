@@ -21,13 +21,14 @@ public class Doppler {
 //		 private boolean  SEG_fail_flag=false;
 //		 private boolean  SNR_fail_flag=false;
 //		 private double Heart_rate;
+	private static final String TAG = "Doppler";
 	private final Context context;
-	 public static boolean cavinTest = true;
-	 public static boolean cavinDCOffset = false;
-	 public static boolean usingNN = false;
-	 static double cavinMultiple = 1;
-	 static double cavinMultiple2 = 1;
-	 static double[] tmpIpc;
+	public static boolean cavinTest = true;
+	public static boolean cavinDCOffset = false;
+	public static boolean usingNN = false;
+	static double cavinMultiple = 1;
+	static double cavinMultiple2 = 1;
+	static double[] tmpIpc;
 
 	public Doppler(Context context) {
 		this.context = context;
@@ -1751,26 +1752,32 @@ public class Doppler {
 
 	}
 
+	public static final int PHANTON_C = 1450;
+	public static final int HUMAN_C = 1540;
+
+	public static double frequency_to_velocity_By_Angle(double para, int speedOfSound) //Leslie add
+	{
+		final int c = speedOfSound;
+		final int ftxFreq = 2500000;
+		final double OneSegmentNHz = 4000.0 / 129.0;
+		double rxAngle = SystemConfig.rxAngle;
+		double txAngle = rxAngle - 5.0;
+		double cos_rxAngle = Math.cos(((rxAngle / 180.0) * Math.PI));
+		double cos_txAngle = Math.cos(((txAngle / 180.0) * Math.PI));
+		double fD = para * OneSegmentNHz;
+		double result = (c * fD) / (ftxFreq * (cos_txAngle + cos_rxAngle));
+		Log.d(TAG,"cos(" + rxAngle + "⁰) = " + cos_rxAngle);
+		Log.d(TAG,"cos(" + txAngle + "⁰) = " + cos_txAngle);
+
+		return result;
+	}
+
 	public static double[] frequency_to_velocity_Cavin(double[] arr){
-		double[] vf_out;
-		int leng = arr.length;
-		vf_out = new double[leng];
-		int c = 1540; // human
-		int ft=2500000;
-		double rxRadius = SystemConfig.rxRadius;//72.0;
-		double txRadius = rxRadius- 5.0;
-		double cosRx = Math.cos(((rxRadius/(double)180.0)*Math.PI));//0.829038;
-		double cosTx = Math.cos(((txRadius/(double)180.0)*Math.PI));//0.87462;
-		Log.d("BVSPC","cos"+txRadius+"="+cosTx);
-		Log.d("BVSPC","cos"+rxRadius+"="+cosRx);
-
-		for (int ii=0; ii<leng;ii++){
-			double fd = arr[ii]*31.00775;
-			vf_out[ii] = (c*fd)/(ft*(cosTx+cosRx));
+		double[] VelocityFromFreq = new double[arr.length];
+		for (int count = 0 ; count < arr.length ; count++){
+			VelocityFromFreq[count] = frequency_to_velocity_By_Angle(arr[count], HUMAN_C);
 		}
-
-
-		return vf_out;
+		return VelocityFromFreq;
 	}
 
 	// ********* This function  convert  frequency  to velocity for every segment   **************//
