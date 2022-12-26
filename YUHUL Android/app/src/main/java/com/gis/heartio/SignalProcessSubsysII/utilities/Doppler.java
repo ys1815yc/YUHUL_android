@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.gis.heartio.Gis_FindAngleByBW;
+import com.gis.heartio.SignalProcessSubsysII.parameters.BloodVelocityConfig;
 import com.gis.heartio.SignalProcessSubsysII.transformer.FastDctLee;
 import com.gis.heartio.SupportSubsystem.SystemConfig;
 import com.gis.heartio.SupportSubsystem.Utilitys;
@@ -15,6 +17,7 @@ import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.function.DoubleToIntFunction;
 
 public class Doppler {
 	//		 private boolean  HR_fail_flag=false;
@@ -531,7 +534,7 @@ public class Doppler {
 // 	  HRr=150.5474;
 		result[4][4]=HRr;
 		if (cavinTest){
-			imvf2=frequency_to_velocity_Cavin(imvfg);
+			imvf2=frequency_to_velocity_Cavin(imvfg, arr);
 		}else{
 			imvf2=frequency_to_velocity(imvfg,HRr);
 		}
@@ -601,7 +604,7 @@ public class Doppler {
 				imvfg=MOV_AVG(imvf,6);    // imvf2: GM_90% combined velocity profile
 				if (!usingNN){
 					if (cavinTest){
-						imvf2=frequency_to_velocity_Cavin(imvfg);
+						imvf2=frequency_to_velocity_Cavin(imvfg, arr);
 					}else{
 						imvf2=frequency_to_velocity(imvfg,HRr);
 					}
@@ -1755,27 +1758,22 @@ public class Doppler {
 	public static final int PHANTON_C = 1450;
 	public static final int HUMAN_C = 1540;
 
-	public static double frequency_to_velocity_By_Angle(double para, int speedOfSound) //Leslie add
-	{
+	//Leslie add
+	public static double frequency_to_velocity_By_Angle(double para, int speedOfSound, double rxAngle){
 		final int c = speedOfSound;
-		final int ftxFreq = 2500000;
-		final double OneSegmentNHz = 4000.0 / 129.0;
-		double rxAngle = SystemConfig.rxAngle;
+		final double ftxFreq = BloodVelocityConfig.DOUBLE_ULTRASOUND_SENSOR_WAVE_FREQ;
 		double txAngle = rxAngle - 5.0;
 		double cos_rxAngle = Math.cos(((rxAngle / 180.0) * Math.PI));
 		double cos_txAngle = Math.cos(((txAngle / 180.0) * Math.PI));
-		double fD = para * OneSegmentNHz;
-		double result = (c * fD) / (ftxFreq * (cos_txAngle + cos_rxAngle));
-		Log.d(TAG,"cos(" + rxAngle + "⁰) = " + cos_rxAngle);
-		Log.d(TAG,"cos(" + txAngle + "⁰) = " + cos_txAngle);
-
-		return result;
+		double fD = para * Gis_FindAngleByBW.ONE_SEGMENT_WITH_N_HZ;
+		return (c * fD) / (ftxFreq * (cos_txAngle + cos_rxAngle));
 	}
 
-	public static double[] frequency_to_velocity_Cavin(double[] arr){
+	public static double[] frequency_to_velocity_Cavin(double[] arr, double[][] arr2){
 		double[] VelocityFromFreq = new double[arr.length];
+		SystemConfig.rxAngle = Gis_FindAngleByBW.findDopplerAngle();
 		for (int count = 0 ; count < arr.length ; count++){
-			VelocityFromFreq[count] = frequency_to_velocity_By_Angle(arr[count], HUMAN_C);
+			VelocityFromFreq[count] = frequency_to_velocity_By_Angle(arr[count], HUMAN_C, SystemConfig.rxAngle);
 		}
 		return VelocityFromFreq;
 	}

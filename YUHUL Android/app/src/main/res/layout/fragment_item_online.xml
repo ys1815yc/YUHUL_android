@@ -1026,6 +1026,7 @@
         android:layout_below="@id/snrTextViews"
         android:layout_toEndOf="@id/greenlight"
         android:text="Inverse" />
+
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/fourthLevelOnline"
         android:layout_width="wrap_content"
@@ -1035,5 +1036,12 @@
         android:text="4th Level"
         android:textSize="10sp" />
 
+    <TextView
+        android:id="@+id/onlineAngleTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fourthLevelOnline"
+        android:layout_toEndOf="@id/greenlight"
+        android:ems="5" />
 
 </RelativeLayout>

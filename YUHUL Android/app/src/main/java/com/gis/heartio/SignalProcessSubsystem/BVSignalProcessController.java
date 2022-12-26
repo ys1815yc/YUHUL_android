@@ -1044,13 +1044,13 @@ public class BVSignalProcessController {
 
         if (SystemConfig.mIntSingleVpkEnabled == SystemConfig.INT_SINGLE_VPK_ENABLED_YES){
             result.VTI = getVpkOrgFromTwoPointWu(startPoint,endPoint);
-            result.Vpk = Doppler.frequency_to_velocity_By_Angle(result.VTI, Doppler.PHANTON_C);
+            result.Vpk = Doppler.frequency_to_velocity_By_Angle(result.VTI, Doppler.PHANTON_C, SystemConfig.rxAngle);
         }else{
             result.VTI = getVTIFromTwoPointWu(startPoint, endPoint);
             //result.Vpk = getVpkFromTwoPointWu(startPoint, endPoint);
             //Cavin test start
             double doubleVpkOrg = getVpkOrgFromTwoPointWu(startPoint,endPoint);
-            result.Vpk = Doppler.frequency_to_velocity_By_Angle(result.VTI, Doppler.HUMAN_C);
+            result.Vpk = Doppler.frequency_to_velocity_By_Angle(result.VTI, Doppler.HUMAN_C, SystemConfig.rxAngle);
             //Cavin test end
         }
 
@@ -1424,6 +1424,7 @@ public class BVSignalProcessController {
                 Type.toDbl(MainActivity.mRawDataProcessor.mShortUltrasoundData,
                         0, (SystemConfig.mIntUltrasoundSamplesMaxSizeForRun -1)),
                         256, 192);
+
 //        double[][] o_im2 = Doppler.Spectrogram(
 //                Type.toDbl(o_im1,
 //                        0, (SystemConfig.mIntUltrasoundSamplesMaxSizeForRun -1)),

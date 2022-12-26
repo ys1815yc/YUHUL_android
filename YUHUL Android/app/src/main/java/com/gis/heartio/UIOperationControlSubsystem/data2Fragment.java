@@ -599,10 +599,11 @@ public class data2Fragment extends SampleFragment {
             return;
         }
 
-        if (SystemConfig.isYuhul){
+        if (SystemConfig.isYuhul && !SystemConfig.mTestMode){
             vpkDecoView.setVisibility(View.GONE);
             vtiDecoView.setVisibility(View.GONE);
         }
+
         String sDtStr = getShortDateTimeStr(dataListInPeriod.get(currentDataIndex).createdDate);
         mDtTextView.setText(sDtStr);
         final TextView textHR = view.findViewById(R.id.HrText);
@@ -628,7 +629,7 @@ public class data2Fragment extends SampleFragment {
 
         hrDecoView.addEvent(new DecoEvent.Builder(dataListInPeriod.get(currentDataIndex).HR).setIndex(mSeriesHRIndex).setDelay(delayMS).build());
 
-        if (!SystemConfig.isYuhul){
+        if (!SystemConfig.isYuhul || SystemConfig.mTestMode){
             final TextView textVpk = view.findViewById(R.id.VpkText);
             vpkDecoView.addEvent(new DecoEvent.Builder(DecoEvent.EventType.EVENT_SHOW, true)
                     .setIndex(mBackVpkIndex)
@@ -715,7 +716,7 @@ public class data2Fragment extends SampleFragment {
             return;
         }
 
-        if (SystemConfig.isYuhul){
+        if (SystemConfig.isYuhul && !SystemConfig.mTestMode){
             vpkDecoView.setVisibility(View.GONE);
             vtiDecoView.setVisibility(View.GONE);
         }
