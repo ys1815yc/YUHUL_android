@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.gis.heartio.Gis_FindAngleByBW;
+import com.gis.heartio.GIS_Algorithm;
 import com.gis.heartio.SignalProcessSubsysII.parameters.BloodVelocityConfig;
 import com.gis.heartio.SignalProcessSubsysII.transformer.FastDctLee;
 import com.gis.heartio.SupportSubsystem.SystemConfig;
@@ -17,7 +17,6 @@ import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.function.DoubleToIntFunction;
 
 public class Doppler {
 	//		 private boolean  HR_fail_flag=false;
@@ -1765,13 +1764,14 @@ public class Doppler {
 		double txAngle = rxAngle - 5.0;
 		double cos_rxAngle = Math.cos(((rxAngle / 180.0) * Math.PI));
 		double cos_txAngle = Math.cos(((txAngle / 180.0) * Math.PI));
-		double fD = para * Gis_FindAngleByBW.ONE_SEGMENT_WITH_N_HZ;
+		double fD = para * GIS_Algorithm.ONE_SEGMENT_WITH_N_HZ;
 		return (c * fD) / (ftxFreq * (cos_txAngle + cos_rxAngle));
 	}
 
 	public static double[] frequency_to_velocity_Cavin(double[] arr, double[][] arr2){
 		double[] VelocityFromFreq = new double[arr.length];
-		SystemConfig.rxAngle = Gis_FindAngleByBW.findDopplerAngle();
+		SystemConfig.rxAngle = GIS_Algorithm.findDopplerAngle();
+		Log.e("Leslie", SystemConfig.rxAngle+"");
 		for (int count = 0 ; count < arr.length ; count++){
 			VelocityFromFreq[count] = frequency_to_velocity_By_Angle(arr[count], HUMAN_C, SystemConfig.rxAngle);
 		}

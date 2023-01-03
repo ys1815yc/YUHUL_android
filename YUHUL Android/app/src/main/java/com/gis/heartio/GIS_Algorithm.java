@@ -1,7 +1,5 @@
 package com.gis.heartio;
 
-import android.util.Log;
-
 import com.gis.heartio.SignalProcessSubsysII.parameters.BloodVelocityConfig;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 
@@ -9,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Gis_FindAngleByBW {
-    private final static String TAG = "Gis_FindAngleByBW";
+public class GIS_Algorithm {
+    //private final static String TAG = GIS_Algorithm.class.getSimpleName();
     private final static int ALL_SET_IN_SEG = 129;
     public final static  double ONE_SEGMENT_WITH_N_HZ = 4000.0 / (double) ALL_SET_IN_SEG;
     private final static int INVALID_FREQUENCY = 19;
@@ -26,13 +24,12 @@ public class Gis_FindAngleByBW {
     }
 
     private static class SnsiVf3Result{
-        public double[] vf;
-        public double[] xx;
+        public List<Double> vf;
+        public List<Double> xx;
 
-        public SnsiVf3Result(double[][] p_in){
-            int width = p_in[0].length;
-            vf = new double[width];
-            xx = new double[width];
+        public SnsiVf3Result(){
+            vf = new ArrayList<>();
+            xx = new ArrayList<>();
         }
     }
 
@@ -60,15 +57,17 @@ public class Gis_FindAngleByBW {
 
     //For GIS subroutine---------------------------------------------------
     public static double Doppler_angle(double[] fmaxArray, double[][] spectrum ){
-        List<Double>[] result = MeasurementByBW(fmaxArray,spectrum,1);
-        double[] STFT_Out = result[0].stream().mapToDouble(i -> i).toArray();
-        double[] mean_BW = result[1].stream().mapToDouble(i -> i).toArray();
-        int[] degree = new int[result[0].size()];
+        ArrayList<List<Double>> resultArrayList = MeasurementByBW(fmaxArray,spectrum,1);
+        double[] STFT_Out = resultArrayList.get(0).stream().mapToDouble(i -> i).toArray();
+        double[] mean_BW = resultArrayList.get(1).stream().mapToDouble(i -> i).toArray();
+        int size = STFT_Out.length;
+        int[] degree = new int[size];
 
         double[] STD_angle = {42, 52, 62, 72};
-        for(int j = 0; j < result[0].size() ; j++){
-            double[] bwDivideFmax = cross_point(STFT_Out[j] * 4000.0 / (double) ALL_SET_IN_SEG);
-            degree[j] = (int)Math.round(Interpolation(bwDivideFmax, STD_angle, mean_BW[j]));
+        for(int j = 0; j < size ; j++){
+            double[] bwDivideFmax = cross_point(STFT_Out[j] * ONE_SEGMENT_WITH_N_HZ);
+            degree[j] = (int) Math.round(Interpolation(bwDivideFmax, STD_angle, mean_BW[j]));
+
         }
         return findAvgAngleByVote(degree, 5);
     }
@@ -98,7 +97,7 @@ public class Gis_FindAngleByBW {
 
         if((inputValue < period[periodLength-1]) && (inputValue > period[0])){
             interStart = interEnd = 0;
-            for(int i = 0 ; i < periodLength-2 ; i++){
+            for(int i = 0 ; i < periodLength-1 ; i++){
                 if((period[i] < inputValue ) && (period[i+1] > inputValue)){
                     interStart = i;
                     interEnd = i + 1;
@@ -116,47 +115,26 @@ public class Gis_FindAngleByBW {
     private static double findAvgAngleByVote(int[] values, int percentage){
         int maxCount = 0;
         double meanValue = 0;
-        double[] C_N = new double[values.length];
-        double[] MV_N = new double[values.length];
 
-        for (int i = 0 ; i < values.length ; i++) {
+        for (int j : values) {
             int count = 0;
             double sum = 0;
-            for(double value : values){
-                if(values[i] != 0) {
-                    if (Math.abs(values[i] - value) <= (values[i] * (percentage / 100.0))) {
+            for (double value : values) {
+                if (j != 0) {
+                    if (Math.abs(j - value) <= (j * (percentage / 100.0))) {
                         count++;
                         sum = sum + value;
                     }
-                }
-                else{
-                    count = 0;
+                } else {
                     sum = 0;
                 }
             }
-            //Leslie test
-            C_N[i] = count;
-            MV_N[i] = sum / (double)count;
-            //Leslie test END
-            if(count >= maxCount){
+
+            if (count >= maxCount) {
                 maxCount = count;
-                meanValue = sum / (double)count;
+                meanValue = sum / (double) count;
             }
         }
-
-        //Leslie test
-        int index = 0;
-        double tempMeanValue = 0;
-        double max = C_N[0];
-        for (int i = 0 ; i < C_N.length ; i++) {
-            if(C_N[i] > max){
-                index = i;
-                max = C_N[index];
-                tempMeanValue = MV_N[index];
-            }
-        }
-        //Leslie test END
-
         return meanValue;
     }
 
@@ -208,10 +186,11 @@ public class Gis_FindAngleByBW {
     }
 
     //old function name: Measurement_BW
-    public static List<Double>[] MeasurementByBW(double[] fmaxArray, double[][] spectrum, int findPeakNum){
+    public static ArrayList<List<Double>> MeasurementByBW(double[] fmaxArray, double[][] spectrum, int findPeakNum){
         List<Integer> tempCnt_idx = new ArrayList<>();
         List<Double> STFT_Out = new ArrayList<>();
         List<Double> mean_BW_Fmax = new ArrayList<>();
+        ArrayList<List<Double>> result = new ArrayList<>();
 
 
         for (int time = 0; time < fmaxArray.length; time++) {
@@ -402,7 +381,10 @@ public class Gis_FindAngleByBW {
             STFT_Out.add(fmaxArray[cntIdx]);
         }
 
-        return new List[]{STFT_Out, mean_BW_Fmax};
+        result.add(STFT_Out);
+        result.add(mean_BW_Fmax);
+        //return new List[]{STFT_Out, mean_BW_Fmax};
+        return result;
     }
 
     private static double[][] FindPeaks(double[] x){
@@ -421,7 +403,6 @@ public class Gis_FindAngleByBW {
                 if((x[i] >= x[i - 1]) && (x[i] > x[i + 1])){ // compare element with next element before and after
                     peaksAndLocations[PKS_ARRAY][j] = x[i]; // peak
                     peaksAndLocations[LOC_ARRAY][j] = i; // location
-
                     j++;
                 }
             }
@@ -557,15 +538,12 @@ public class Gis_FindAngleByBW {
         {
             sum_re = 0;
             sum_im = 0;
+            for (int i = 0; i < n; i++)
             {
-                for (int i = 0; i < n; i++)
-                {
-                    nu = x[i];
-                    sum_re = sum_re + RE_M[k][i] * nu;
-                    sum_im = sum_im + IM_M[k][i] * nu;
-                }
+                nu = x[i];
+                sum_re = sum_re + RE_M[k][i] * nu;
+                sum_im = sum_im + IM_M[k][i] * nu;
             }
-
             result[k][0] = sum_re;
             result[k][1] = sum_im;
         }
@@ -586,48 +564,45 @@ public class Gis_FindAngleByBW {
 
     @SuppressWarnings("SameParameterValue")
     private static double[][] Spectrogram(double[] x, int w_size, int overlap) {
-        double[] w;
-        double[] temp = new double[w_size];
-        double[] temp2= new double[w_size];
-        double[][] fft_bf;
-        int lng = x.length;
-        double p, arg;
+        double[] hammingSignal = new double[w_size];
+        double[][] re_M = new double[w_size][w_size];
+        double[][] im_M = new double[w_size][w_size];
+        double[] w = Hamming(w_size);
+        int resultSize = (w_size / 2) + 1;
+        int stepNum = (w_size - overlap);
+        int frameNum = (x.length - overlap) / stepNum;
+        double[][] result = new double[resultSize][frameNum];
 
-        double[][] re_M;
-        re_M = new double[w_size][w_size];
-        double[][] im_M;
-        im_M = new double[w_size][w_size];
+        double factor;
+
+        double windowPowSum = 0;
+        for(double tempw : w){
+            windowPowSum += Math.pow(tempw,2);
+        }
+
+        factor = (double)BloodVelocityConfig.INTEGER_ULTRASOUND_SAMPLERATE * windowPowSum;
+
         for (int k = 0; k < w_size; k++) {
             for (int i = 0; i < w_size; i++) {
-                p = k * i;
-                arg = -2.0 *  Math.PI * p / (double)w_size;
+                double arg = -2.0 *  Math.PI * k * i / (double)w_size;
                 re_M[k][i] = Math.cos (arg);
                 im_M[k][i] = Math.sin (arg);
             }
         }
-        int frame_no, step_no, st_ad;
-        double factor;
-        factor = 0.0000012334;
-        frame_no = lng / (w_size - overlap);
-        step_no = (w_size - overlap);
 
-        double[][] result = new double[ALL_SET_IN_SEG][frame_no];
-        w = Hamming(w_size);
+        for(int j = 0 ; j < frameNum ; j++) {
+            int stepAdd = stepNum * j;
 
-        for(int j = 0 ; j < frame_no - 5 ; j++) {
-            st_ad = step_no*j;
-            for(int i = st_ad ; i < st_ad + w_size ; i++) {
-                temp[i - st_ad] = x[i] * w[i - st_ad];
+            for(int i = 0 ; i < w_size ; i++){
+                hammingSignal[i] = x[i + stepAdd] * w[i];
             }
-            fft_bf = FFT2(temp, re_M, im_M);
-            for(int jj = 0 ; jj < ALL_SET_IN_SEG ; jj++) {
-                temp2[jj] = (fft_bf[jj][0] * fft_bf[jj][0] + fft_bf[jj][1] * fft_bf[jj][1]) * factor;
+
+            double[][] fft_bf = FFT2(hammingSignal, re_M, im_M);
+            result[0][j] = (Math.pow(fft_bf[0][0],2) + Math.pow(fft_bf[0][1],2)) / factor;
+            for(int jj = 1 ; jj < resultSize - 1 ; jj++) {
+                result[jj][j] = 2.0 * (Math.pow(fft_bf[jj][0],2) + Math.pow(fft_bf[jj][1],2)) / factor;
             }
-            result[0][j] = temp2[0];
-            for(int jj = 1 ; jj < ALL_SET_IN_SEG ; jj++)
-            {
-                result[jj][j] = temp2[jj] * 2;
-            }
+            result[resultSize - 1][j] = (Math.pow(fft_bf[resultSize - 1][0],2) + Math.pow(fft_bf[resultSize - 1][1],2)) / factor;
         }
         return result;
     }
@@ -714,13 +689,13 @@ public class Gis_FindAngleByBW {
         //find max distance between line and point side of it
         int gsx = (int)gm3Result.PCX;
         double gsy = p_perc[(int)gm3Result.PCX];
-        double dfx0 = p99-gsx;
+        double dfx0 = p99-gsx-1;
         double dfy0 = 100-gsy;
         double v1_lng = Math.pow((Math.pow(dfx0, 2) + Math.pow(dfy0, 2)), 0.5);
 
         double[] v_dis = new double[(int)(p99 - gsx - 1)];
         for (int i = 0 ; i < (p99 - gsx - 1) ; i++){
-            double dfy1 = p_perc[gsx + i] - gsy;
+            double dfy1 = p_perc[gsx + i + 1] - gsy;
             double dfx1 = i + 1;
             double v2_lng = Math.pow((Math.pow(dfx1, 2) + Math.pow(dfy1, 2)), 0.5);
             double v1dv2 = dfx0 * dfx1 + dfy0 * dfy1;
@@ -728,11 +703,12 @@ public class Gis_FindAngleByBW {
             double sin_v = Math.pow((1 - Math.pow(cos_v, 2)), 0.5);
             v_dis[i] = v2_lng * sin_v;
         }
-        temp = 0;
+        temp = v_dis[0];
+        gm3Result.GMX = (gsx + 1);
         for (int i = 0 ; i < v_dis.length ; i++){
             if(v_dis[i] > temp){
                 temp = v_dis[i];
-                gm3Result.GMX = i + gsx;
+                gm3Result.GMX = i + (gsx + 1);
             }
         }
 
@@ -740,12 +716,13 @@ public class Gis_FindAngleByBW {
         gm3Result.NS = gm3Result.GMX + gm3Result.GMX - gm3Result.SE;
         gm3Result.NS = gm3Result.NS >= p99 ? 99 : gm3Result.NS;
 
+
         //find PSNR
         temp = 0;
         for(int i = gm3Result.NS ; i < p99 ; i++){
             temp += p_in[i];
         }
-        double TP2 = temp / (p99 - gm3Result.NS);
+        double TP2 = temp / (p99 - gm3Result.NS - 1);
         gm3Result.PSNR = (TP1 - TP2) / TP2;
         return gm3Result;
     }
@@ -793,7 +770,7 @@ public class Gis_FindAngleByBW {
         }
 
         double Ms = IPC_slope[(int)gm3Result.PCX];
-        double Mn = (1 - IPC_data[gm3Result.NS]) / (ALL_SET_IN_SEG - gm3Result.NS);
+        double Mn = (1 - IPC_data[gm3Result.NS]) / (ALL_SET_IN_SEG - 1 - gm3Result.NS);
 
         double[] YYI = {0.002, 0.006, 0.05, 0.14, 0.14};
         double[] XXI = {0, 13.3, 16.05, 19.7, 50};
@@ -806,7 +783,6 @@ public class Gis_FindAngleByBW {
             ks = (IPC_slope[fmax1]);
             fmax1 = fmax1 - 1;
         }
-
         if (fmax1 > gm3Result.GMX && fmax1 <= gm3Result.NS){
             rtn.vf2_SNSI = fmax1;
         } else if(fmax1 <= gm3Result.GMX){
@@ -826,10 +802,10 @@ public class Gis_FindAngleByBW {
     }
 
     private static SnsiVf3Result SNSI_VF3(double[][] p_in){
-        SnsiVf3Result rtn = new SnsiVf3Result(p_in);
+        SnsiVf3Result rtn = new SnsiVf3Result();
         int width = p_in[0].length;
         double[] t_power2 = new double[width];
-        int vn = 0;
+
         for(int npx=0 ; npx < width ; npx++){
             double[] sel_im_line2 = getFromSpectrum(p_in, npx);
             t_power2[npx] = sum(sel_im_line2);
@@ -840,13 +816,8 @@ public class Gis_FindAngleByBW {
             SnsiFmax2Result snsiFmax2Result = SNSI_fmax2(ps_line);
             if (snsiFmax2Result.PSNR > 1 && snsiFmax2Result.vf2_SNSI >= 0 &&
                     (t_power2[npsd] / mean(t_power2)) > 0.05) {
-                /*Leslie test
-                rtn.vf[vn] = snsiFmax2Result.vf2_SNSI;
-                rtn.xx[vn++] = npsd;*/
-                //Leslie test
-                rtn.vf[vn] = snsiFmax2Result.vf2_SNSI + 1;
-                rtn.xx[vn++] = npsd + 1;
-                //Leslie test End
+                rtn.vf.add(snsiFmax2Result.vf2_SNSI + 1);
+                rtn.xx.add((double)npsd + 1);
             }
         }
         return rtn;
@@ -881,19 +852,12 @@ public class Gis_FindAngleByBW {
         return Z.stream().mapToDouble(i -> i).toArray();
     }
 
+    //For final algorithm---------------------------------------------------
     public static double findDopplerAngle(){
         double[] rawDataNormalize = new double[BloodVelocityConfig.INTEGER_ULTRASOUND_CAPTURE_LENGTH_PTS];
 
         for (int i = 0 ; i < rawDataNormalize.length ; i++){
-            if(MainActivity.mRawDataProcessor.mShortUltrasoundDataBeforeFilter[0] != 0){
-                if(i == 0){
-                    rawDataNormalize[i] = 0;
-                } else {
-                    rawDataNormalize[i] = MainActivity.mRawDataProcessor.mShortUltrasoundDataBeforeFilter[i - 1] / 32768.0;
-                }
-            } else {
-                rawDataNormalize[i] = MainActivity.mRawDataProcessor.mShortUltrasoundDataBeforeFilter[i] / 32768.0;
-            }
+            rawDataNormalize[i] = MainActivity.mRawDataProcessor.mShortUltrasoundDataBeforeFilter[i] / 32768.0;
         }
 
         double rawDataNormalizeMean = mean(rawDataNormalize);
@@ -907,26 +871,9 @@ public class Gis_FindAngleByBW {
 
 
         SnsiVf3Result vf =  SNSI_VF3(pp1);
-        double[] vf3 = VF_fit(vf.xx , vf.vf);
-
-
+        double[] vf2 = vf.vf.stream().mapToDouble(i -> i).toArray();
+        double[] X2 = vf.xx.stream().mapToDouble(i -> i).toArray();
+        double[] vf3 = VF_fit(X2 , vf2);
         return Doppler_angle(vf3, p1);
     }
-
-    //Leslie Test
-    private static String Leslie_Log(double[] in){
-        StringBuilder result = new StringBuilder();
-        for (double temp:in){
-            result.append(temp).append("\n");
-        }
-        return result.toString();
-    }
-    private static String Leslie_Log(short[] in){
-        StringBuilder result = new StringBuilder();
-        for (short temp:in){
-            result.append(temp).append("\n");
-        }
-        return result.toString();
-    }
-    //Leslie Test End
 }

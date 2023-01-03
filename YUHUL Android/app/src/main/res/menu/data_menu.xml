@@ -6,5 +6,5 @@
         android:id="@+id/action_export"
         android:icon="@drawable/ic_import_export_black_24dp"
         android:title="export"
-        app:showAsAction="always" />
+        app:showAsAction="always"/>
 </menu>
