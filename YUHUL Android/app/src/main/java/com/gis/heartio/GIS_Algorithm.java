@@ -67,8 +67,8 @@ public class GIS_Algorithm {
         for(int j = 0; j < size ; j++){
             double[] bwDivideFmax = cross_point(STFT_Out[j] * ONE_SEGMENT_WITH_N_HZ);
             degree[j] = (int) Math.round(Interpolation(bwDivideFmax, STD_angle, mean_BW[j]));
-
         }
+
         return findAvgAngleByVote(degree, 5);
     }
 
@@ -116,25 +116,27 @@ public class GIS_Algorithm {
         int maxCount = 0;
         double meanValue = 0;
 
-        for (int j : values) {
+        for (int i = 0 ; i < values.length ; i++) {
             int count = 0;
             double sum = 0;
-            for (double value : values) {
-                if (j != 0) {
-                    if (Math.abs(j - value) <= (j * (percentage / 100.0))) {
+
+            for (int j = 0 ; j < values.length ; j++) {
+                if (values[i] != 0) {
+                    if (Math.abs(values[i] - values[j]) <= (values[i] * (percentage / 100.0))) {
                         count++;
-                        sum = sum + value;
+                        sum = sum + values[j];
                     }
                 } else {
                     sum = 0;
                 }
             }
 
-            if (count >= maxCount) {
+            if (count > maxCount) {
                 maxCount = count;
                 meanValue = sum / (double) count;
             }
         }
+
         return meanValue;
     }
 
@@ -383,7 +385,6 @@ public class GIS_Algorithm {
 
         result.add(STFT_Out);
         result.add(mean_BW_Fmax);
-        //return new List[]{STFT_Out, mean_BW_Fmax};
         return result;
     }
 
@@ -826,25 +827,25 @@ public class GIS_Algorithm {
     private static double[] VF_fit(double[] XM,double[] YM){
         List<Double> Z = new ArrayList<>();
         double step;
-        if(XM[0] > 0){
+        if(XM[0] > 1){
             step = ((YM[0]-0) / XM[0]);
             for(int i = 1 ; i < XM[0] ; i++){
                 Z.add(step * i);
             }
         }
 
-        for(int i = 0 ; i < XM.length - 1 ; i++){
+        for(int i = 0 ; i < XM.length-1 ; i++){
             step = XM[i + 1] - XM[i];
             if(step == 1){
                 Z.add(YM[i]);
-            }else{
+            }else if(step >= 6) {
+                Z.add(YM[i]);
+                for(int j = 1 ; j < step ; j++) {
+                    Z.add(0.0);
+                }
+            }else {
                 for(int j = (int)XM[i] ; j < XM[i + 1] ; j++){
-                    if (step > 1 && step < 6){
-                        Z.add((( YM[i + 1] - YM[i] ) / step) * (j - XM[i]) + YM[i]);
-                    }
-                    if(step >= 6) {
-                        Z.add(0.0);
-                    }
+                    Z.add((( YM[i + 1] - YM[i] ) / step) * (j - XM[i]) + YM[i]);
                 }
             }
         }
@@ -868,7 +869,6 @@ public class GIS_Algorithm {
 
         double[][] pp1 = Spectrogram(ZK, 256, 192);
         double[][] p1 = normal(pp1);
-
 
         SnsiVf3Result vf =  SNSI_VF3(pp1);
         double[] vf2 = vf.vf.stream().mapToDouble(i -> i).toArray();

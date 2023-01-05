@@ -13,6 +13,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
 import com.gis.heartio.SupportSubsystem.MyDataFilter2;
@@ -1122,7 +1123,16 @@ public class RawDataProcessor {
             FileOutputStream fileOutputStream = new FileOutputStream(file, true);
             setWavFileHeaderByteArray();
             fileOutputStream.write(mByteArrayWavHeader, 0, 44);
-            fileOutputStream.write(mByteArrayUltrasoundDataOnLineSave, 0,  SystemConfig.mIntUltrasoundSamplesMaxSizeForRun * SystemConfig.mInt1DataBytes);
+            //fileOutputStream.write(mByteArrayUltrasoundDataOnLineSave, 0,  SystemConfig.mIntUltrasoundSamplesMaxSizeForRun * SystemConfig.mInt1DataBytes);
+
+            int length = SystemConfig.mIntUltrasoundSamplesMaxSizeForRun * SystemConfig.mInt1DataBytes;
+            byte[] temp = new byte[length];
+            for(int i = 0 ; i < length/2 ; i++){
+                temp[i * 2] = (byte)(mShortUltrasoundDataBeforeFilter[i] & 0xFF);
+                temp[i * 2 + 1] = (byte)((mShortUltrasoundDataBeforeFilter[i] >> 8) & 0xFF);
+            }
+            fileOutputStream.write(temp);
+
             //SystemConfig.mMyEventLogger.appendDebugIntEvent("StoreData Sample=", SystemConfig.mIntUltrasoundSamplesMaxSizeForRun,0,0,0,0);
             fileOutputStream.close();
 

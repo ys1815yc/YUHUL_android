@@ -533,7 +533,7 @@ public class Doppler {
 // 	  HRr=150.5474;
 		result[4][4]=HRr;
 		if (cavinTest){
-			imvf2=frequency_to_velocity_Cavin(imvfg, arr);
+			imvf2=frequency_to_velocity_Cavin(imvfg);
 		}else{
 			imvf2=frequency_to_velocity(imvfg,HRr);
 		}
@@ -603,7 +603,7 @@ public class Doppler {
 				imvfg=MOV_AVG(imvf,6);    // imvf2: GM_90% combined velocity profile
 				if (!usingNN){
 					if (cavinTest){
-						imvf2=frequency_to_velocity_Cavin(imvfg, arr);
+						//imvf2=frequency_to_velocity_Cavin(imvfg);
 					}else{
 						imvf2=frequency_to_velocity(imvfg,HRr);
 					}
@@ -1768,10 +1768,9 @@ public class Doppler {
 		return (c * fD) / (ftxFreq * (cos_txAngle + cos_rxAngle));
 	}
 
-	public static double[] frequency_to_velocity_Cavin(double[] arr, double[][] arr2){
+	public static double[] frequency_to_velocity_Cavin(double[] arr){
 		double[] VelocityFromFreq = new double[arr.length];
 		SystemConfig.rxAngle = GIS_Algorithm.findDopplerAngle();
-		Log.e("Leslie", SystemConfig.rxAngle+"");
 		for (int count = 0 ; count < arr.length ; count++){
 			VelocityFromFreq[count] = frequency_to_velocity_By_Angle(arr[count], HUMAN_C, SystemConfig.rxAngle);
 		}

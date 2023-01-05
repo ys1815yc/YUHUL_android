@@ -1042,6 +1042,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/fourthLevelOnline"
         android:layout_toEndOf="@id/greenlight"
-        android:ems="5" />
+        />
 
 </RelativeLayout>

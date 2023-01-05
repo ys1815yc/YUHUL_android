@@ -455,7 +455,7 @@
             android:id="@+id/rxAngleEditTextNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="3"
+            android:ems="4"
             android:inputType="number" />
     </LinearLayout>
 
