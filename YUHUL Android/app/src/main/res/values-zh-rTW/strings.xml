@@ -27,7 +27,7 @@
     <string name="title_dashboard">控制面板</string>
     <string name="title_edit_user">編輯使用者</string>
     <string name="hint_height">身高(公分)</string>
-    <string name="hint_user_id">身分證字號或病歷號 如:A123456789</string>
+    <string name="hint_user_id">身分證字號 如:A123456789</string>
     <string name="angle_hint">角度(度)</string>
     <string name="apply">送出</string>
     <string name="reset">重設</string>

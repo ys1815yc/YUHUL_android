@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
+import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
 import com.gis.heartio.SupportSubsystem.MyDataFilter2;
 import com.gis.heartio.SupportSubsystem.SystemConfig;
 import com.gis.heartio.SupportSubsystem.Utilitys;
@@ -801,7 +802,8 @@ public class RawDataProcessor {
                 iValue = inputValue;
             }
         }else{
-            iValue = (inputValue - mShortDCOffset) * mIntBasicGainForSound;
+            //Leslie test
+            iValue = (inputValue - mShortDCOffset);// * mIntBasicGainForSound;
             //            iValue = shortValueNotDCOffset;
         }
         // Cavin Test DC OFFSET 20211222 end
@@ -1693,6 +1695,7 @@ public class RawDataProcessor {
 
                 if(SystemConfig.mIntFilterDataEnabled == SystemConfig.INT_FILTER_ENABLED_YES) {
                     mShortUltrasoundDataBeforeFilter[iVar] = mShortUltrasoundData[iVar] ;
+
                     //cavin test
 //                    mShortUltrasoundData[iVar] = (short) MainActivity.mBVSignalProcessorPart1.chebyshevUSHigh.filter(mShortUltrasoundData[iVar]);
 //                    mShortUltrasoundData[iVar] = (short) MainActivity.mBVSignalProcessorPart1.butterworthUSBS.filter(mShortUltrasoundData[iVar]);

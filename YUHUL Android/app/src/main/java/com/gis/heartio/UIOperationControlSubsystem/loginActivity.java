@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.gis.heartio.R;
 import com.gis.heartio.SupportSubsystem.IwuSQLHelper;
 import com.gis.heartio.SupportSubsystem.LoginDatabaseAdapter;
+import com.gis.heartio.SupportSubsystem.SystemConfig;
 import com.google.android.material.textfield.TextInputEditText;
 
 
@@ -76,6 +77,10 @@ public class loginActivity extends AppCompatActivity {
 
         mAccountEditText = findViewById(R.id.accountEditText);
         mPWEditText = findViewById(R.id.pwEditTexit);
+
+        if(SystemConfig.mTestMode) {
+            mPWEditText.setText("admin");
+        }
 
         if (!setting.getString("PREF_ADMINID","").equals("")){
             mRememberIDCheckbox.setChecked(true);

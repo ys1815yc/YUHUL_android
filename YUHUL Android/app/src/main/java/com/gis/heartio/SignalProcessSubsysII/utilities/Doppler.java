@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.gis.heartio.GIS_Algorithm;
+import com.gis.heartio.SignalProcessSubsysII.parameters.BloodVelocityConfig;
 import com.gis.heartio.SignalProcessSubsysII.transformer.FastDctLee;
 import com.gis.heartio.SupportSubsystem.SystemConfig;
 import com.gis.heartio.SupportSubsystem.Utilitys;
@@ -21,13 +23,14 @@ public class Doppler {
 //		 private boolean  SEG_fail_flag=false;
 //		 private boolean  SNR_fail_flag=false;
 //		 private double Heart_rate;
+	private static final String TAG = "Doppler";
 	private final Context context;
-	 public static boolean cavinTest = true;
-	 public static boolean cavinDCOffset = false;
-	 public static boolean usingNN = false;
-	 static double cavinMultiple = 1;
-	 static double cavinMultiple2 = 1;
-	 static double[] tmpIpc;
+	public static boolean cavinTest = true;
+	public static boolean cavinDCOffset = false;
+	public static boolean usingNN = false;
+	static double cavinMultiple = 1;
+	static double cavinMultiple2 = 1;
+	static double[] tmpIpc;
 
 	public Doppler(Context context) {
 		this.context = context;
@@ -530,7 +533,7 @@ public class Doppler {
 // 	  HRr=150.5474;
 		result[4][4]=HRr;
 		if (cavinTest){
-			imvf2=frequency_to_velocity_Cavin(imvfg);
+			imvf2=frequency_to_velocity_Cavin(imvfg, arr);
 		}else{
 			imvf2=frequency_to_velocity(imvfg,HRr);
 		}
@@ -600,7 +603,7 @@ public class Doppler {
 				imvfg=MOV_AVG(imvf,6);    // imvf2: GM_90% combined velocity profile
 				if (!usingNN){
 					if (cavinTest){
-						imvf2=frequency_to_velocity_Cavin(imvfg);
+						imvf2=frequency_to_velocity_Cavin(imvfg, arr);
 					}else{
 						imvf2=frequency_to_velocity(imvfg,HRr);
 					}
@@ -1751,26 +1754,28 @@ public class Doppler {
 
 	}
 
-	public static double[] frequency_to_velocity_Cavin(double[] arr){
-		double[] vf_out;
-		int leng = arr.length;
-		vf_out = new double[leng];
-		int c = 1540; // human
-		int ft=2500000;
-		double rxRadius = SystemConfig.rxRadius;//72.0;
-		double txRadius = rxRadius- 5.0;
-		double cosRx = Math.cos(((rxRadius/(double)180.0)*Math.PI));//0.829038;
-		double cosTx = Math.cos(((txRadius/(double)180.0)*Math.PI));//0.87462;
-		Log.d("BVSPC","cos"+txRadius+"="+cosTx);
-		Log.d("BVSPC","cos"+rxRadius+"="+cosRx);
+	public static final int PHANTON_C = 1450;
+	public static final int HUMAN_C = 1540;
 
-		for (int ii=0; ii<leng;ii++){
-			double fd = arr[ii]*31.00775; // 4000(HZ) / 129(段) = 31.00775 HZ
-			vf_out[ii] = (c*fd)/(ft*(cosTx+cosRx));
+	//Leslie add
+	public static double frequency_to_velocity_By_Angle(double para, int speedOfSound, double rxAngle){
+		final int c = speedOfSound;
+		final double ftxFreq = BloodVelocityConfig.DOUBLE_ULTRASOUND_SENSOR_WAVE_FREQ;
+		double txAngle = rxAngle - 5.0;
+		double cos_rxAngle = Math.cos(((rxAngle / 180.0) * Math.PI));
+		double cos_txAngle = Math.cos(((txAngle / 180.0) * Math.PI));
+		double fD = para * GIS_Algorithm.ONE_SEGMENT_WITH_N_HZ;
+		return (c * fD) / (ftxFreq * (cos_txAngle + cos_rxAngle));
+	}
+
+	public static double[] frequency_to_velocity_Cavin(double[] arr, double[][] arr2){
+		double[] VelocityFromFreq = new double[arr.length];
+		SystemConfig.rxAngle = GIS_Algorithm.findDopplerAngle();
+		Log.e("Leslie", SystemConfig.rxAngle+"");
+		for (int count = 0 ; count < arr.length ; count++){
+			VelocityFromFreq[count] = frequency_to_velocity_By_Angle(arr[count], HUMAN_C, SystemConfig.rxAngle);
 		}
-
-
-		return vf_out;
+		return VelocityFromFreq;
 	}
 
 	// ********* This function  convert  frequency  to velocity for every segment   **************//

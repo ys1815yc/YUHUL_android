@@ -16,14 +16,14 @@ public class SystemConfig {
     public static boolean mBoolDebugGainControl = false;
     public static boolean mBoolDebugPowerLevelChangeHistory = false;
 
-    public static boolean mTestMode = false;
+    public static boolean mTestMode = true;
     public static boolean isHeartIO2 = false;
     public static boolean saveFile = true;
     public static boolean vtiSegPlot = true;
     public static boolean darkMode = false;
     public static boolean isYuhul = true;
 
-    public static double rxRadius = 55.0;
+    public static double rxAngle = 55.0;
 
     //*************************************************
     //************** For Dr. Wu Doppler ****************

@@ -184,6 +184,9 @@ public class dataFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.data_menu,menu);
+        if (!SystemConfig.mTestMode){
+            menu.removeItem(R.id.action_export);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 

@@ -74,6 +74,7 @@ public class onlineFragment extends Fragment {
     private TextView mSNRTitleTextView, mSNRValueTextView;
     private TextView mAmpTitleTextView, mAmpValueTextView;
     private TextView mVelocityTextView;
+    private TextView mOnlineAngleTestTV;
 
     private RadioGroup mVTIModeGroup;
     private RadioButton mStrongPeakModeRB;
@@ -575,6 +576,7 @@ public class onlineFragment extends Fragment {
         mAmpTitleTextView = rootView.findViewById(R.id.ampTitleTextView);
         mAmpValueTextView = rootView.findViewById(R.id.ampValueTextView);
         mVelocityTextView = rootView.findViewById(R.id.velocityTextView);
+        mOnlineAngleTestTV = rootView.findViewById(R.id.onlineAngleTest);
         if (SystemConfig.isYuhul){
             resultVpk.setVisibility(View.GONE);
             resultVti.setVisibility(View.GONE);
@@ -591,6 +593,9 @@ public class onlineFragment extends Fragment {
             mAmpTitleTextView.setVisibility(View.VISIBLE);
             mAmpValueTextView.setVisibility(View.VISIBLE);
             mVelocityTextView.setVisibility(View.VISIBLE);
+            mOnlineAngleTestTV.setVisibility(View.VISIBLE);
+            resultVpk.setVisibility(View.VISIBLE);
+            resultVti.setVisibility(View.VISIBLE);
         } else {
             SystemConfig.mIntGainLevelCommandSetting = SystemConfig.INT_GAIN_CONTROL_LEVEL_CNT;
             mSingleVpkSwitch.setVisibility(View.GONE);
@@ -601,6 +606,7 @@ public class onlineFragment extends Fragment {
             mAmpTitleTextView.setVisibility(View.GONE);
             mAmpValueTextView.setVisibility(View.GONE);
             mVelocityTextView.setVisibility(View.GONE);
+            mOnlineAngleTestTV.setVisibility(View.GONE);
         }
 
         greenLightImg = rootView.findViewById(R.id.greenlight);
@@ -1171,6 +1177,8 @@ public class onlineFragment extends Fragment {
                 //}
                 mSVValueTextView.setText(strSV2);
             }
+
+            mOnlineAngleTestTV.setText(String.format("%s", SystemConfig.rxAngle));
 
             if (UserManagerCommon.mDoubleUserPulmDiameterCm <= 0.0) {
                 /*SystemConfig.mFragment.mTextViewSVRemark2Value.setText("0");*/

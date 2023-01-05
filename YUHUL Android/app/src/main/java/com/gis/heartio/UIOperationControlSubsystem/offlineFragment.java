@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -181,7 +182,7 @@ public class offlineFragment extends Fragment {
         resultVpk = rootView.findViewById(R.id.resultVpkOfflineLinearLayout);
 
         mHRValueTextView = rootView.findViewById(R.id.hrValueOfflineTextView);
-        if (!SystemConfig.isYuhul){
+        if (!SystemConfig.isYuhul || SystemConfig.mTestMode){
             mVTIValueTextView = rootView.findViewById(R.id.VTIValueOfflineTextView);
             mVpkValueTextView = rootView.findViewById(R.id.VpkValueOfflineTextView);
         }
@@ -241,7 +242,6 @@ public class offlineFragment extends Fragment {
             resultVpk.setVisibility(View.GONE);
             resultVti.setVisibility(View.GONE);
         }
-
 
         mTestSwitch = rootView.findViewById(R.id.testSwitch);
         mTestSwitch.setChecked(Doppler.cavinTest);
@@ -381,8 +381,8 @@ public class offlineFragment extends Fragment {
         Button updateButton = rootView.findViewById(R.id.updateButton);
 
 
-        rxEditText = rootView.findViewById(R.id.rxRadiusEditTextNumber);
-        rxEditText.setText(""+(int)SystemConfig.rxRadius);
+        rxEditText = rootView.findViewById(R.id.rxAngleEditTextNumber);
+        //rxEditText.setText(""+SystemConfig.rxAngle);
         rxEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -396,10 +396,10 @@ public class offlineFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.toString().length()>0){
-                    int inputValue = Integer.valueOf(editable.toString());
-                    if (inputValue>0&&inputValue<90){
-                        SystemConfig.rxRadius = (double) inputValue;
+                if (editable.toString().length() > 0){
+                    double inputValue = Double.parseDouble(editable.toString());
+                    if (inputValue > 0 && inputValue<90){
+                        SystemConfig.rxAngle = inputValue;
                     }
                 }
 
@@ -423,6 +423,9 @@ public class offlineFragment extends Fragment {
             rxEditText.setVisibility(View.VISIBLE);
             mVTISwitch.setVisibility(View.VISIBLE);
             mVTIModeGroup.setVisibility(View.VISIBLE);
+            resultVpk.setVisibility(View.VISIBLE);
+            resultVti.setVisibility(View.VISIBLE);
+
         }else{
             openFileButton.setVisibility(View.GONE);
             mSNRTextView.setVisibility(View.GONE);
@@ -1421,7 +1424,7 @@ public class offlineFragment extends Fragment {
             // for Vpk
             //-----------------------------------------------------------------------------------
             //if (MainActivity.mBVSignalProcessorPart2Selected.getPeakVelocityAverage() <= 0) {
-            if (!SystemConfig.isYuhul){
+            if (!SystemConfig.isYuhul || SystemConfig.mTestMode){
                 if(inputData.Vpk <= 0){
                     mVpkValueTextView.setText("--");
                 } else {
@@ -1446,7 +1449,7 @@ public class offlineFragment extends Fragment {
             // for VTI
             //---------------------------------------------------------------
             //if(MainActivity.mBVSignalProcessorPart2Selected.getVTIAverage() <= 0) {
-            if (!SystemConfig.isYuhul){
+            if (!SystemConfig.isYuhul || SystemConfig.mTestMode){
                 if(inputData.VTI <= 0) {
                     mVTIValueTextView.setText("--");
                 }else {
@@ -1522,7 +1525,7 @@ public class offlineFragment extends Fragment {
                 //}
                 mCOValueTextView.setText(strCO2);
             }
-
+            rxEditText.setText(""+SystemConfig.rxAngle);
             //-------------------------------------------------
             // for Debug Information
             //--------------------------------------------------
