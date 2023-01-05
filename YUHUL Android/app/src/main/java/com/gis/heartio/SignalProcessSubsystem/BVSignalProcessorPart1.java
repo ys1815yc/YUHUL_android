@@ -632,13 +632,13 @@ public class BVSignalProcessorPart1 {
                         int tmpHR = getOnlineHR(samples);
                         if (lastHR!=-1){
                             int hrDiff = Math.abs(tmpHR-lastHR);
-                            if (hrDiff<0.1*lastHR){
+                            if (hrDiff<0.1*lastHR){ //判斷是否穩定
                                 isHRStableCount++;
                             }else{
                                 isHRStableCount=0;
                                 Log.d("BVSP1","HR stable count clear.");
                             }
-                            if (isHRStableCount>=3){
+                            if (isHRStableCount>=3){ //連續3次穩定
                                 Log.d("BVSP1","HR stable!!!!!!!!!!!");
                             }
                         }

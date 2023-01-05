@@ -437,9 +437,9 @@ public class Doppler {
 //	    		  imvf[ii]=3.3*Mc;
 			}
 //	    	  ang[ii]=((na-nb)/nb);
-			result[0][ii]=imvf[ii];
-			result[1][ii]=snsi_vf[ii];
-			result[2][ii]=imvfp[ii];
+			result[0][ii]=imvf[ii]; //
+			result[1][ii]=snsi_vf[ii]; //SNSI算出來的流速頻率(fmax)
+			result[2][ii]=imvfp[ii]; //vfp VF的power積分
 //	    	  result[1][ii]=Math.atan(ang[ii]*2.7)*180/3.14159;
 //	    	  if (100*snr<2)
 //	    	  {
@@ -448,7 +448,7 @@ public class Doppler {
 //	    	  }
 //	    	  else
 //	    	  {
-			result[3][ii]=snr[ii];
+			result[3][ii]=snr[ii]; //訊號和雜訊的比值(訊雜比)
 //	    	  }
 
 		}
@@ -2608,7 +2608,7 @@ public class Doppler {
 
 		return result;
 	}
-	public static double[][] Spectrogram(double[] x, int w_size, int overlap)
+	public static double[][]    Spectrogram(double[] x, int w_size, int overlap)
 	{
 		double[] w = new double[w_size];
 		double[] temp = new double[w_size];

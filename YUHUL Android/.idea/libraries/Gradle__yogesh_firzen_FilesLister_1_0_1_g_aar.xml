@@ -10,6 +10,9 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b51d90c2c85af12461d0f7f4dde85615/transformed/jetified-FilesLister-1.0.1.g/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b51d90c2c85af12461d0f7f4dde85615/transformed/jetified-FilesLister-1.0.1.g/res" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b51d90c2c85af12461d0f7f4dde85615/transformed/jetified-FilesLister-1.0.1.g/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/896dd15e8cd28b49aa890a76eef3048f/transformed/jetified-FilesLister-1.0.1.g/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/896dd15e8cd28b49aa890a76eef3048f/transformed/jetified-FilesLister-1.0.1.g/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/896dd15e8cd28b49aa890a76eef3048f/transformed/jetified-FilesLister-1.0.1.g/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/yogesh.firzen/FilesLister/1.0.1.g/37859785c9c214a87ef24b187866e0cc14fefd7f/FilesLister-1.0.1.g-javadoc.jar!/" />
