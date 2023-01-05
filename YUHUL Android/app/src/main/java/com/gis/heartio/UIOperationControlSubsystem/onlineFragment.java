@@ -1008,7 +1008,7 @@ public class onlineFragment extends Fragment {
     public void updateHRValue(final int HR, final boolean isStable) {
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
-                if (isStable) {
+                if (isStable && SystemConfig.isPAvoice>=3) {
                     mHRValueTextView.setTextColor(Color.BLACK);
                     if (!mTBtnRec.isChecked()) {
                         mTBtnRec.setTextColor(Color.argb(255, 0, 117, 0));

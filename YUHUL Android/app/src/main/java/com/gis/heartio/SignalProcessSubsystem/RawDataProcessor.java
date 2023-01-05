@@ -146,8 +146,8 @@ public class RawDataProcessor {
     private  TensorAudio tensorAudio = null;
     private int classificationIntervalPts = 4000;  // 8000Hz 500ms
 
-    private final String MODEL_FILE = //"soundclassifier_with_metadata.tflite";
-     "USPA_model_14.tflite";
+    private final String MODEL_FILE = "USPA_model.tflite";  //"soundclassifier_with_metadata.tflite";
+     //"USPA_model_14.tflite";
     private final float MINIMUM_DISPLAY_THRESHOLD = 0.3f;
 
     public RawDataProcessor(){
@@ -2122,12 +2122,22 @@ public class RawDataProcessor {
                   tensorAudio.load(mShortUltrasoundDataBeforeFilter
                           ,mIntDataNextIndex-classificationIntervalPts,classificationIntervalPts);
                   List<Classifications> output = audioClassifier.classify(tensorAudio);
+
                   List<Category> filteredCategory =
                           output.get(0).getCategories().stream()
                                   .filter(it->it.getScore()>MINIMUM_DISPLAY_THRESHOLD)
                                   .collect(Collectors.toList());
 
-                  Log.d(TAG,filteredCategory.toString());
+                  String outputString = filteredCategory.toString();
+                  String outputSplit[] = outputString.split(",");
+                  if(outputSplit[0].contains("PA")){
+                      SystemConfig.isPAvoice ++;
+                  }else{
+                      SystemConfig.isPAvoice = 0;
+                  }
+                  Log.d(TAG, outputString);
+                  //Log.d(TAG,outputSplit[0]);
+                  Log.d(TAG, String.valueOf(SystemConfig.isPAvoice));
               }
     }
 

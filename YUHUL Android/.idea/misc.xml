@@ -4,6 +4,32 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.25" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/activity_login.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/activity_main.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/activity_register.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/activity_term_of_service.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/custom_marker_view.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/dialog_privacy_policies.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/fragment_item_admin.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/fragment_item_data.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/fragment_item_data2.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/fragment_item_interval.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/fragment_item_more.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/fragment_item_offline.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/fragment_item_online.xml" value="0.4" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/fragment_item_user.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/fragment_profile_scan.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/fragment_user_add_edit.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/listitem_admin.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/listitem_barchart.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/listitem_device.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/listitem_interval_data.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/listitem_linechart.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/listitem_mysimpleitem.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/listitem_user.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/privacy_policy_item.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/profile_control.xml" value="0.16822916666666668" />
+        <entry key="..\:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/res/layout/servicediscovery_temp_fragment.xml" value="0.16822916666666668" />
         <entry key="app/src/main/res/drawable/splash_background.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.155859375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />

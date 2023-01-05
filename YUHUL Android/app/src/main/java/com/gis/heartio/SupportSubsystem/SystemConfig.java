@@ -470,6 +470,9 @@ public class SystemConfig {
 
     public static final int mIntEcgSegCnt = 4;  // 500 / 125
 
+    /* 聲音AI參數 2022/12/14 by Doris */
+    public static int isPAvoice = 0;
+
     public static void initItriDeviceCommon(){
         //
         // common part for online and offline
