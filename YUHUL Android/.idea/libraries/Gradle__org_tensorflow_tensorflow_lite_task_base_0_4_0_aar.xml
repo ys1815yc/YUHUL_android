@@ -1,10 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: org.tensorflow:tensorflow-lite-task-base:0.4.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/222b6daf0eb165fb9664ed93327bb6c6/transformed/jetified-tensorflow-lite-task-base-0.4.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/317df46371130605a355f5b877a38caa/transformed/jetified-tensorflow-lite-task-base-0.4.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/317df46371130605a355f5b877a38caa/transformed/jetified-tensorflow-lite-task-base-0.4.0/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/317df46371130605a355f5b877a38caa/transformed/jetified-tensorflow-lite-task-base-0.4.0/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/0e525899182f6974042bb1f2b960e7e2/transformed/jetified-tensorflow-lite-task-base-0.4.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/0e525899182f6974042bb1f2b960e7e2/transformed/jetified-tensorflow-lite-task-base-0.4.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

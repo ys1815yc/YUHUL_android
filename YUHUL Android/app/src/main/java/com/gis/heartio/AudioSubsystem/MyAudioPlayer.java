@@ -7,13 +7,13 @@ import android.media.AudioTrack;
 import android.os.Build;
 import android.util.Log;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessorPart1;
 import com.gis.heartio.SupportSubsystem.MyDataFilter2;
 import com.gis.heartio.SupportSubsystem.SystemConfig;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * Created by 780797 on 2016/8/30.
@@ -136,7 +136,14 @@ public class MyAudioPlayer {
                 if (BVSignalProcessorPart1.isInverseFreq){
                     result_write_num = audio_track_handle.write(MainActivity.mRawDataProcessor.mShortUltrasoundDataInverse, mIntStartNextIdxOnLine, iDataLength2);
                 }else{
-                    result_write_num = audio_track_handle.write(MainActivity.mRawDataProcessor.mShortUltrasoundData, mIntStartNextIdxOnLine, iDataLength2);
+                    //Leslie add to test - online volume with gain(16)
+                    short[] mShortArrayAudioSegmentWithGain = new short[MainActivity.mRawDataProcessor.mShortUltrasoundData.length];
+                    for (int i = 0 ; i < mShortArrayAudioSegmentWithGain.length ; i++){
+                        mShortArrayAudioSegmentWithGain[i] = (short) (MainActivity.mRawDataProcessor.mShortUltrasoundData[i] * 16);
+                    }
+                    result_write_num = audio_track_handle.write(mShortArrayAudioSegmentWithGain, mIntStartNextIdxOnLine, iDataLength2);
+
+                    //result_write_num = audio_track_handle.write(MainActivity.mRawDataProcessor.mShortUltrasoundData, mIntStartNextIdxOnLine, iDataLength2);
                 }
                 //SystemConfig.mMyEventLogger.appendDebugStr("result_write_num=", String.valueOf(result_write_num));
                 iDataLength2 = iDataLength2 - result_write_num;
@@ -305,9 +312,19 @@ public class MyAudioPlayer {
             //------- put data to audio -------------------------------
             pcm_data_size = iSampleSize;
             pcm_data_buffer_offset = 0;
+
             while (pcm_data_size > 0) {
                 write_num = pcm_data_size;
-                result_write_num = audio_track_handle.write(mShortArrayAudioSegment, pcm_data_buffer_offset, write_num);
+
+                //Leslie add to test - offline volume with gain(10)
+                short[] mShortArrayAudioSegmentWithGain = new short[mShortArrayAudioSegment.length];
+                for (int i = 0 ; i < mShortArrayAudioSegmentWithGain.length ; i++){
+                    mShortArrayAudioSegmentWithGain[i] = (short) (mShortArrayAudioSegment[i] * 10);
+                }
+                result_write_num = audio_track_handle.write(mShortArrayAudioSegmentWithGain, pcm_data_buffer_offset, write_num);
+                //result_write_num = audio_track_handle.write(mShortArrayAudioSegment, pcm_data_buffer_offset, write_num);
+
+
                 pcm_data_buffer_offset = pcm_data_buffer_offset + result_write_num;
                 pcm_data_size = pcm_data_size - result_write_num;
                 if(pcm_data_size > 0){
@@ -387,7 +404,6 @@ public class MyAudioPlayer {
             mIntStartNextIdxOnLine = -1;
             audio_track_handle.play();
             mState = STATE_PCM_DECODER_PLAY;
-
         }catch(Exception ex1){
             ex1.printStackTrace();
             //SystemConfig.mMyEventLogger.appendDebugStr("MyAudioPlayer.StartPlayAudio.Exception","");

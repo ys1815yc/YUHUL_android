@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config>
+        <device id="pixel_5" />
+        <device id="Nexus 6P" />
+        <locale>zh-rTW</locale>
+      </config>
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d2b005fb-9f74-4fee-9ab0-47493bd016da" name="Default Changelist" comment="1. Added green light icon for heart rate stable detection.&#10;2. Added inverse switch and 4th level switch for inverse frequency experiment." />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[FA8971F00122]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="YUHUL Android" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="valueResourceFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/../JAG/heartioKey.p12" />
+    <option name="KEY_ALIAS" value="key0" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
+    <option name="BUILD_TARGET_KEY" value="apk" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/gis-heartio-wu.iml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+        <option value="$PROJECT_DIR$/.idea/gradle.xml" />
+        <option value="$PROJECT_DIR$/.idea/codeStyles/Project.xml" />
+        <option value="$PROJECT_DIR$/.idea/runConfigurations.xml" />
+        <option value="$PROJECT_DIR$/gis-heartio-wu.iml" />
+        <option value="$PROJECT_DIR$/FFTLibrary/FFTLibrary.iml" />
+        <option value="$PROJECT_DIR$/app/app.iml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_core_common_1_1_1_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_core_runtime_1_1_1_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_lifecycle_common_1_1_1_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_lifecycle_livedata_1_1_1_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_lifecycle_livedata_core_1_1_1_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_lifecycle_runtime_1_1_1_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_lifecycle_viewmodel_1_1_1_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_animated_vector_drawable_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_appcompat_v7_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_asynclayoutinflater_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_cardview_v7_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_collections_28_0_0_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_constraint_constraint_layout_1_1_3_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_constraint_constraint_layout_solver_1_1_3_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_coordinatorlayout_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_cursoradapter_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_customview_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_design_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_documentfile_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_drawerlayout_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_interpolator_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_loader_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_localbroadcastmanager_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_print_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_recyclerview_v7_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_slidingpanelayout_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_annotations_28_0_0_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_compat_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_core_ui_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_core_utils_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_fragment_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_media_compat_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_v4_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_vector_drawable_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_swiperefreshlayout_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_test_espresso_espresso_core_3_0_2_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_test_espresso_espresso_idling_resource_3_0_2_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_test_monitor_1_0_2_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_test_runner_1_0_2_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_transition_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_versionedparcelable_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_viewpager_28_0_0_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_PhilJay_MPAndroidChart_v3_0_3_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_github_bmarrdev_android_DecoView_charting_v1_2_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_findbugs_jsr305_2_0_1_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_nineoldandroids_library_2_4_0_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_opencsv_opencsv_4_0_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_javawriter_2_1_1_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__commons_beanutils_commons_beanutils_1_9_3_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__commons_collections_commons_collections_3_2_2_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__commons_io_commons_io_2_6_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__commons_logging_commons_logging_1_2_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__info_hoang8f_android_segmented_1_0_6_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__javax_inject_javax_inject_1_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__junit_junit_4_12_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__net_sf_kxml_kxml2_2_3_0_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_commons_commons_lang3_3_6_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_commons_commons_text_1_1_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_integration_1_3_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__org_hamcrest_hamcrest_library_1_3_jar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__yogesh_firzen_FilesLister_1_0_1_g_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/libraries/Gradle__yogesh_firzen_MukkiyaSevaigal_1_0_6_aar.xml" />
+        <option value="$PROJECT_DIR$/.idea/misc.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1YbjMDJMLxBMiCdJ8CHXMv8LuYA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ApkExportedModule" value="gis-heartio-wu.app" />
+    <property name="BundleExportedModule" value="app" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="FA78X1802115" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-09-11T07:46:27.398Z" />
+    <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
+    <property name="ExportApk.BuildVariants" value="release" />
+    <property name="ExportApk.SignV1" value="true" />
+    <property name="ExportApk.SignV2" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/view/SurfaceView.java_SELECTED" value="SurfaceView" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/view/SurfaceView.java_SurfaceView_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/view/View.java_SELECTED" value="View" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/view/View.java_View_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/widget/CompoundButton.java_CompoundButton_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/widget/CompoundButton.java_SELECTED" value="CompoundButton" />
+    <property name="android-custom-view/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgSegView.java_EcgSegView_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgSegView.java_SELECTED" value="EcgSegView" />
+    <property name="android-custom-view/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgView.java_EcgView_DIMENSIONS" value="1421&#10;308" />
+    <property name="android-custom-view/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgView.java_SELECTED" value="EcgView" />
+    <property name="android-custom-viewC:/Users/windo/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.3.1/45a346a05e7ff27a01c59452379c5939cbb53c03/appcompat-1.3.1-sources.jar!/androidx/appcompat/widget/ActionBarOverlayLayout.java_SELECTED" value="ActionBarOverlayLayout" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../新增資料夾" />
+    <property name="multi-representation-preview/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgSegView.java_selected" value="Custom views" />
+    <property name="multi-representation-preview/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgView.java_selected" value="Custom views" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="two.files.diff.last.used.file" value="$USER_HOME$/Downloads/AudioVisualizer-master/app/src/main/java/ca/uol/aig/fftpack/RealDoubleFFT.java" />
+  </component>
+  <component name="PsdUISettings">
+    <option name="MODULE_TAB" value="Default Config" />
+    <option name="BUILD_VARIANTS_TAB" value="Build Types" />
+    <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
+    <option name="LAST_EDITED_BUILD_TYPE" value="release" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsysII/utilities" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.gis.heartio" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Android App.app">
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="YUHUL_Android.app.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+        <option name="PROFILING_MODE" value="NOT_SET" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="gis-heartio-wu" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.gis-heartio-wu" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d2b005fb-9f74-4fee-9ab0-47493bd016da" name="Default Changelist" comment="" />
+      <created>1569467347971</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1569467347971</updated>
+    </task>
+    <task id="LOCAL-00069" summary="1. Fixed warning.">
+      <created>1627004765503</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1627004765504</updated>
+    </task>
+    <task id="LOCAL-00070" summary="1. Fixed warnings.">
+      <created>1627278091109</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1627278091109</updated>
+    </task>
+    <task id="LOCAL-00071" summary="1. Update version code, SDK version and dependencies version.&#10;2. Fixed typo.&#10;3. Fixed warnings.&#10;4. Modified two point mode, don't need in heart beat segment.">
+      <created>1627543733670</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1627543733671</updated>
+    </task>
+    <task id="LOCAL-00072" summary="1. Update gradle version.">
+      <created>1627983532086</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1627983532087</updated>
+    </task>
+    <task id="LOCAL-00073" summary="1. Fixed warnings.&#10;2. Fixed change two point mode to strong peak result error issue.&#10;3. Modified Doppler HR seg th1 to HR_int/4.">
+      <created>1627983697044</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1627983697044</updated>
+    </task>
+    <task id="LOCAL-00074" summary="1. Modified VTI from ECG.">
+      <created>1628236309215</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1628236309216</updated>
+    </task>
+    <task id="LOCAL-00075" summary="1. Replaced onNavigationItemSelectedListener to onItemSelectedListener.&#10;2. Fixed typo.">
+      <created>1628669969853</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1628669969853</updated>
+    </task>
+    <task id="LOCAL-00076" summary="1. Fixed typo.&#10;2. Modified VTI two point and strongest mode blue line.">
+      <created>1629190767764</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1629190767765</updated>
+    </task>
+    <task id="LOCAL-00077" summary="1. VTI segment using VTI value to decide.&#10;2. Modified VTI segment start memory address.&#10;3. Modified JF algorithm to increase Vpk value.">
+      <created>1630920399415</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1630920399416</updated>
+    </task>
+    <task id="LOCAL-00078" summary="1. Modified HR_SEG_0630.">
+      <created>1631006631851</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1631006631851</updated>
+    </task>
+    <task id="LOCAL-00079" summary="1. Added spectrogram dark mode.">
+      <created>1631772480187</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1631772480188</updated>
+    </task>
+    <task id="LOCAL-00080" summary="1. Added ECG dark mode.">
+      <created>1631779169940</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1631779169940</updated>
+    </task>
+    <task id="LOCAL-00081" summary="1. Modified large power limit threshold.&#10;2. Modified weak power threshold to 40% minimum average.&#10;3. VTI *0.8 removed.&#10;4. Modified VTI interval threshold.&#10;5. Using power and velocity threshold to reduce VTI interval.">
+      <created>1632724411606</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1632724411607</updated>
+    </task>
+    <task id="LOCAL-00082" summary="1. VTI reduce range set to 0.&#10;2. Moving average point set to 5.&#10;3. Modified multiplePwrThreshold to maxMultiple*0.3&gt;10 ? maxMultiple*0.3:10&#10;4. Fixed reset VTI end point error.">
+      <created>1632992738597</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1632992738597</updated>
+    </task>
+    <task id="LOCAL-00083" summary="1. update gradle version.">
+      <created>1634016237977</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1634016237978</updated>
+    </task>
+    <task id="LOCAL-00084" summary="1. Added get array standard deviation.&#10;2. Modified two point upper bound limited.">
+      <created>1634016370486</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1634016370486</updated>
+    </task>
+    <task id="LOCAL-00085" summary="1. Modified VPK and VTI final value.&#10;2. Skip the segment which depression in middle 7 STFT.&#10;3. Modified vti segment length upper bound.">
+      <created>1634027887051</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1634027887051</updated>
+    </task>
+    <task id="LOCAL-00086" summary="1. Removed comment code.&#10;2. Fixed warnings.&#10;3. VTI length upper bound modified to HR length.">
+      <created>1634190802474</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1634190802475</updated>
+    </task>
+    <task id="LOCAL-00087" summary="1. upgrade version number.">
+      <created>1634196049783</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1634196049783</updated>
+    </task>
+    <task id="LOCAL-00088" summary="1. Added closest_id to find VTI segment with closest segment width.&#10;2. Moving average modified to 5 pts.">
+      <created>1634894399044</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1634894399044</updated>
+    </task>
+    <task id="LOCAL-00089" summary="1. Modified online measurement result to synchronize with offline.&#10;2. Modified Doppler MOV_AVG argument to even.&#10;3. Fixed single vpk in new algorithm.&#10;4. Closed findHRVTIStartEndPosition.">
+      <created>1635319766392</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1635319766393</updated>
+    </task>
+    <task id="LOCAL-00090" summary="1. upgrade gradle version.&#10;2. Fixed warnings and remove redundant code.">
+      <created>1635391044908</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1635391044908</updated>
+    </task>
+    <task id="LOCAL-00091" summary="1. Fixed warnings and typo and removed redundant code.">
+      <created>1635412376056</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1635412376057</updated>
+    </task>
+    <task id="LOCAL-00092" summary="1. Modified moving average parameter.&#10;2. Modified frequency to velocity set value to 0 if it small then 0.&#10;3. Modified HR3_test pk_buf range.&#10;4. Added constraint to reduce VTI segment width by small velocity.">
+      <created>1637227899717</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1637227899718</updated>
+    </task>
+    <task id="LOCAL-00093" summary="1. Modified output segment count to outputN.">
+      <created>1637561743026</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1637561743026</updated>
+    </task>
+    <task id="LOCAL-00094" summary="1. Added NN code template.">
+      <created>1638234546613</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1638234546614</updated>
+    </task>
+    <task id="LOCAL-00095" summary="1. Update appcompat version.">
+      <created>1638324443586</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1638324443586</updated>
+    </task>
+    <task id="LOCAL-00096" summary="1. Update sdk version to 31.&#10;2. Added permission BLUETOOTH_SCAN and BLUETOOTH_CONNECT.">
+      <created>1638943807011</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1638943807012</updated>
+    </task>
+    <task id="LOCAL-00097" summary="1. Update gradle version to 7.0.4&#10;2. Closed VTI segment blue line when using strongest mode.">
+      <created>1639124026229</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1639124026230</updated>
+    </task>
+    <task id="LOCAL-00098" summary="1. Added MC_Smax_VF for NN parameter calculate.">
+      <created>1639128452099</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1639128452100</updated>
+    </task>
+    <task id="LOCAL-00099" summary="1. Added DCT for testing.">
+      <created>1639449471723</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1639449471723</updated>
+    </task>
+    <task id="LOCAL-00100" summary="1. Modified permission request to avoid android 11 and below requesting BLUETOOTH_SCAN and BLUETOOTH_CONNECT.">
+      <created>1639536115431</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1639536115432</updated>
+    </task>
+    <task id="LOCAL-00101" summary="1. Sync with Dr. Wu matlab net07.">
+      <created>1639557052652</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1639557052652</updated>
+    </task>
+    <task id="LOCAL-00102" summary="1. Added realtime update HR online try.&#10;2. Set dark mode close.&#10;3. Added DC offset test.">
+      <created>1640223204737</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1640223204737</updated>
+    </task>
+    <task id="LOCAL-00103" summary="1. Removed skip vti segment with power less then 1/4000 maxMultiple.&#10;2. Removed threshold 3 as segment start skip criteria.">
+      <created>1640761558300</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1640761558300</updated>
+    </task>
+    <task id="LOCAL-00104" summary="1. Added inverse frequency.&#10;2. Added HR stable indication when online measurement.">
+      <created>1641374482566</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1641374482567</updated>
+    </task>
+    <task id="LOCAL-00105" summary="1. Added backward FFT to inverse frequency for Yuhul offline audio playback.&#10;2. Added DCT IDCT for Yuhul offline audio playback.(closed)">
+      <created>1642124204009</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1642124204009</updated>
+    </task>
+    <task id="LOCAL-00106" summary="1. Updated version code.">
+      <created>1642497844281</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1642497844282</updated>
+    </task>
+    <task id="LOCAL-00107" summary="1. Added mShortUltrasoundDataInverse for online inverse audio.&#10;2. Modified audio track handle write for online inverse audio.">
+      <created>1642498056303</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1642498056303</updated>
+    </task>
+    <task id="LOCAL-00108" summary="1. Upgrade gradle version.">
+      <created>1643359066513</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1643359066514</updated>
+    </task>
+    <task id="LOCAL-00109" summary="1. Added green light icon for heart rate stable detection.&#10;2. Added inverse switch and 4th level switch for inverse frequency experiment.">
+      <created>1643362747932</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1643362747932</updated>
+    </task>
+    <task id="LOCAL-00110" summary="1. Update gradle version.&#10;2. Modified data2 layout (hide vpk and vti) for Yuhul.&#10;3. HR DecoView layout align to center of parent.">
+      <created>1644484927866</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1644484927867</updated>
+    </task>
+    <task id="LOCAL-00111" summary="1. Update build.gradle version.&#10;2. Added yuhul support.&#10;3. Added ble permission check.">
+      <created>1646804632409</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1646804632410</updated>
+    </task>
+    <task id="LOCAL-00112" summary="1. Check sdk version.">
+      <created>1646892914725</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1646892914726</updated>
+    </task>
+    <task id="LOCAL-00113" summary="1. Modified green light icon to 50dp.">
+      <created>1663033931765</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1663033931766</updated>
+    </task>
+    <task id="LOCAL-00114" summary="1. Modified app name and app logo to yuhul_logo.png.">
+      <created>1664257546495</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1664257546501</updated>
+    </task>
+    <task id="LOCAL-00115" summary="1. intervalForegroundService.java warning fixed.&#10;2. JF VTI blue line closed.&#10;3. Draw scale by SystemConfig.rxRadius.&#10;4. SystemConfig.rxRadius set default value as 55.0;&#10;5. Modified calculate button select 0 segment result to Dr. wu alg.&#10;6. Modified SNSI and frequency to velocity Cavin test version.&#10;7. Added Doppler.frequency_to_velocity_Cavin.">
+      <created>1664261548088</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1664261548088</updated>
+    </task>
+    <task id="LOCAL-00116" summary="1. Change HeartIO to Yuhul.">
+      <created>1664353231671</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1664353231672</updated>
+    </task>
+    <task id="LOCAL-00117" summary="1. Updated version code.&#10;2. Fixed online repeat signal issue.">
+      <created>1664505251917</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1664505251917</updated>
+    </task>
+    <option name="localTasksCounter" value="118" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1. Modified output segment count to outputN." />
+    <MESSAGE value="1. Added NN code template." />
+    <MESSAGE value="1. Update appcompat version." />
+    <MESSAGE value="1. Update sdk version to 31.&#10;2. Added permission BLUETOOTH_SCAN and BLUETOOTH_CONNECT." />
+    <MESSAGE value="1. Update gradle version to 7.0.4&#10;2. Closed VTI segment blue line when using strongest mode." />
+    <MESSAGE value="1. Added MC_Smax_VF for NN parameter calculate." />
+    <MESSAGE value="1. Added DCT for testing." />
+    <MESSAGE value="1. Modified permission request to avoid android 11 and below requesting BLUETOOTH_SCAN and BLUETOOTH_CONNECT." />
+    <MESSAGE value="1. Sync with Dr. Wu matlab net07." />
+    <MESSAGE value="1. Added realtime update HR online try.&#10;2. Set dark mode close.&#10;3. Added DC offset test." />
+    <MESSAGE value="1. Removed skip vti segment with power less then 1/4000 maxMultiple.&#10;2. Removed threshold 3 as segment start skip criteria." />
+    <MESSAGE value="1. Added inverse frequency.&#10;2. Added HR stable indication when online measurement." />
+    <MESSAGE value="1. Added backward FFT to inverse frequency for Yuhul offline audio playback.&#10;2. Added DCT IDCT for Yuhul offline audio playback.(closed)" />
+    <MESSAGE value="1. Updated version code." />
+    <MESSAGE value="1. Added mShortUltrasoundDataInverse for online inverse audio.&#10;2. Modified audio track handle write for online inverse audio." />
+    <MESSAGE value="1. Upgrade gradle version." />
+    <MESSAGE value="1. Added green light icon for heart rate stable detection.&#10;2. Added inverse switch and 4th level switch for inverse frequency experiment." />
+    <MESSAGE value="1. Update gradle version.&#10;2. Modified data2 layout (hide vpk and vti) for Yuhul.&#10;3. HR DecoView layout align to center of parent." />
+    <MESSAGE value="1. Update build.gradle version.&#10;2. Added yuhul support.&#10;3. Added ble permission check." />
+    <MESSAGE value="1. Check sdk version." />
+    <MESSAGE value="1. Modified green light icon to 50dp." />
+    <MESSAGE value="1. Modified app name and app logo to yuhul_logo.png." />
+    <MESSAGE value="1. intervalForegroundService.java warning fixed.&#10;2. JF VTI blue line closed.&#10;3. Draw scale by SystemConfig.rxRadius.&#10;4. SystemConfig.rxRadius set default value as 55.0;&#10;5. Modified calculate button select 0 segment result to Dr. wu alg.&#10;6. Modified SNSI and frequency to velocity Cavin test version.&#10;7. Added Doppler.frequency_to_velocity_Cavin." />
+    <MESSAGE value="1. Change HeartIO to Yuhul." />
+    <MESSAGE value="1. Updated version code.&#10;2. Fixed online repeat signal issue." />
+    <option name="LAST_COMMIT_MESSAGE" value="1. Updated version code.&#10;2. Fixed online repeat signal issue." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/onlineFragment.java</url>
+          <line>687</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsysII/utilities/Doppler.java</url>
+          <line>1349</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/RawDataProcessor.java</url>
+          <line>905</line>
+          <option name="timeStamp" value="99" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/RawDataProcessor.java</url>
+          <line>891</line>
+          <option name="timeStamp" value="101" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

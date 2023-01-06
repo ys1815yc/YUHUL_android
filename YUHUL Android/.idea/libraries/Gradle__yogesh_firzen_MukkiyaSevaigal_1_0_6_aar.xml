@@ -1,30 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: yogesh.firzen:MukkiyaSevaigal:1.0.6@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/c31de98f34e83554098b53908a40f09a/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/mail.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/c31de98f34e83554098b53908a40f09a/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/activation.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/c31de98f34e83554098b53908a40f09a/transformed/jetified-MukkiyaSevaigal-1.0.6/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/c31de98f34e83554098b53908a40f09a/transformed/jetified-MukkiyaSevaigal-1.0.6/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/c31de98f34e83554098b53908a40f09a/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/classes.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/c31de98f34e83554098b53908a40f09a/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/additionnal.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/eb20d7cb92166fadbfb88794705158e8/transformed/jetified-MukkiyaSevaigal-1.0.6/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/eb20d7cb92166fadbfb88794705158e8/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/additionnal.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/eb20d7cb92166fadbfb88794705158e8/transformed/jetified-MukkiyaSevaigal-1.0.6/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/eb20d7cb92166fadbfb88794705158e8/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/classes.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/eb20d7cb92166fadbfb88794705158e8/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/activation.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/eb20d7cb92166fadbfb88794705158e8/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/mail.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/9ccf0b93377a95052970beb224ae5712/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/mail.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9ccf0b93377a95052970beb224ae5712/transformed/jetified-MukkiyaSevaigal-1.0.6/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/9ccf0b93377a95052970beb224ae5712/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/classes.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/9ccf0b93377a95052970beb224ae5712/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/activation.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/9ccf0b93377a95052970beb224ae5712/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/additionnal.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/9ccf0b93377a95052970beb224ae5712/transformed/jetified-MukkiyaSevaigal-1.0.6/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b1f5fa1cb8f17e4d05e0047425ffac44/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/additionnal.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b1f5fa1cb8f17e4d05e0047425ffac44/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/activation.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b1f5fa1cb8f17e4d05e0047425ffac44/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/mail.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b1f5fa1cb8f17e4d05e0047425ffac44/transformed/jetified-MukkiyaSevaigal-1.0.6/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b1f5fa1cb8f17e4d05e0047425ffac44/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b1f5fa1cb8f17e4d05e0047425ffac44/transformed/jetified-MukkiyaSevaigal-1.0.6/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b96097cff2574790e197d2430577e1c2/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b96097cff2574790e197d2430577e1c2/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/activation.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b96097cff2574790e197d2430577e1c2/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/additionnal.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/b96097cff2574790e197d2430577e1c2/transformed/jetified-MukkiyaSevaigal-1.0.6/jars/libs/mail.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b96097cff2574790e197d2430577e1c2/transformed/jetified-MukkiyaSevaigal-1.0.6/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/b96097cff2574790e197d2430577e1c2/transformed/jetified-MukkiyaSevaigal-1.0.6/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/yogesh.firzen/MukkiyaSevaigal/1.0.6/9c417a278ec9e018711c6c69d3a740dd3c7c00e9/MukkiyaSevaigal-1.0.6-javadoc.jar!/" />

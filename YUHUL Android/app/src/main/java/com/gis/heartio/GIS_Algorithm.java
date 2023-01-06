@@ -116,15 +116,14 @@ public class GIS_Algorithm {
         int maxCount = 0;
         double meanValue = 0;
 
-        for (int i = 0 ; i < values.length ; i++) {
+        for (int value : values) {
             int count = 0;
             double sum = 0;
-
-            for (int j = 0 ; j < values.length ; j++) {
-                if (values[i] != 0) {
-                    if (Math.abs(values[i] - values[j]) <= (values[i] * (percentage / 100.0))) {
+            for (int i : values) {
+                if (value != 0) {
+                    if (Math.abs(value - i) <= (value * (percentage / 100.0))) {
                         count++;
-                        sum = sum + values[j];
+                        sum = sum + i;
                     }
                 } else {
                     sum = 0;

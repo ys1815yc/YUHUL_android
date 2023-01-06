@@ -803,7 +803,7 @@ public class RawDataProcessor {
                 iValue = inputValue;
             }
         }else{
-            //Leslie test
+            //Leslie modified - cancel gain for rawData
             iValue = (inputValue - mShortDCOffset);// * mIntBasicGainForSound;
             //            iValue = shortValueNotDCOffset;
         }

@@ -1,13 +1,7 @@
 package com.gis.heartio.AudioSubsystem;
 
-import android.app.Activity;
-import android.util.Log;
-
-import com.gis.heartio.AudioSubsystem.MyAudioPlayer;
 import com.gis.heartio.SupportSubsystem.MyMsgQueue;
 import com.gis.heartio.SupportSubsystem.MyThreadQMsg;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
-import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 
 /**
  * Created by brandon on 2017/1/9.
