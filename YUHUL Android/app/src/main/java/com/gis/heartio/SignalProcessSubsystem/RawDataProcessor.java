@@ -146,9 +146,9 @@ public class RawDataProcessor {
     // Audio Classifier
     private AudioClassifier audioClassifier = null;
     private  TensorAudio tensorAudio = null;
-    private int classificationIntervalPts = 4000;  // 8000Hz 500ms
+    private int classificationIntervalPts = 4000;  // 8000Hz 500ms = 4S
 
-    private final String MODEL_FILE = "USPA_model.tflite";  //"soundclassifier_with_metadata.tflite";
+    private final String MODEL_FILE = "03_3.tflite";  //"soundclassifier_with_metadata.tflite";
      //"USPA_model_14.tflite";
     private final float MINIMUM_DISPLAY_THRESHOLD = 0.3f;
 
@@ -2145,12 +2145,14 @@ public class RawDataProcessor {
                   String outputSplit[] = outputString.split(",");
                   if(outputSplit[0].contains("PA")){
                       SystemConfig.isPAvoice ++;
+                      Log.d(TAG, String.valueOf(SystemConfig.isPAvoice));
                   }else{
                       SystemConfig.isPAvoice = 0;
+                      Log.d(TAG, "clear PA count~");
                   }
                   Log.d(TAG, outputString);
                   //Log.d(TAG,outputSplit[0]);
-                  Log.d(TAG, String.valueOf(SystemConfig.isPAvoice));
+
               }
     }
 
