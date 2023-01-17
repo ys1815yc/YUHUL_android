@@ -374,6 +374,8 @@
     <string name="msg_id_cannot_empty">帳號不能是空的</string>
     <string name="msg_first_name_cannot_empty">名不能是空的</string>
     <string name="msg_last_name_cannot_empty">姓不能是空的</string>
+    <string name="msg_gender_cannot_empty">需選擇性別</string>
+    <string name="msg_age_cannot_empty">年齡不能是空的</string>
     <string name="msg_id_existed">使用者已經存在</string>
     <string name="msg_duration_interval_error">總量測時間必須大於間隔時間</string>
     <string name="msg_click_try_to_countinu_testing">如果要繼續測試，請按找位置</string>

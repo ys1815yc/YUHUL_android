@@ -627,6 +627,8 @@
     <string name="msg_id_cannot_empty">ID can not be empty.</string>
     <string name="msg_first_name_cannot_empty">First name can not be empty.</string>
     <string name="msg_last_name_cannot_empty">Last name can not be empty.</string>
+    <string name="msg_gender_cannot_empty">Choose gender.</string>
+    <string name="msg_age_cannot_empty">Age can not be empty</string>
     <string name="msg_id_existed">This user ID had existed.</string>
     <string name="msg_duration_interval_error">Duration must be longer then interval.</string>
     <string name="msg_click_try_to_countinu_testing">Click try button, if you want to continue testing.</string>

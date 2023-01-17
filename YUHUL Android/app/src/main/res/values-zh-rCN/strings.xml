@@ -374,6 +374,8 @@
     <string name="msg_id_cannot_empty">账号不能是空的</string>
     <string name="msg_first_name_cannot_empty">名不能是空的</string>
     <string name="msg_last_name_cannot_empty">姓不能是空的</string>
+    <string name="msg_gender_cannot_empty">需选择性别</string>
+    <string name="msg_age_cannot_empty">年龄不能是空的</string>
     <string name="msg_id_existed">使用者已经存在</string>
     <string name="msg_duration_interval_error">总量测时间必须大于间隔时间</string>
     <string name="msg_click_try_to_countinu_testing">如果要继续测试，请按找位置</string>

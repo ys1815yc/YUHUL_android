@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -35,27 +36,21 @@ import java.util.Objects;
  */
 public class UserAddEditFragment extends Fragment {
     private static final String TAG = "addEditUserFragment";
-    // TODO: Rename parameter arguments, choose names that match
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
     private EditText mUserIDEditText, mFirstNameEditText, mLastNameEditText;
-    private EditText mAngleEditText, mHeightEditText, mPulmDiaEditText, mAgeEditText;
-    private String strHeightToCSA = "NO";
+    private EditText mPulmDiaEditText, mAgeEditText;
+    private RadioGroup mGenderGroup;
     private int intGender = -1;
-
     private static IwuSQLHelper mHelper;
-
-    private Button resetBtn,applyBtn,cancelBtn;
     private String inputUserPriID = null;
     private AppCompatActivity mActivity = null;
-    private userInfo editUser;
 
-/*    private OnFragmentInteractionListener mListener;*/
+    /*    private OnFragmentInteractionListener mListener;*/
 
     public UserAddEditFragment() {
         // Required empty public constructor
@@ -66,7 +61,7 @@ public class UserAddEditFragment extends Fragment {
      *
      * @return A new instance of fragment UserAddEditFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static UserAddEditFragment newInstance() {
         return new UserAddEditFragment();
     }
@@ -93,13 +88,9 @@ public class UserAddEditFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             inputUserPriID = getArguments().getString(ARG_PARAM1);
-            //mParam1 = getArguments().getString(ARG_PARAM1);
-            //mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mActivity = (AppCompatActivity)getActivity();
-
         mHelper = new IwuSQLHelper(mActivity);
-        //editUser = new userInfo();
     }
 
     @Override
@@ -120,54 +111,34 @@ public class UserAddEditFragment extends Fragment {
             setHasOptionsMenu(true);
         }
 
-        cancelBtn = rootView.findViewById(R.id.cancelBtn);
-        resetBtn = rootView.findViewById(R.id.resetBtn);
-        applyBtn = rootView.findViewById(R.id.userApplyBtn);
+        Button resetBtn = rootView.findViewById(R.id.resetBtn);
+        Button applyBtn = rootView.findViewById(R.id.userApplyBtn);
 
         mUserIDEditText = rootView.findViewById(R.id.userIDeditText);
         mFirstNameEditText = rootView.findViewById(R.id.firstnameeditText);
         mLastNameEditText = rootView.findViewById(R.id.lastnameeditText);
-        mAngleEditText = rootView.findViewById(R.id.angleeditText);
-        mHeightEditText = rootView.findViewById(R.id.heighteditText);
         mPulmDiaEditText = rootView.findViewById(R.id.pulmDiaeditText);
         mAgeEditText = rootView.findViewById(R.id.ageEditTextNumber);
-        RadioGroup mHeightToCSAGroup = rootView.findViewById(R.id.heightToCSARadioGroup);
+
         if (mActivity.getSupportActionBar()!=null){
             Log.d(TAG,"inputUserPriID = "+inputUserPriID);
             if (inputUserPriID==null){
                 mActivity.getSupportActionBar().setTitle(getString(R.string.title_add_user));
                 resetBtn.setVisibility(View.VISIBLE);
-                cancelBtn.setVisibility(View.GONE);
                 applyBtn.setText(R.string.create);
             }else{
                 mActivity.getSupportActionBar().setTitle(getString(R.string.title_edit_user));
                 resetBtn.setVisibility(View.GONE);
-                cancelBtn.setVisibility(View.VISIBLE);
                 applyBtn.setText(R.string.apply);
             }
         }
 
-
-        mHeightToCSAGroup.setOnCheckedChangeListener((radioGroup, i) -> {
-            switch (i){
-                case R.id.yesRadioButton:
-                    strHeightToCSA = "YES";
-                    break;
-                case R.id.noRadioButton:
-                    strHeightToCSA = "NO";
-                    break;
-            }
-        });
-
-        RadioGroup mGenderGroup = rootView.findViewById(R.id.genderGroup);
+        mGenderGroup = rootView.findViewById(R.id.genderGroup);
         mGenderGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId){
-                case R.id.femaleRadioButton:
-                    intGender = userInfo.FEMALE;
-                    break;
-                case R.id.maleRadioButton:
-                    intGender = userInfo.MALE;
-                    break;
+            if(checkedId == R.id.femaleRadioButton){
+                intGender = userInfo.FEMALE;
+            }else if(checkedId == R.id.maleRadioButton){
+                intGender = userInfo.MALE;
             }
         });
 
@@ -175,9 +146,12 @@ public class UserAddEditFragment extends Fragment {
             if (hasFocus) {
                 if (mPulmDiaEditText.getText().length() == 0) {
                     try {
-                        int inputAge = Integer.parseInt(mAgeEditText.getText().toString());
-                        if (inputAge > 0 && intGender != -1) {
-                            mPulmDiaEditText.setText(Double.toString(getPADiaByGenderAge(intGender, inputAge)));
+                        String age = mAgeEditText.getText().toString();
+                        if(!age.isEmpty()){
+                            int inputAge = Integer.parseInt(mAgeEditText.getText().toString());
+                            if (inputAge > 0 && intGender != -1) {
+                                mPulmDiaEditText.setText(String.valueOf(getPADiaByGenderAge(intGender, inputAge)));
+                            }
                         }
                     } catch (Exception ex1) {
                         ex1.printStackTrace();
@@ -187,69 +161,39 @@ public class UserAddEditFragment extends Fragment {
         });
 
         if (inputUserPriID!=null){
-            editUser = IwuSQLHelper.getUserInfoFromPrimaryID(inputUserPriID,mHelper);
+            userInfo editUser = IwuSQLHelper.getUserInfoFromPrimaryID(inputUserPriID, mHelper);
             mUserIDEditText.setText(editUser.userID);
             mFirstNameEditText.setText(editUser.firstName);
             mLastNameEditText.setText(editUser.lastName);
-            mAngleEditText.setText(String.valueOf(editUser.angle));
             mPulmDiaEditText.setText(String.valueOf(editUser.pulmDiameter));
-            mHeightEditText.setText(String.valueOf(editUser.height));
-            if (editUser.heightToCSA == null){
-                //editUser.heightToCSA = "YES";
-                editUser.heightToCSA = "NO";
-            }
-            if (editUser.heightToCSA.equalsIgnoreCase("YES")){
-                //strHeightToCSA = "YES";
-                // Remove height to CSA such that set all to "NO"
-                strHeightToCSA = "NO";
-                mHeightToCSAGroup.check(R.id.yesRadioButton);
-            }else {
-                strHeightToCSA = "NO";
-                mHeightToCSAGroup.check(R.id.noRadioButton);
-            }
+
             if (editUser.gender == userInfo.FEMALE){
                 mGenderGroup.check(R.id.femaleRadioButton);
             } else {
                 mGenderGroup.check(R.id.maleRadioButton);
             }
             mAgeEditText.setText(String.valueOf(editUser.age));
-        }else{
-            //mHeightToCSAGroup.check(R.id.yesRadioButton);
-            mHeightToCSAGroup.check(R.id.noRadioButton);
         }
-
 
         resetBtn.setOnClickListener(view -> {
             mUserIDEditText.setText("");
             mFirstNameEditText.setText("");
             mLastNameEditText.setText("");
-            mAngleEditText.setText("");
-            mHeightEditText.setText("");
+            mGenderGroup.clearCheck();
+            mAgeEditText.setText("");
             mPulmDiaEditText.setText("");
+            intGender = -1;
         });
-
-        cancelBtn.setOnClickListener(view -> mActivity.onBackPressed());
 
 
         applyBtn.setOnClickListener(view -> {
             if (isInputComplete()){
-                /*Log.d(TAG,"ID: "+mUserIDEditText.getText().toString());
-                                    Log.d(TAG,"Name: "+mFirstNameEditText.getText().toString()+" "+
-                                            mLastNameEditText.getText().toString());*/
-
                 userInfo addUser = new userInfo();
 
                 addUser.firstName = mFirstNameEditText.getText().toString();
                 addUser.lastName = mLastNameEditText.getText().toString();
                 addUser.userID = mUserIDEditText.getText().toString();
-                try {
-                    addUser.height = Integer.parseInt(mHeightEditText.getText().toString());
-                }catch (Exception ex1){
-                    addUser.height = 170;
-                }
-                addUser.angle = Integer.parseInt(mAngleEditText.getText().toString());
                 addUser.pulmDiameter = Double.parseDouble(mPulmDiaEditText.getText().toString());
-                addUser.heightToCSA = strHeightToCSA;
                 addUser.gender = intGender;
                 addUser.age = Integer.parseInt(mAgeEditText.getText().toString());
 
@@ -282,7 +226,7 @@ public class UserAddEditFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         Log.d(TAG,"onCreateOptionMenu");
         inflater.inflate(R.menu.fake_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -290,7 +234,6 @@ public class UserAddEditFragment extends Fragment {
 
 
     private boolean isInputComplete(){
-
         if (mUserIDEditText.getText().toString().equalsIgnoreCase("")){
             showInputErrorDialog(getString(R.string.msg_id_cannot_empty));
             return false;
@@ -299,47 +242,30 @@ public class UserAddEditFragment extends Fragment {
             showInputErrorDialog(getString(R.string.msg_first_name_cannot_empty));
             return false;
         }
+
         if (mLastNameEditText.getText().toString().equalsIgnoreCase("")){
             showInputErrorDialog(getString(R.string.msg_last_name_cannot_empty));
             return false;
         }
-        try {
-            String angleString = mAngleEditText.getText().toString();
-            int iValue = Integer.decode(angleString);
-            if (iValue < 0) {
-                showInputErrorDialog("The Angle is less than 0 degree");
-                return false;
-            }
-        }catch(Exception ex1){
-            showInputErrorDialog("The Angle is not a number");
+
+        if(mGenderGroup.getCheckedRadioButtonId() == -1){
+            showInputErrorDialog(getString(R.string.msg_gender_cannot_empty));
             return false;
         }
-        try{
-            String heightStr = mHeightEditText.getText().toString();
-            int heightDec = Integer.parseInt(heightStr);
-            if (heightDec < 50){
-                showInputErrorDialog(getString(R.string.msg_height_cannot_less_50));
-                //return false;
-            }
-        }catch (Exception ex1){
-            ex1.printStackTrace();
-            // showInputErrorDialog(getString(R.string.msg_height_not_number));
-            // Skip height check!
-            //return false;
+
+        String ageStr = mAgeEditText.getText().toString();
+        if(ageStr.isEmpty()){
+            showInputErrorDialog(getString(R.string.msg_age_cannot_empty));
+            return false;
         }
 
-        try{
-            String pulmDiaStr = mPulmDiaEditText.getText().toString();
-            double pulmDiaDec = Double.parseDouble(pulmDiaStr);
-            if (pulmDiaDec <= 0){
-                showInputErrorDialog(getString(R.string.msg_pulm_cannot_less_0));
-                return false;
-            }
-        }catch (Exception ex1){
-            ex1.printStackTrace();
+        String pulmDiaStr = mPulmDiaEditText.getText().toString();
+
+        if(pulmDiaStr.isEmpty() || pulmDiaStr.indexOf(".") == 0){
             showInputErrorDialog(getString(R.string.msg_pulm_dia_not_number));
             return false;
         }
+
         return true;
     }
 
@@ -439,7 +365,7 @@ public class UserAddEditFragment extends Fragment {
                 return 24.0;
             }
         } else {
-            if (inputAge <45 && inputAge > 0){
+            if (inputAge < 45 && inputAge > 0){
                 return 25.7;
             } else if (inputAge >= 45 && inputAge < 55) {
                 return 25.6;
@@ -448,45 +374,4 @@ public class UserAddEditFragment extends Fragment {
             }
         }
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-/*    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }*/
-
-/*
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-*/
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-/*    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }*/
 }
