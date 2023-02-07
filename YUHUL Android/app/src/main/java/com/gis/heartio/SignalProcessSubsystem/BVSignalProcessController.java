@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsysII.BVProcessSubsysII;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
@@ -207,7 +208,6 @@ public class BVSignalProcessController {
                                     //processAllSegmentHRByPeakMode();
                                     //processResultBloodSignal();
                                     prepareWuDoppler();
-
                                     MainActivity.mBVSignalProcessorPart2Array[0].processAllSegmentHRnVTIOne();
                                     MainActivity.mBVSignalProcessorPart2Array[0].processResultBloodSignalByNoSelOne();
 
@@ -1584,7 +1584,6 @@ public class BVSignalProcessController {
                 //processAllSegmentHRByPeakMode();
                 //processResultBloodSignal();
                 prepareWuDoppler();
-
                 MainActivity.mBVSignalProcessorPart2Array[0].processAllSegmentHRnVTIOne();
                 MainActivity.mBVSignalProcessorPart2Array[0].processResultBloodSignalByNoSelOne();
 

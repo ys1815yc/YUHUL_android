@@ -30,8 +30,10 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -42,6 +44,7 @@ import androidx.fragment.app.FragmentManager;
 import com.gis.BLEConnectionServices.BluetoothLeService;
 import com.gis.CommonFragments.ServiceDiscoveryFragment;
 import com.gis.CommonUtils.Constants;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessorPart1;
 import com.gis.heartio.SignalProcessSubsystem.RawDataProcessor;
@@ -134,7 +137,8 @@ public class onlineFragment extends Fragment {
     private dataInfo currentResult;
 
     private ImageView greenLightImg;
-
+    private Handler mHandler;
+    private Runnable mRunnable;
     public onlineFragment() {
         //SystemConfig.mEnumUltrasoundUIState = SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE;
         //if(SystemConfig.mEnumUltrasoundUIState == SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE){
@@ -157,7 +161,6 @@ public class onlineFragment extends Fragment {
             mApplication = (heartioApplication) getActivity().getApplication();
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -246,9 +249,23 @@ public class onlineFragment extends Fragment {
                     mBtnCalculate.setEnabled(false);
                     mBtnSave.setEnabled(false);
 
+                    mHandler = new Handler();
+                    mRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            if(MainActivity.mIsNotifyEnabled){
+                                mTBtnTryNotify.setChecked(false);
+                                mHandler.postDelayed(this, 300L);
+                            } else {
+                                mTBtnTryNotify.setChecked(true);
+                            }
+                        }
+                    };
+                    mHandler.postDelayed(mRunnable,75 * 1000L);
+
                     if (!SystemConfig.mTestMode) {
                         // 5 mins 1 min per tick
-                        mCountdownTimer = new CountDownTimer(300000, 60000) {
+                        mCountdownTimer = new CountDownTimer(300 * 1000L, 60 * 1000L) {
                             @Override
                             public void onTick(long l) {
                                 int iProgress = (5 - (int) (l / 60000));
@@ -275,6 +292,9 @@ public class onlineFragment extends Fragment {
                     }
                 } else {
                     MainActivity.mIsNotifyEnabled = false;
+                    if(mHandler != null){
+                        mHandler.removeCallbacks(mRunnable);
+                    }
                     tryStopAction();
 //                    mTBtnRec.setVisibility(View.GONE);      // Viento want it visible after first record.
                     if (!SystemConfig.mTestMode) {
@@ -1263,10 +1283,14 @@ public class onlineFragment extends Fragment {
 
         if (MainActivity.mIsNotifyEnabled) {
             tryEndAction(true);
+            if (mHandler != null) {
+                mHandler.removeCallbacks(mRunnable);
+                mHandler = null;
+            }
         }
+        GIS_Log.Leslie_LogCat("Leslie", "onDestroy");
         super.onDestroy();
     }
-
 
     private View.OnClickListener btnNotifyOnClick = view -> {
         String strDebug;
