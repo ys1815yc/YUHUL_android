@@ -1273,7 +1273,7 @@ public class offlineFragment extends Fragment {
                 MainActivity.mRawDataProcessor.prepareStartOffLine();
                 /*boolSuccess = mOffLineRawDataUiManager.getRawDataFromFile();*/
                 if (MainActivity.mRawDataProcessor.isFileTxtType(inputPath)){
-                    hasECG = true;
+                    hasECG = true; //ECG心電圖
                     showECGView(true);
                     boolSuccess = MainActivity.mRawDataProcessor.setDataFromTxtFile(inputPath);
                 }else {
@@ -1611,6 +1611,7 @@ public class offlineFragment extends Fragment {
             } else {
                 SystemConfig.initItriDevice44K();
             }
+            Log.d(TAG, String.valueOf(enumDeviceType));
             return true;
         }else if (MainActivity.mRawDataProcessor.isFileTxtType(strNoPathFileName)){
             Log.d(TAG,"It is a text file!!!!!!");

@@ -531,341 +531,346 @@
         android:layout_toEndOf="@id/svSpace"
         android:background="@android:color/white"
         android:visibility="visible" />
+
     <LinearLayout
         android:id="@+id/svUltrasoundParant"
-        android:layout_margin="0dp"
-        android:padding="0dp"
-        android:layout_below="@id/svTimeScaleUp"
-        android:layout_toEndOf="@id/svScale"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:orientation="horizontal">
+        android:layout_below="@id/svTimeScaleUp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@id/svScale"
+        android:orientation="horizontal"
+        android:padding="0dp">
+
         <SurfaceView
             android:id="@+id/svUltrasoundOnline0"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline1"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline2"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline3"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline4"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline5"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline6"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline7"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline8"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline9"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline10"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline11"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline12"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline13"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline14"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline15"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline16"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline17"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline18"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline19"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline20"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline21"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline22"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline23"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline24"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline25"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline26"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline27"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline28"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline29"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline30"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasoundOnline31"
-            android:layout_margin="0dp"
-            android:padding="0dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:padding="0dp"
+            android:visibility="gone" />
 
         <SurfaceView
             android:id="@+id/svUltrasound"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 

@@ -92,7 +92,7 @@ public class GIS_Log {
     @SuppressWarnings("SameParameterValue")
     public static void Leslie_Log(String pre,short[] in){
         try{
-            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/t444555556";
+            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/Doris";
             SimpleDateFormat df;
             df = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String strDate = df.format(new Date());
@@ -104,6 +104,10 @@ public class GIS_Log {
                 bw.write(String.valueOf(temp) + ",");
                 bw.newLine();
             }
+//            for (int i=0; i<in.length; i++){
+//                bw.write(i + ": " + String.valueOf(in[i]) + ",");
+//                bw.newLine();
+//            }
             bw.close();
         }catch(IOException e){
             e.printStackTrace();
