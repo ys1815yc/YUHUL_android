@@ -37,17 +37,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9933dbae-283d-49d7-af56-08ea8ba33006" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/GIS_Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/GIS_Log.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/RawDataProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/RawDataProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/offlineFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/offlineFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_item_online.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_item_online.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[FA87P1800490]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />

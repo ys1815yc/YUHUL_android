@@ -5,6 +5,10 @@ package com.gis.heartio.SignalProcessSubsystem;
  */
 
 
+import static com.gis.heartio.GIS_Log.storeByteToRawData16K;
+import static com.gis.heartio.GIS_Log.storeByteToRawData8K;
+import static com.gis.heartio.SignalProcessSubsystem.BVSignalProcessorPart1.isHRStableCount;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
@@ -14,7 +18,6 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
-import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
 import com.gis.heartio.SupportSubsystem.MyDataFilter2;
@@ -147,7 +150,7 @@ public class RawDataProcessor {
     // Audio Classifier
     private AudioClassifier audioClassifier = null;
     private  TensorAudio tensorAudio = null;
-    private int classificationIntervalPts = 1000; //原本4000
+    private int classificationIntervalPts = 4000; //原本4000
 
     private final String MODEL_FILE = "03_3.tflite";  //"soundclassifier_with_metadata.tflite";
      //"USPA_model_14.tflite";
@@ -870,7 +873,7 @@ public class RawDataProcessor {
 
             if (mIntDataNextIndex == SystemConfig.mIntUltrasoundSamplesMaxSizeForRun) {
                 mIntDataNextIndex=0;
-            }else if(mIntDataNextIndex % classificationIntervalPts == 0){
+            }else if((mIntDataNextIndex % classificationIntervalPts == 0) && isHRStableCount>=3){ //加上HR穩定條件 2023/02/13 by Doris
                  classificationUSPA();
             }
         }
@@ -1147,42 +1150,6 @@ public class RawDataProcessor {
             //SystemConfig.mMyEventLogger.appendDebugStr(ex.toString(),"");
         }
     }
-
-    /* 將原始raw data儲存下來 2023/02/04 by Doris */
-    public void storeByteToRawData16K(){
-        try{
-            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/Doris";
-            SimpleDateFormat df;
-            df = new SimpleDateFormat("yyyyMMdd_HHmmss");
-            String strDate = df.format(new Date());
-            String filename = exportDirPath + "/raw_" + strDate + ".raw";
-
-            File file= new File(filename);
-//            Objects.requireNonNull(file.getParentFile()).mkdirs();
-
-            FileOutputStream fileOutputStream = new FileOutputStream(file, true);
-//            setWavFileHeaderByteArray();
-//            fileOutputStream.write(mByteArrayWavHeader, 0, 44);
-
-            /* length = 448000 */
-            int length = 448000;
-            byte[] temp = new byte[length];
-            Log.d("length: ", String.valueOf(temp.length));
-            for(int i = 0 ; i < length/4 ; i++){ //分兩個byte來存
-                temp[i * 4] = (byte)(mShortUltrasoundDataBeforeFilter[i] & 0xFF);
-                temp[i * 4 + 2] = (byte)(mShortUltrasoundDataBeforeFilter[i] & 0xFF);
-                temp[i * 4 + 1] = (byte)((mShortUltrasoundDataBeforeFilter[i] >> 8) & 0xFF);
-                temp[i * 4 + 3] = (byte)((mShortUltrasoundDataBeforeFilter[i] >> 8) & 0xFF);
-            }
-            fileOutputStream.write(temp);
-            fileOutputStream.close();
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-
 
      public void setTimeScaleMiniSecsFromDateStr(String strDate){
         Calendar calendarVar;
@@ -2168,13 +2135,21 @@ public class RawDataProcessor {
     }
 
     /* 將8K轉成16K 2023/02/06 by Doris */
-    public short[] resampleTo16k(){
+    public short[] resampleTo16k(short[] rawArray){
         int length = 224000;
         short[] temp = new short[length];
-//        Log.d("length: ", String.valueOf(temp.length));
+//        for(int i = 0 ; i < length/2 ; i++){ //複製同樣的點
+//            temp[i * 2] = mShortUltrasoundDataBeforeFilter[i];
+//            temp[i * 2 + 1] = mShortUltrasoundDataBeforeFilter[i];
+//        }
+
         for(int i = 0 ; i < length/2 ; i++){
-            temp[i * 2] = mShortUltrasoundDataBeforeFilter[i];
-            temp[i * 2 + 1] = mShortUltrasoundDataBeforeFilter[i];
+            temp[i * 2] = rawArray[i];
+            if(i == 111999){
+                temp[i * 2 + 1] = rawArray[i];
+            }else{
+                temp[i * 2 + 1] = (short) ((rawArray[i] + rawArray[i+1]) / 2);
+            }
         }
         return temp;
     }
@@ -2186,11 +2161,11 @@ public class RawDataProcessor {
 //                  tensorAudio.load(mShortUltrasoundDataBeforeFilter
 //                          ,mIntDataNextIndex-classificationIntervalPts,classificationIntervalPts);
 //                  tensorAudio.load(resampleTo16k());
-                  tensorAudio.load(resampleTo16k()
-                          ,mIntDataNextIndex-classificationIntervalPts,classificationIntervalPts);
+                  tensorAudio.load(resampleTo16k(mShortUltrasoundDataBeforeFilter)
+                          ,mIntDataNextIndex*2-classificationIntervalPts,classificationIntervalPts);
 
-                  Log.d("mIntDataNextIndex: ", String.valueOf(mIntDataNextIndex));
-                  Log.d("mShortUltrasoundDataBeforeFilter: ", String.valueOf(mShortUltrasoundDataBeforeFilter.length));
+                  Log.d("mIntDataNextIndex: ", String.valueOf(mIntDataNextIndex*2));
+//                  Log.d("mShortUltrasoundDataBeforeFilter: ", String.valueOf(mShortUltrasoundDataBeforeFilter.length));
                   List<Classifications> output = audioClassifier.classify(tensorAudio);
 
                   List<Category> filteredCategory =
@@ -2203,18 +2178,13 @@ public class RawDataProcessor {
                   if(outputSplit[0].contains("PA")){
                       SystemConfig.isPAvoice ++;
                       Log.d(TAG, String.valueOf(SystemConfig.isPAvoice));
-//                      if (SystemConfig.isPAvoice >= 15){
-//                          storeByteToRawData16K();
+//                      if (SystemConfig.isPAvoice >= 10){
+//                          storeByteToRawData16K(mShortUltrasoundDataBeforeFilter);
 //                      }
                   }else{
                       SystemConfig.isPAvoice = 0;
                       Log.d(TAG, "clear PA count~");
                   }
-
-//                  for (int i=0; i<mShortUltrasoundDataBeforeFilter.length; i++){
-//                      Log.d("mShort", String.valueOf(mShortUltrasoundDataBeforeFilter[i]));
-//                      Log.d("mShort", i + " value : " + mShortUltrasoundDataBeforeFilter[i]);
-//                  }
 
                   Log.d(TAG, outputString);
 //                  Log.d("mShortUltrasoundDataBeforeFilter", String.valueOf(mShortUltrasoundDataBeforeFilter.length));
