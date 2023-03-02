@@ -55,6 +55,7 @@ import com.gis.heartio.heartioApplication;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -256,8 +257,10 @@ public class onlineFragment extends Fragment {
                             if(MainActivity.mIsNotifyEnabled){
                                 mTBtnTryNotify.setChecked(false);
                                 mHandler.postDelayed(this, 300L);
+//                                Log.d("setChecked", "setChecked(false)");
                             } else {
                                 mTBtnTryNotify.setChecked(true);
+//                                Log.d("setChecked", "setChecked(true)");
                             }
                         }
                     };
@@ -296,6 +299,8 @@ public class onlineFragment extends Fragment {
                         mHandler.removeCallbacks(mRunnable);
                     }
                     tryStopAction();
+                    /* 將接收raw data的陣列清空 2023/02/23 by Doris */
+                    Arrays.fill(MainActivity.mRawDataProcessor.mShortUltrasoundDataBeforeFilter, (short) 0);
 //                    mTBtnRec.setVisibility(View.GONE);      // Viento want it visible after first record.
                     if (!SystemConfig.mTestMode) {
                         mCountdownTimer.cancel();

@@ -37,10 +37,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9933dbae-283d-49d7-af56-08ea8ba33006" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/GIS_Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/GIS_Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/BVSignalProcessorPart1.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/BVSignalProcessorPart1.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/RawDataProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/RawDataProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/MyPlotterBloodVelocity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/MyPlotterBloodVelocity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/onlineFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/onlineFragment.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,6 +215,11 @@
     <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/view/SurfaceView.java_SELECTED" value="SurfaceView" />
     <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/view/View.java_SELECTED" value="View" />
     <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/widget/CompoundButton.java_SELECTED" value="CompoundButton" />
+    <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/widget/NumberPicker.java_SELECTED" value="NumberPicker" />
+    <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/widget/ProgressBar.java_SELECTED" value="ProgressBar" />
+    <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/widget/ToggleButton.java_SELECTED" value="ToggleButton" />
+    <property name="android-custom-viewC:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgSegView.java_SELECTED" value="EcgSegView" />
+    <property name="android-custom-viewC:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgView.java_SELECTED" value="EcgView" />
     <property name="android-custom-viewC:/Users/windo/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.3.1/45a346a05e7ff27a01c59452379c5939cbb53c03/appcompat-1.3.1-sources.jar!/androidx/appcompat/widget/ActionBarOverlayLayout.java_SELECTED" value="ActionBarOverlayLayout" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../examples-master/examples-master/lite/examples/audio_classification/android" />
@@ -747,11 +753,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/onlineFragment.java</url>
-          <line>707</line>
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsysII/utilities/Doppler.java</url>
           <line>1349</line>

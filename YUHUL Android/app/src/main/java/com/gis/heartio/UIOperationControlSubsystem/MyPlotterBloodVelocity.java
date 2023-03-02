@@ -109,6 +109,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             mSurfaceViewTimeScaleDown = oFrag.mSurfaceViewTimeScaleDown;
             mSurfaceViewTimeScaleUp = oFrag.mSurfaceViewTimeScaleUp;
             initPaintsAndColor();
+            Log.d("test", "online");
             drawFreqScale(this.mSurfaceViewScale);
             initSurfaceHolderOffline();
             clearCanvasByHolder(mSurfaceHolderBVOffLine);
@@ -127,6 +128,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             mSurfaceViewTimeScaleDown = offFrag.mSurfaceViewTimeScaleDown;
             mSurfaceViewTimeScaleUp = offFrag.mSurfaceViewTimeScaleUp;
             initPaintsAndColor();
+            Log.d("test", "offline");
             drawFreqScale(this.mSurfaceViewScale);
             initSurfaceHolderOffline();
             clearCanvasByHolder(mSurfaceHolderBVOffLine);
@@ -276,7 +278,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             mSurfaceHolderBVOffLine.addCallback(new SurfaceHolder.Callback() {
                 @Override
                 public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                    //Log.d(TAG,"mSurfaceHolderBVOffLine surfaceCreated!!!!!!!!");
+//                    Log.d(TAG,"mSurfaceHolderBVOffLine surfaceCreated!!!!!!!!");
                     clearCanvasByHolder(mSurfaceHolderBVOffLine);
                     if (needRedrawBVCanvas){
                         drawBloodVelocityByStartEndSubSegIdxOffLine(redrawStartIdx, redrawEndIdx, false);
@@ -434,6 +436,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
                                 if (doubleAmpVal > 0) {
                                     mPaintVelocity.setColor(getPaintColor(doubleAmpVal));
+//                                    Log.d("color", String.valueOf(getPaintColor(doubleAmpVal)));
                                     if (SystemConfig.mBloodVelocityPlotterDrawType == SystemConfig.BLOOD_VELOCITY_PLOTTER_DRAW_TYPE_ENUM.TYPE_LINE) {
                                         if (iYVar == 0) {
                                             canvas.drawPoint((int) fPosX, (int) fPosY2, mPaintVelocity);
@@ -481,7 +484,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             if (SystemConfig.darkMode){
                 canvas.drawColor(Color.BLACK);
             }else{
-                canvas.drawColor(Color.WHITE);
+                canvas.drawColor(Color.WHITE); //雨刷
             }
             surfaceHolder.unlockCanvasAndPost(canvas);
             canvas = null;
@@ -1220,12 +1223,14 @@ public class MyPlotterBloodVelocity extends MyPlotter {
         doubleStepGap = SystemConfig.mDoubleNoiseRangeWu * 0.0223;  // *0.9 to reduce contrast by Cavin
         //doubleStepGap = (SystemConfig.mDoubleSignalStrengthMaxWu - SystemConfig.mDoubleNoiseStrengthWu) / 255.0;
         mDoubleColorSignalAmps[grayBoundary] = SystemConfig.mDoubleNoiseStrengthWu;
+
         for(iVar = 1 ; iVar< DRAW_COLOR_SIZE ; iVar++){
             if (iVar<grayBoundary){
                 mDoubleColorSignalAmps[iVar] = mDoubleColorSignalAmps[grayBoundary] + doubleStepGap * (grayBoundary - iVar);
             } else {
                 mDoubleColorSignalAmps[iVar] = mDoubleColorSignalAmps[grayBoundary] + doubleStepGap * (iVar);
             }
+//            Log.d("prepareColorMapToSignalWuMode210713", String.valueOf(mDoubleColorSignalAmps[iVar]));
         }
     }
 
@@ -1360,6 +1365,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
         //int iRed, iGreen, iBlue;
 
         iTheIdx = Arrays.binarySearch(mDoubleColorSignalAmps, doubleSignalStrength);
+//        Log.d("getPaintColorWuMode", String.valueOf(iTheIdx));
         if (iTheIdx < 0) {
             iTheIdx = -iTheIdx-1;
         }
