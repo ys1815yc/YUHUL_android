@@ -13,16 +13,19 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
-import com.gis.heartio.GIS_Log;
+import com.gis.heartio.GIS_VoiceAI;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
-import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
 import com.gis.heartio.SupportSubsystem.MyDataFilter2;
 import com.gis.heartio.SupportSubsystem.SystemConfig;
 import com.gis.heartio.SupportSubsystem.Utilitys;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 import com.gis.heartio.UIOperationControlSubsystem.UserManagerCommon;
 import com.gis.heartio.heartioApplication;
-import com.gis.heartio.GIS_VoiceAI;
+
+import org.tensorflow.lite.support.audio.TensorAudio;
+import org.tensorflow.lite.support.label.Category;
+import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
+import org.tensorflow.lite.task.audio.classifier.Classifications;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -42,11 +45,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
-// Audio classifier
-import org.tensorflow.lite.support.audio.TensorAudio;
-import org.tensorflow.lite.support.label.Category;
-import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
-import org.tensorflow.lite.task.audio.classifier.Classifications;
 
 public class RawDataProcessor {
 
@@ -324,11 +322,11 @@ public class RawDataProcessor {
 
             mIntLostCount = 0;
             mIntTotalPacketCount = 0;
-//            try {
-//                startAudioClassification();  GIS_VoiceAI
-//            }catch (IOException ex1){
-//                ex1.printStackTrace();
-//            }
+            try {
+                startAudioClassification();
+            }catch (IOException ex1){
+                ex1.printStackTrace();
+            }
 
        // }catch(Exception ex1){
             //SystemConfig.mMyEventLogger.appendDebugStr("RawDataProc.prepareStartOnLine.Exception","");
@@ -902,9 +900,7 @@ public class RawDataProcessor {
                 mIntDataNextIndex=0;
 //            }else if((mIntDataNextIndex % classificationIntervalPts == 0) && isHRStableCount>=3){ //加上HR穩定條件 2023/02/13 by Doris
             }else if(mIntDataNextIndex % classificationIntervalPts == 0){ // 1秒呼叫一次
-//                classificationUSPA();
-                GIS_VoiceAI.judgeVoice(mShortUltrasoundDataBeforeFilter, mIntDataNextIndex);
-//                Log.e("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
+                GIS_VoiceAI.judgeVoice(tensorAudio, audioClassifier, mShortUltrasoundDataBeforeFilter, mIntDataNextIndex);
             }
         }
     }
@@ -2162,89 +2158,5 @@ public class RawDataProcessor {
 
         audioClassifier = classifier;
         tensorAudio = audioTensor;
-    }
-
-    /* 將8K轉成16K 2023/02/06 by Doris */
-    public short[] resampleTo16k(short[] rawArray){
-        int length = 16000;
-        short[] temp = new short[length];
-//        for(int i = 0 ; i < length/2 ; i++){ //複製同樣的點
-//            temp[i * 2] = mShortUltrasoundDataBeforeFilter[i];
-//            temp[i * 2 + 1] = mShortUltrasoundDataBeforeFilter[i];
-//        }
-
-        for(int i = 0 ; i < length/2 ; i++){
-            temp[i * 2] = rawArray[i];
-            if(i == 7999){
-                temp[i * 2 + 1] = rawArray[i];
-            }else{
-                temp[i * 2 + 1] = (short) ((rawArray[i] + rawArray[i+1]) / 2);
-            }
-        }
-        return temp;
-    }
-
-    public void classificationUSPA(){
-//        Log.d("inside "+mIntDataNextIndex, String.valueOf(mShortUltrasoundDataBeforeFilter[mIntDataNextIndex]));
-
-        if (tensorAudio!=null &&
-                mShortUltrasoundDataBeforeFilter!=null &&
-                mIntDataNextIndex>=classificationIntervalPts){
-
-            short[] temp = Arrays.copyOfRange(mShortUltrasoundDataBeforeFilter,mIntDataNextIndex-classificationIntervalPts, mIntDataNextIndex);
-            tensorAudio.load(resampleTo16k(temp));
-//                  tensorAudio.load(mShortUltrasoundDataBeforeFilter
-//                          ,mIntDataNextIndex-classificationIntervalPts,classificationIntervalPts);
-
-                  /* 驗證 mShortUltrasoundDataBeforeFilter的value 2023/03/02 by Doris*/
-//                  for(int i=0; i< mShortUltrasoundDataBeforeFilter.length; i+=8000){
-//                      if(!lastData){
-//                          lastArray = mShortUltrasoundDataBeforeFilter.clone();
-//                          lastData = true;
-//                          continue;
-//                      }
-//                      Log.d("mShortArray "+i, String.valueOf(mShortUltrasoundDataBeforeFilter[i]));
-//                      if (Math.abs(mShortUltrasoundDataBeforeFilter[i] - lastArray[i]) == 0){
-////                          Log.d("lastArray ", String.valueOf(i));
-////                          Log.d("nowArray "+i, String.valueOf(mShortArray[i]));
-////                          Log.d("nowArray "+i, String.valueOf(mShortUltrasoundDataBeforeFilter[i]));
-//                      }
-//                      lastArray = mShortUltrasoundDataBeforeFilter.clone();
-//                      Log.d("lastArray "+i, String.valueOf(lastArray[i]));
-////                      Log.d("lastData"+i, String.valueOf(lastData == false));
-//                  }
-
-
-                  List<Classifications> output = audioClassifier.classify(tensorAudio);
-
-                  List<Category> filteredCategory =
-                          output.get(0).getCategories().stream()
-                                  .filter(it->it.getScore()>MINIMUM_DISPLAY_THRESHOLD)
-                                  .collect(Collectors.toList());
-
-                  String outputString = filteredCategory.toString();
-                  String outputSplit[] = outputString.split(",");
-                  if(outputSplit[0].contains("PA")){
-                      SystemConfig.isPAvoice ++;
-                      Log.d(TAG, String.valueOf(SystemConfig.isPAvoice));
-//                      if (SystemConfig.isPAvoice >= 10){
-//                          storeByteToRawData16K(mShortUltrasoundDataBeforeFilter);
-//                      }
-                  }else{
-                      SystemConfig.isPAvoice = 0;
-//                      Log.d(TAG, "clear PA count~");
-                  }
-
-                  Log.d(TAG, outputString);
-//                  Log.d("mIntDataNextIndex"+mIntDataNextIndex, String.valueOf(mShortUltrasoundDataBeforeFilter[mIntDataNextIndex]));
-//                  Log.d("mIntDataNextIndex"+mIntDataNextIndex, String.valueOf(mIntDataNextIndex-classificationIntervalPts));
-//                  Log.d("tensorAudio", String.valueOf(tensorAudio.getFormat()));
-//                  Log.d("audioClassifier", String.valueOf(audioClassifier));
-//                  Log.d("audioClassifier", String.valueOf(audioClassifier.getRequiredTensorAudioFormat()));
-//                  Log.d("output", String.valueOf(output));
-//                  Log.d("sampleRate", String.valueOf(SystemConfig.mIntUltrasoundSamplerate));
-//                  Log.d(TAG,outputSplit[0]);
-
-              }
     }
 }

@@ -8,13 +8,18 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GIS_Algorithm {
-    //private final static String TAG = GIS_Algorithm.class.getSimpleName();
+    private final static String TAG = GIS_Algorithm.class.getSimpleName();
+
     private final static int ALL_SET_IN_SEG = 129;
     public final static  double ONE_SEGMENT_WITH_N_HZ = 4000.0 / (double) ALL_SET_IN_SEG;
     private final static int INVALID_FREQUENCY = 19;
     public final static int PKS_ARRAY = 0;
     public final static int LOC_ARRAY = 1;
     private final static int PKS_AND_LOC_ARRAY_NUM = LOC_ARRAY + 1;
+
+    private final static int LOW_FREQUENCY_SEG_OFFSET = 13;
+
+    private final static int HUMAN_C = 1540;
 
     private enum WaveCondition{
         FIND_TURNING_POINT,
@@ -55,7 +60,85 @@ public class GIS_Algorithm {
         }
     }
 
+    private static class vf3AndP1Result{
+        double[] vf3;
+        double[][] p1;
+    }
+
+    private static class voteResult{
+        public double meanValue;
+        public double maxVoteNum;
+        public double realValue;
+    }
+
+    public static class vtiBoundaryResult{
+        public double[] startLocationsOffline;
+        public double[] endLocationsOffline;
+        public double startLocationRealTime;
+        public double endLocationRealTime;
+    }
+
+    public static class vtiAndVpkResult{
+        public double vtiResult;
+        public double vpkResult;
+    }
+
+
     //For GIS subroutine---------------------------------------------------
+    private static double[] IpcSingle(double[] p_in) {
+        int width = p_in.length;
+        double sum = sum(p_in);
+        double[] result = new double[width];
+        double temp = p_in[0];
+        result[0] = temp / sum;
+        for(int i = 1 ; i < width ; i++){
+            temp += p_in[i];
+            result[i] = temp / sum;
+        }
+        return result;
+    }
+
+    private static double[][] IpcMulti(double[][] p_in){
+        double[] temp = new double[p_in.length];
+        int column = p_in[0].length;
+        int row = p_in.length;
+
+        for (int countColumn = 0 ; countColumn < column ; countColumn++) {
+            for (int countRow = 0; countRow < row; countRow++) {
+                temp[countRow] = p_in[countRow][countColumn];
+            }
+            temp = IpcSingle(temp);
+            for (int countRow = 0; countRow < row; countRow++) {
+                p_in[countRow][countColumn] = temp[countRow];
+            }
+        }
+        return p_in;
+    }
+
+    private static double findIpcToLineMaxDistanceIndex(double[] nipc){
+        double[] result = new double[nipc.length];
+        double index = 0 , maxValue;
+        //ax+by+c=0,a=1,b=-116,c=-13 => distance = (ax'+by'+c) / (a^2+b^2)^0.5
+        double a = 1;
+        double b = -116;
+        double c = -LOW_FREQUENCY_SEG_OFFSET;
+
+        for(int i = 0 ; i < (nipc.length - LOW_FREQUENCY_SEG_OFFSET) ; i++){
+            double x0 = LOW_FREQUENCY_SEG_OFFSET + (i + 1);
+            double y0 = nipc[LOW_FREQUENCY_SEG_OFFSET + i];
+            result[i] = (Math.abs(x0 + b * y0 +c) / Math.pow((a*a + b*b),0.5));
+        }
+
+        maxValue = result[0];
+        for (int i = 0 ; i < result.length ; i++) {
+            if(result[i] >= maxValue){
+                maxValue = result[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+
     public static double Doppler_angle(double[] fmaxArray, double[][] spectrum ){
         ArrayList<List<Double>> resultArrayList = MeasurementByBW(fmaxArray,spectrum,1);
         double[] STFT_Out = resultArrayList.get(0).stream().mapToDouble(i -> i).toArray();
@@ -69,7 +152,7 @@ public class GIS_Algorithm {
             degree[j] = (int) Math.round(Interpolation(bwDivideFmax, STD_angle, mean_BW[j]));
         }
 
-        return findAvgAngleByVote(degree, 5);
+        return findAvgParaByVote(degree, 5).meanValue;
     }
 
     private static double[] cross_point(double fmax_value){
@@ -111,10 +194,10 @@ public class GIS_Algorithm {
     }
 
     //old function name: max_vote
-    @SuppressWarnings("SameParameterValue")
-    private static double findAvgAngleByVote(int[] values, int percentage){
+
+    private static voteResult findAvgParaByVote(int[] values, int percentage){
         int maxCount = 0;
-        double meanValue = 0;
+        voteResult result = new voteResult();
 
         for (int value : values) {
             int count = 0;
@@ -132,11 +215,13 @@ public class GIS_Algorithm {
 
             if (count > maxCount) {
                 maxCount = count;
-                meanValue = sum / (double) count;
+                result.meanValue = sum / (double) count;
+                result.maxVoteNum = count;
+                result.realValue = value;
             }
         }
 
-        return meanValue;
+        return result;
     }
 
     //old function name: find_top_n_pk,uncheck
@@ -852,9 +937,54 @@ public class GIS_Algorithm {
         return Z.stream().mapToDouble(i -> i).toArray();
     }
 
+
     //For final algorithm---------------------------------------------------
-    public static double findDopplerAngle(){
+    private static vf3AndP1Result findVf3AndP1(){
         double[] rawDataNormalize = new double[BloodVelocityConfig.INTEGER_ULTRASOUND_CAPTURE_LENGTH_PTS];
+        vf3AndP1Result result = new vf3AndP1Result();
+
+        for (int i = 0 ; i < rawDataNormalize.length ; i++){
+            rawDataNormalize[i] = MainActivity.mRawDataProcessor.mShortUltrasoundDataBeforeFilter[i] / 32768.0;
+        }
+
+        double rawDataNormalizeMean = mean(rawDataNormalize);
+        double[] ZK = new double[rawDataNormalize.length];
+        for (int i = 0 ; i < ZK.length ; i++){
+            ZK[i] = 16 * (rawDataNormalize[i] - rawDataNormalizeMean);
+        }
+
+        double[][] pp1 = Spectrogram(ZK, 256, 192);
+        result.p1 = normal(pp1);
+
+        SnsiVf3Result vf =  SNSI_VF3(pp1);
+        double[] vf2 = vf.vf.stream().mapToDouble(i -> i).toArray();
+        double[] X2 = vf.xx.stream().mapToDouble(i -> i).toArray();
+        result.vf3 = VF_fit(X2 , vf2);
+
+        return result;
+    }
+
+    private static void findVtiAndVpk(vf3AndP1Result value, double angle){
+        //**********************************
+        MainActivity.mVtiBoundaryResultByGIS = new vtiBoundaryResult();
+        MainActivity.mVtiAndVpkResultByGIS = new vtiAndVpkResult();
+        MainActivity.mVtiBoundaryResultByGIS = Doppler_VTI_Offline(value.p1);
+        MainActivity.mVtiAndVpkResultByGIS = CalculateVtiAndVpk(MainActivity.mVtiBoundaryResultByGIS, value.vf3, angle);
+        StringBuilder startMsg = new StringBuilder();
+        StringBuilder endMsg = new StringBuilder();
+        for (int i = 0 ; i < MainActivity.mVtiBoundaryResultByGIS.startLocationsOffline.length ; i++) {
+            startMsg.append(MainActivity.mVtiBoundaryResultByGIS.startLocationsOffline[i]).append(", ");
+            endMsg.append(MainActivity.mVtiBoundaryResultByGIS.endLocationsOffline[i]).append(", ");
+        }
+        GIS_Log.e(TAG,"start = [" + startMsg + "]");
+        GIS_Log.e(TAG,"end = [" + endMsg + "]");
+        //**********************************
+    }
+
+    public static double findDopplerAngle(){
+        double angleResult;
+        vf3AndP1Result result = findVf3AndP1();
+  /*      double[] rawDataNormalize = new double[BloodVelocityConfig.INTEGER_ULTRASOUND_CAPTURE_LENGTH_PTS];
 
         for (int i = 0 ; i < rawDataNormalize.length ; i++){
             rawDataNormalize[i] = MainActivity.mRawDataProcessor.mShortUltrasoundDataBeforeFilter[i] / 32768.0;
@@ -873,6 +1003,189 @@ public class GIS_Algorithm {
         double[] vf2 = vf.vf.stream().mapToDouble(i -> i).toArray();
         double[] X2 = vf.xx.stream().mapToDouble(i -> i).toArray();
         double[] vf3 = VF_fit(X2 , vf2);
-        return Doppler_angle(vf3, p1);
+*/
+
+        angleResult = Doppler_angle(result.vf3, result.p1);
+        findVtiAndVpk(result, angleResult);
+
+        return angleResult;
+    }
+
+    private static vtiBoundaryResult Doppler_VTI_Offline(double[][] STFT){
+        boolean vtiRegionFlag = false;
+
+        boolean vtiStartFlag = false;
+        double vtiStartRegister = 0;
+        double vtiStartCount = 0;
+
+        boolean vtiEndFlag = false;
+        double vtiEndRegister = 0;
+        double vtiEndCount = 1;
+
+        double vtiFirstEndSoundCount = 0;
+        boolean firstEndSoundStartFlag = false;
+        boolean firstEndSoundEndFlag = false;
+        boolean secondEndSoundStartFlag = false;
+
+        vtiBoundaryResult result = new vtiBoundaryResult();
+        List<Double> startLocationsList = new ArrayList<>();
+        List<Double> endLocationsList = new ArrayList<>();
+
+        int column = STFT[0].length;
+        int row = STFT.length;
+
+        for(int countColumn = 0 ; countColumn < column ; countColumn++) {
+            for (int i = 0 ; i < LOW_FREQUENCY_SEG_OFFSET ; i++) {
+                STFT[i][countColumn] = 0;
+            }
+        }
+
+        for (int countColumn = 0 ; countColumn < column ; countColumn++) {
+            double maxDistanceLocation;
+            int noisePoint;
+            double noiseSlope;
+            double[] temp = new double[STFT.length];
+
+            for (int countRow = 0; countRow < row; countRow++) {
+                temp[countRow] = STFT[countRow][countColumn];
+            }
+            double[] nipc = IpcSingle(temp);
+            maxDistanceLocation = findIpcToLineMaxDistanceIndex(nipc);
+
+            noisePoint = (int)(2 * (maxDistanceLocation + 1) + LOW_FREQUENCY_SEG_OFFSET);
+            if(noisePoint < ALL_SET_IN_SEG){
+                noiseSlope = 10000 * ((1 - nipc[noisePoint - 1]) / (ALL_SET_IN_SEG - noisePoint));
+                if(!vtiEndFlag){
+                    if(!vtiRegionFlag){
+                        if (!vtiStartFlag){
+                            if (noiseSlope < 1){
+                                vtiStartFlag = true;
+                            }
+                        }
+
+                        if(vtiStartFlag){
+                            if(noiseSlope > 20) {
+                                vtiStartFlag = false;
+                                vtiStartCount = 0;
+                            } else if(noiseSlope < 1) {
+                                vtiStartCount = 0;
+                            } else if(noiseSlope > 2){
+                                vtiStartCount++;
+                                if(vtiStartCount == 5){
+                                    vtiStartRegister = (countColumn) - 5;
+                                    vtiStartCount = 0;
+                                    vtiRegionFlag = true;
+                                    vtiStartFlag = false;
+                                }
+                            }
+                        }
+                    }
+
+                    if(vtiRegionFlag){
+                        if (noiseSlope > 15){
+                            vtiEndFlag = true;
+                            vtiRegionFlag = false;
+                        }
+                    }
+                } else if (!firstEndSoundStartFlag) {
+                    if (noiseSlope < 10) {
+                        firstEndSoundStartFlag = true;
+                        vtiFirstEndSoundCount = 0;
+                        vtiEndRegister = countColumn;
+                    } else {
+                        vtiFirstEndSoundCount = vtiFirstEndSoundCount + 1;
+                        if (vtiFirstEndSoundCount > 10) {
+                            vtiEndFlag = false;
+                            vtiFirstEndSoundCount = 0;
+                        }
+                    }
+                } else {
+                    if (!firstEndSoundEndFlag) {
+                        if (noiseSlope > 15) {
+                            firstEndSoundEndFlag = true;
+                        }
+                    } else {
+                        if (!secondEndSoundStartFlag) {
+                            if (noiseSlope < 5) {
+                                secondEndSoundStartFlag = true;
+                                vtiEndRegister = countColumn;
+                            } else {
+                                if (noiseSlope > 15) {
+                                    vtiEndCount = vtiEndCount + 1;
+                                    if (vtiEndCount > 10) {
+                                        startLocationsList.add(vtiStartRegister);
+                                        endLocationsList.add(vtiEndRegister);
+                                        vtiEndFlag = false;
+                                        firstEndSoundStartFlag = false;
+                                        firstEndSoundEndFlag = false;
+                                        vtiEndCount = 1;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (secondEndSoundStartFlag) {
+                            startLocationsList.add(vtiStartRegister);
+                            endLocationsList.add(vtiEndRegister);
+                            vtiEndFlag = false;
+                            firstEndSoundStartFlag = false;
+                            firstEndSoundEndFlag = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        result.startLocationsOffline = startLocationsList.stream().mapToDouble(i -> i).toArray();
+        result.endLocationsOffline = endLocationsList.stream().mapToDouble(i -> i).toArray();
+        return result;
+    }
+
+    private static vtiAndVpkResult CalculateVtiAndVpk(vtiBoundaryResult boundary, double[] vf, double angle){
+        int size = boundary.startLocationsOffline.length;
+        int[] tempBandArray = new int[size];
+        vtiAndVpkResult result = new vtiAndVpkResult();
+        voteResult voteResult;
+        double vpkMax;
+
+        for(int i = 0 ; i < size ; i++){
+            tempBandArray[i] = (int) Math.abs(boundary.startLocationsOffline[i] - boundary.endLocationsOffline[i]);
+        }
+        voteResult = findAvgParaByVote(tempBandArray,1);
+        double[] vpk = new double[(int)voteResult.maxVoteNum];
+        double[] vti = new double[(int)voteResult.maxVoteNum];
+
+        for(int i = 0 ; i < size ; i++){
+            if(voteResult.realValue == tempBandArray[i]){
+                double[] Fmax = new double[tempBandArray[i]+1];
+                for(int count = (int)boundary.startLocationsOffline[i] ; count <= boundary.endLocationsOffline[i] ; count++){
+                    Fmax[count-(int)boundary.startLocationsOffline[i]] = vf[count];
+                }
+
+                vti[(int)voteResult.maxVoteNum-1] = singleFreqToVelocity(sum(Fmax), HUMAN_C, angle)*0.008*100;
+                vpk[(int)voteResult.maxVoteNum-1] = singleFreqToVelocity(maxFrom1DArray(Fmax), HUMAN_C, angle);
+
+                voteResult.maxVoteNum--;
+            }
+        }
+        vpkMax = maxFrom1DArray(vpk);
+        for(int i = 0 ; i < vpk.length ; i++){
+            if(vpkMax == vpk[i]){
+                result.vpkResult = vpk[i];
+                result.vtiResult = vti[i];
+                break;
+            }
+        }
+        return result;
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static double singleFreqToVelocity(double para, int speedOfSound, double rxAngle){
+        final double ftxFreq = BloodVelocityConfig.DOUBLE_ULTRASOUND_SENSOR_WAVE_FREQ;
+        double txAngle = rxAngle - 5.0;
+        double cos_rxAngle = Math.cos(((rxAngle / 180.0) * Math.PI));
+        double cos_txAngle = Math.cos(((txAngle / 180.0) * Math.PI));
+        double fD = para * GIS_Algorithm.ONE_SEGMENT_WITH_N_HZ;
+        return (speedOfSound * fD) / (ftxFreq * (cos_txAngle + cos_rxAngle));
     }
 }

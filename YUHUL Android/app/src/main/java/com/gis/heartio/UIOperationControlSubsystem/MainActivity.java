@@ -62,6 +62,7 @@ import com.gis.CommonFragments.ServiceDiscoveryFragment;
 import com.gis.CommonUtils.Constants;
 import com.gis.CommonUtils.Utils;
 import com.gis.heartio.BLEStatusReceiver;
+import com.gis.heartio.GIS_Algorithm;
 import com.gis.heartio.R;
 import com.gis.heartio.AudioSubsystem.MyAudioPlayerController;
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessController;
@@ -420,6 +421,8 @@ public class MainActivity extends AppCompatActivity {
     public static RawDataProcessor mRawDataProcessor = null;
     public static MyAudioPlayerController mAudioPlayerController = null;
 
+    public static GIS_Algorithm.vtiBoundaryResult mVtiBoundaryResultByGIS = null;
+    public static GIS_Algorithm.vtiAndVpkResult mVtiAndVpkResultByGIS = null;
 
     public static IwuSQLHelper mIwuSQLHelper;
     public static String currentAdminID = "";

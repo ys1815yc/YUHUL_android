@@ -3,10 +3,6 @@ package com.gis.heartio;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.gis.heartio.SignalProcessSubsystem.RawDataProcessor;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
-import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,18 +11,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.channels.FileChannel;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
 public class GIS_Log {
+
     @SuppressLint("SimpleDateFormat")
     @SuppressWarnings("SameParameterValue")
     public static void Leslie_Log(String pre,double[] in){
         try{
-            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/t444555556";
+            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/GISTestLog";
             SimpleDateFormat df;
             df = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String strDate = df.format(new Date());
@@ -49,7 +45,7 @@ public class GIS_Log {
     @SuppressWarnings("SameParameterValue")
     public static void Leslie_Log(String pre,int[] in){
         try{
-            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/t444555556";
+            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/GISTestLog";
             SimpleDateFormat df;
             df = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String strDate = df.format(new Date());
@@ -71,7 +67,7 @@ public class GIS_Log {
     @SuppressWarnings("SameParameterValue")
     public static void Leslie_Log(String pre,byte[] in){
         try{
-            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/t444555556";
+            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/GISTestLog";
             SimpleDateFormat df;
             df = new SimpleDateFormat("yyyyMMdd_HHmm");
             String strDate = df.format(new Date());
@@ -119,7 +115,7 @@ public class GIS_Log {
     @SuppressWarnings("SameParameterValue")
     public static void Leslie_Log(String pre,double[][] in){
         try{
-            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/t444555556";
+            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/GISTestLog";
             SimpleDateFormat df;
             df = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String strDate = df.format(new Date());
@@ -155,13 +151,9 @@ public class GIS_Log {
         }
     }
 
-    public static void Leslie_LogCat(String pre, String data){
-        Log.e(pre,data);
-    }
-
     public static void Leslie_Log(String pre, byte[] in,String pre2, short[]in2){
         try{
-            String strFile = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/t444555556/";
+            String strFile = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/GISTestLog/";
             String file1 = strFile + pre + ".txt";
 
             File file= new File(file1);
@@ -185,6 +177,25 @@ public class GIS_Log {
             //SystemConfig.mMyEventLogger.appendDebugStr(ex.toString(),"");
         }
     }
+
+    public static void e(String tag, String msg){
+        if(GIS_SystemConfig.logEnable){
+            Log.e(tag,msg);
+        }
+    }
+
+    public static void d(String tag, String msg){
+        if(GIS_SystemConfig.logEnable){
+            Log.d(tag,msg);
+        }
+    }
+
+    public static void w(String tag, String msg){
+        if(GIS_SystemConfig.logEnable){
+            Log.w(tag,msg);
+        }
+    }
+
 
     /* 將原始raw data以16K儲存下來 2023/02/04 by Doris */
     public static void storeByteToRawData16K(short[] rawArray){
