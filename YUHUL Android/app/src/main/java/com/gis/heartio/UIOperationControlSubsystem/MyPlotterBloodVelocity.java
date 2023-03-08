@@ -5,6 +5,7 @@ package com.gis.heartio.UIOperationControlSubsystem;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Rect;
 //import androidx.core.app.Fragment;
@@ -13,12 +14,16 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.gis.CommonUtils.Constants;
+import com.gis.heartio.GIS_Log;
+import com.gis.heartio.GIS_SystemConfig;
 import com.gis.heartio.SignalProcessSubsystem.RawDataProcessor;
 import com.gis.heartio.SignalProcessSubsystem.ecgResult;
 import com.gis.heartio.SupportSubsystem.SystemConfig;
 
 import java.util.Arrays;
 import java.util.List;
+
+import yogesh.firzen.mukkiasevaigal.P;
 
 /**
  * Created by brandon on 2017/10/31.
@@ -51,6 +56,10 @@ public class MyPlotterBloodVelocity extends MyPlotter {
         private Paint mPaintVTILow = null;
         private Paint mPaintVTIStart = null;
         private Paint mPaintVTIEnd = null;
+
+        private Paint mPaintVTIStartGIS = null;
+        private Paint mPaintVTIEndGIS = null;
+
         private Paint mPaintAvgFreqMax = null;
         private Paint mPaintMulHRMinLow = null;
         private Paint mPaintHRStart = null;
@@ -192,7 +201,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
                 mPaintVpkPeakS1.setStrokeWidth((float) 30.0);
 
                 mPaintVpkPeakS2 = new Paint();
-                mPaintVpkPeakS2.setColor(Color.RED);
+                mPaintVpkPeakS2.setColor(Color.TRANSPARENT);//Leslie setColor(Color.RED);
                 mPaintVpkPeakS2.setStrokeWidth((float) 30.0);
 
                 mPaintVpkBottomS1 = new Paint();
@@ -229,6 +238,20 @@ public class MyPlotterBloodVelocity extends MyPlotter {
                 mPaintVTIEnd = new Paint();
                 mPaintVTIEnd.setColor(Color.BLUE);
                 mPaintVTIEnd.setStrokeWidth((float) 20.0);
+
+                mPaintVTIStartGIS = new Paint();
+                mPaintVTIEndGIS = new Paint();
+                if(GIS_SystemConfig.isVisible){
+                    mPaintVTIStartGIS.setColor(Color.RED);
+                    mPaintVTIEndGIS.setColor(Color.RED);
+                } else{
+                    mPaintVTIStartGIS.setColor(Color.TRANSPARENT);
+                    mPaintVTIEndGIS.setColor(Color.TRANSPARENT);
+                }
+                mPaintVTIStartGIS.setStrokeWidth((float) 5.0);
+                mPaintVTIEndGIS.setStrokeWidth((float) 5.0);
+                //mPaintVTIStartGIS.setPathEffect(new DashPathEffect(new float[] {15, 15}, 0));
+                //mPaintVTIEndGIS.setPathEffect(new DashPathEffect(new float[] {15, 15}, 0));
 
                 mPaintMulHRMinLow = new Paint();
                 mPaintMulHRMinLow.setColor(Color.GRAY);
@@ -658,8 +681,34 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
                     floatPreMaxIdxForVTILineX = 0;
                     floatPreMaxIdxForVTILineY = 0;
+
+                    boolean drawFlagGIS = false;
                     while (iXVar <= iEndSubSegIdx) {
                         fPosX = (float) (iXVar - iStartSubSegIdx + 1) * mFloatXGainDrawSizeToPointsRatio;
+
+                        if(GIS_SystemConfig.isVisible){
+                            //Draw Vti Boundary ( Start and End ) Line
+                            for (double start:MainActivity.mVtiBoundaryResultByGIS.startLocationsOffline) {
+                                if(iXVar == (int)start){
+                                    float tempX = (float) (iXVar - iStartSubSegIdx + 1) * mFloatXGainDrawSizeToPointsRatio;
+                                    float tempY = (float) SystemConfig.mDopplerVFOutput[0][iXVar] * mFloatBasicGainY;
+                                    drawFlagGIS = true;
+                                    mCanvasBVOffLine.drawLine((int) tempX, 0, (int) tempX, tempY, mPaintVTIStartGIS);
+                                    break;
+                                }
+                            }
+
+                            for (double end:MainActivity.mVtiBoundaryResultByGIS.endLocationsOffline) {
+                                if(iXVar == (int)end){
+                                    float tempX = (float) (iXVar - iStartSubSegIdx + 1) * mFloatXGainDrawSizeToPointsRatio;
+                                    float tempY = (float) SystemConfig.mDopplerVFOutput[0][iXVar] * mFloatBasicGainY;
+
+                                    drawFlagGIS = false;
+                                    mCanvasBVOffLine.drawLine((int) tempX, 0, (int) tempX, tempY, mPaintVTIEndGIS);
+                                    break;
+                                }
+                            }
+                        }
 
                         //--------------------------------------------------
                         //-- draw VTI Start End State
@@ -692,10 +741,12 @@ public class MyPlotterBloodVelocity extends MyPlotter {
                             if (!boolDrawMaxIdxAsLine){
                                 mCanvasBVOffLine.drawPoint((int) fPosX, (int) fPosY2, mPaintMaxIdx);
                             }else{
-                                if(floatPreMaxIdxLineX == 0){
-                                    mCanvasBVOffLine.drawPoint((int) fPosX, (int) fPosY2, mPaintMaxIdx);
-                                }else{
-                                    mCanvasBVOffLine.drawLine(floatPreMaxIdxLineX, floatPreMaxIdxLineY, fPosX, fPosY2, mPaintMaxIdx);
+                                if(drawFlagGIS) {
+                                    if (floatPreMaxIdxLineX == 0) {
+                                        mCanvasBVOffLine.drawPoint((int) fPosX, (int) fPosY2, mPaintMaxIdx);
+                                    } else {
+                                        mCanvasBVOffLine.drawLine(floatPreMaxIdxLineX, floatPreMaxIdxLineY, fPosX, fPosY2, mPaintMaxIdx);
+                                    }
                                 }
                                 floatPreMaxIdxLineX =  fPosX;
                                 floatPreMaxIdxLineY =  fPosY2;

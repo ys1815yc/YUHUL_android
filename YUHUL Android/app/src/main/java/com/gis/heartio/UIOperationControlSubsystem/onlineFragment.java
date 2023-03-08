@@ -44,6 +44,7 @@ import androidx.fragment.app.FragmentManager;
 import com.gis.BLEConnectionServices.BluetoothLeService;
 import com.gis.CommonFragments.ServiceDiscoveryFragment;
 import com.gis.CommonUtils.Constants;
+import com.gis.heartio.GIS_DataController;
 import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessorPart1;
@@ -355,6 +356,9 @@ public class onlineFragment extends Fragment {
                     mTBtnRec.setTextColor(Color.BLACK);
                     greenLightImg.setVisibility(View.INVISIBLE);
                     tryEndAction(false);
+                    if(mHandler != null){
+                        mHandler.removeCallbacks(mRunnable);
+                    }
                     // For power level
                 /*
                 SystemConfig.mUltrasoundComm.mBoolRxData = false;
@@ -707,6 +711,7 @@ public class onlineFragment extends Fragment {
                 //showResultBloodVelocityCommon(MainActivity.mSignalProcessController.getResultDataAfterSignalProcess());
                 currentResult = MainActivity.mSignalProcessController.getResultDataAfterSignalProcessByWu();
                 showResultBloodVelocityCommon(currentResult);
+                GIS_Log.e("Leslie","1");
                 //?enableBloodVelocityStartFromCalculateAction();
             } catch (Exception ex1) {
                 ex1.printStackTrace();
@@ -948,7 +953,12 @@ public class onlineFragment extends Fragment {
                     //    MainActivity.mSignalProcessController.reSelectBVResultByVTI();
                     //}
 //                    currentResult = MainActivity.mSignalProcessController.getResultDataAfterSignalProcess();
-                    currentResult = MainActivity.mSignalProcessController.getResultDataAfterSignalProcessWu201022();
+
+                    //Leslie
+                    //currentResult = MainActivity.mSignalProcessController.getResultDataAfterSignalProcessWu201022();
+                    currentResult = new GIS_DataController().getMeasureResult();
+                    //Leslie End_20230308
+
                     showResultBloodVelocityCommon(currentResult);
 //                    if ((currentResult.ErrCode&BVSignalProcessorPart1.BINARY_ERR_CODE_ELECTRICAL_INTEFFERENCE)==BVSignalProcessorPart1.BINARY_ERR_CODE_ELECTRICAL_INTEFFERENCE){
 //                        showMessageDialog(getString(R.string.alert_title_error),mActivity); // Electrical Interference
@@ -1288,7 +1298,7 @@ public class onlineFragment extends Fragment {
                 mHandler = null;
             }
         }
-        GIS_Log.Leslie_LogCat("Leslie", "onDestroy");
+
         super.onDestroy();
     }
 

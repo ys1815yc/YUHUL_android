@@ -5,8 +5,6 @@ package com.gis.heartio.SignalProcessSubsystem;
  */
 
 
-import static com.gis.heartio.GIS_Log.storeByteToRawData16K;
-import static com.gis.heartio.GIS_Log.storeByteToRawData8K;
 import static com.gis.heartio.SignalProcessSubsystem.BVSignalProcessorPart1.isHRStableCount;
 
 import android.app.Activity;
@@ -19,13 +17,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
-import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
 import com.gis.heartio.SupportSubsystem.MyDataFilter2;
 import com.gis.heartio.SupportSubsystem.SystemConfig;
 import com.gis.heartio.SupportSubsystem.Utilitys;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 import com.gis.heartio.UIOperationControlSubsystem.UserManagerCommon;
 import com.gis.heartio.heartioApplication;
+
+import org.tensorflow.lite.support.audio.TensorAudio;
+import org.tensorflow.lite.support.label.Category;
+import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
+import org.tensorflow.lite.task.audio.classifier.Classifications;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -45,11 +47,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
-// Audio classifier
-import org.tensorflow.lite.support.audio.TensorAudio;
-import org.tensorflow.lite.support.label.Category;
-import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
-import org.tensorflow.lite.task.audio.classifier.Classifications;
 
 public class RawDataProcessor {
 

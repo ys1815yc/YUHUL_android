@@ -29,6 +29,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.gis.heartio.GIS_DataController;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessController;
@@ -1289,7 +1290,11 @@ public class offlineFragment extends Fragment {
                     prepareStart();
                     mBVPOffline.prepareStartOffLine();
                     //showResultBloodVelocity(MainActivity.mSignalProcessController.getResultDataAfterSignalProcess());
-                    showResultBloodVelocity(MainActivity.mSignalProcessController.getResultDataAfterSignalProcessWu201022());
+
+                    //Leslie
+                    //showResultBloodVelocity(MainActivity.mSignalProcessController.getResultDataAfterSignalProcessWu201022());
+                    showResultBloodVelocity(new GIS_DataController().getMeasureResult());
+                    //Leslie End_20230308
 
                     if (SystemConfig.mTestMode){
                         // Cavin Added to show SNR  for testing 2018/08/08
