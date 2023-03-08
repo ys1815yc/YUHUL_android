@@ -36,6 +36,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="9933dbae-283d-49d7-af56-08ea8ba33006" name="Changes" comment="1. Updated version code.&#10;2. Fixed online repeat signal issue.">
       <change afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/GIS_DataController.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/GIS_SystemConfig.java" afterDir="false" />
@@ -110,6 +111,14 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/onlineFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/onlineFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+=======
+    <list default="true" id="9933dbae-283d-49d7-af56-08ea8ba33006" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/BVSignalProcessorPart1.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/BVSignalProcessorPart1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/RawDataProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/RawDataProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/MyPlotterBloodVelocity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/MyPlotterBloodVelocity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/onlineFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/onlineFragment.java" afterDir="false" />
+>>>>>>> 4f7d613959b0f59632c5d6283b1d465e0ca70c60
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,6 +268,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
@@ -273,6 +283,52 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;build.analyzer&quot;
   }
 }</component>
+=======
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ApkExportedModule" value="gis-heartio-wu.app" />
+    <property name="BundleExportedModule" value="app" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="FA78X1802115" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-09-11T07:46:27.398Z" />
+    <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
+    <property name="ExportApk.BuildVariants" value="release" />
+    <property name="ExportApk.SignV1" value="true" />
+    <property name="ExportApk.SignV2" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="ShowUsagesActions.previewPropertyKey" value="true" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/view/SurfaceView.java_SELECTED" value="SurfaceView" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/view/SurfaceView.java_SurfaceView_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/view/View.java_SELECTED" value="View" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/view/View.java_View_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/widget/CompoundButton.java_CompoundButton_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/mac/Library/Android/sdk/sources/android-33/android/widget/CompoundButton.java_SELECTED" value="CompoundButton" />
+    <property name="android-custom-view/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgSegView.java_EcgSegView_DIMENSIONS" value="1080&#10;1920" />
+    <property name="android-custom-view/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgSegView.java_SELECTED" value="EcgSegView" />
+    <property name="android-custom-view/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgView.java_EcgView_DIMENSIONS" value="1421&#10;308" />
+    <property name="android-custom-view/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgView.java_SELECTED" value="EcgView" />
+    <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/view/SurfaceView.java_SELECTED" value="SurfaceView" />
+    <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/view/View.java_SELECTED" value="View" />
+    <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/widget/CompoundButton.java_SELECTED" value="CompoundButton" />
+    <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/widget/NumberPicker.java_SELECTED" value="NumberPicker" />
+    <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/widget/ProgressBar.java_SELECTED" value="ProgressBar" />
+    <property name="android-custom-viewC:/Users/cavin/AppData/Local/Android/Sdk/sources/android-33/android/widget/ToggleButton.java_SELECTED" value="ToggleButton" />
+    <property name="android-custom-viewC:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgSegView.java_SELECTED" value="EcgSegView" />
+    <property name="android-custom-viewC:/Users/cavin/Desktop/doris/Cardiac-Output-APP/YUHUL Android/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgView.java_SELECTED" value="EcgView" />
+    <property name="android-custom-viewC:/Users/windo/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.3.1/45a346a05e7ff27a01c59452379c5939cbb53c03/appcompat-1.3.1-sources.jar!/androidx/appcompat/widget/ActionBarOverlayLayout.java_SELECTED" value="ActionBarOverlayLayout" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../examples-master/examples-master/lite/examples/audio_classification/android" />
+    <property name="multi-representation-preview/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgSegView.java_selected" value="Custom views" />
+    <property name="multi-representation-preview/Users/mac/StudioProjects/gis-heartio-wu/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/EcgView.java_selected" value="Custom views" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.17" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="two.files.diff.last.used.file" value="$USER_HOME$/Downloads/AudioVisualizer-master/app/src/main/java/ca/uol/aig/fftpack/RealDoubleFFT.java" />
+  </component>
+>>>>>>> 4f7d613959b0f59632c5d6283b1d465e0ca70c60
   <component name="PsdUISettings">
     <option name="MODULE_TAB" value="Default Config" />
     <option name="BUILD_VARIANTS_TAB" value="Build Types" />

@@ -147,7 +147,7 @@ public class RawDataProcessor {
     // Audio Classifier
     private AudioClassifier audioClassifier = null;
     private  TensorAudio tensorAudio = null;
-    private int classificationIntervalPts = 4000; //原本4000
+    private int classificationIntervalPts = 8000; //原本4000
 
     private final String MODEL_FILE = "03_3.tflite";  //"soundclassifier_with_metadata.tflite";
      //"USPA_model_14.tflite";
@@ -811,6 +811,7 @@ public class RawDataProcessor {
             //            iValue = shortValueNotDCOffset;
         }
         // Cavin Test DC OFFSET 20211222 end
+        Log.d("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
         mShortUltrasoundData[mIntDataNextIndex] = (short) iValue;
         mIntUltrasoundDataGainLevel[mIntDataNextIndex] = SystemConfig.mIntGainLevel;
         if(SystemConfig.mIntFilterDataEnabled == SystemConfig.INT_FILTER_ENABLED_YES) {
@@ -870,7 +871,8 @@ public class RawDataProcessor {
 
             if (mIntDataNextIndex == SystemConfig.mIntUltrasoundSamplesMaxSizeForRun) {
                 mIntDataNextIndex=0;
-            }else if((mIntDataNextIndex % classificationIntervalPts == 0) && isHRStableCount>=3){ //加上HR穩定條件 2023/02/13 by Doris
+//            }else if((mIntDataNextIndex % classificationIntervalPts == 0) && isHRStableCount>=3){ //加上HR穩定條件 2023/02/13 by Doris
+            }else if(mIntDataNextIndex % classificationIntervalPts == 0){
                  classificationUSPA();
             }
         }
@@ -2161,8 +2163,22 @@ public class RawDataProcessor {
                   tensorAudio.load(resampleTo16k(mShortUltrasoundDataBeforeFilter)
                           ,mIntDataNextIndex*2-classificationIntervalPts,classificationIntervalPts);
 
-                  Log.d("mIntDataNextIndex: ", String.valueOf(mIntDataNextIndex*2));
-//                  Log.d("mShortUltrasoundDataBeforeFilter: ", String.valueOf(mShortUltrasoundDataBeforeFilter.length));
+                  short[] ui = resampleTo16k(mShortUltrasoundDataBeforeFilter);
+//                  Log.d("mIntDataNextIndex: ", String.valueOf(mIntDataNextIndex*2));
+                  Log.d("mShortUltrasoundDataBeforeFilter1: ", String.valueOf(mShortUltrasoundDataBeforeFilter[0]));
+                  Log.d("mShortUltrasoundDataBeforeFilter2: ", String.valueOf(mShortUltrasoundDataBeforeFilter[8000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter3: ", String.valueOf(mShortUltrasoundDataBeforeFilter[16000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter4: ", String.valueOf(mShortUltrasoundDataBeforeFilter[24000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter5: ", String.valueOf(mShortUltrasoundDataBeforeFilter[32000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter6: ", String.valueOf(mShortUltrasoundDataBeforeFilter[40000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter7: ", String.valueOf(mShortUltrasoundDataBeforeFilter[48000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter8: ", String.valueOf(mShortUltrasoundDataBeforeFilter[56000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter9: ", String.valueOf(mShortUltrasoundDataBeforeFilter[64000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter10: ", String.valueOf(mShortUltrasoundDataBeforeFilter[72000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter11: ", String.valueOf(mShortUltrasoundDataBeforeFilter[80000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter12: ", String.valueOf(mShortUltrasoundDataBeforeFilter[88000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter13: ", String.valueOf(mShortUltrasoundDataBeforeFilter[96000]));
+                  Log.d("mShortUltrasoundDataBeforeFilter14: ", String.valueOf(mShortUltrasoundDataBeforeFilter[104000]));
                   List<Classifications> output = audioClassifier.classify(tensorAudio);
 
                   List<Category> filteredCategory =
@@ -2194,6 +2210,4 @@ public class RawDataProcessor {
 
               }
     }
-
-
 }

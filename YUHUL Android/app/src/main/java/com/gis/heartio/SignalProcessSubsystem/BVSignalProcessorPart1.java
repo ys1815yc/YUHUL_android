@@ -632,7 +632,9 @@ public class BVSignalProcessorPart1 {
                         int tmpHR = getOnlineHR(samples);
                         if (lastHR!=-1){
                             int hrDiff = Math.abs(tmpHR-lastHR);
-                            if (hrDiff<0.1*lastHR){ //判斷是否穩定
+//                            if (hrDiff<0.1*lastHR){ //判斷是否穩定
+                            /* 更新HR穩定標準 2023/02/24 by Doris */
+                            if (hrDiff<15){
                                 isHRStableCount++;
                             }else{
                                 isHRStableCount=0;
@@ -653,7 +655,7 @@ public class BVSignalProcessorPart1 {
                     if (isInverseFreq){
                         tmpDoubleData = doubleData[mIntTotalFreqSeqsCnt-iVar2-1];
                     }else{
-                        tmpDoubleData = doubleData[iVar2];
+                        tmpDoubleData = doubleData[iVar2]; //isInverseFreq = false
                     }
                     mDoubleSTFTOneTime[iVar2] = tmpDoubleData;
                     if (SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_0_SNSI_GM) {
@@ -661,6 +663,7 @@ public class BVSignalProcessorPart1 {
                         //        / (double) SystemConfig.mIntUltrasoundSamplerate / (double) SystemConfig.mIntSTFTWindowSize;
                       //* jaufa, 180809, #
                         mDoubleBVSpectrumValues[mIntSTFFTNextSubSegIdx][iVar2] = tmpDoubleData;
+//                        Log.d("mDoubleBVSpectrumValues", String.valueOf(tmpDoubleData));
                       //* jaufa, 180809, # */
 
                     }else if (SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_1_WU_NEW) {
@@ -726,6 +729,8 @@ public class BVSignalProcessorPart1 {
             //----------------------------------------------------------------
             if (!mBoolMaxIdxBaseLearned) {
                 if (mIntSTFFTNextSubSegIdx < (SystemConfig.mIntEndIdxNoiseLearn+1)) {
+//                    Log.d("mBoolMaxIdxBaseLearned", "mBoolMaxIdxBaseLearned");
+//                    會執行這個return
                     return;
                 } else {
                     if(SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_0_SNSI_GM){
@@ -1444,7 +1449,7 @@ public class BVSignalProcessorPart1 {
         for (iVar = SystemConfig.mIntStartIdxNoiseLearn; iVar <= iLearnEndIdx; iVar++) {
             //--- calculate Signal Max. ---
             doubleSignalStrengthMaxWu = 0;
-            for(iVar2 = 1 ; iVar2 < mIntTotalFreqSeqsCnt  ; iVar2++ ){
+            for(iVar2 = 1; iVar2 < mIntTotalFreqSeqsCnt; iVar2++){
                 if(doubleSignalStrengthMaxWu < mDoubleBVSpectrumValues [iVar][iVar2]){
                     doubleSignalStrengthMaxWu = mDoubleBVSpectrumValues [iVar][iVar2];
                 }
@@ -1458,7 +1463,7 @@ public class BVSignalProcessorPart1 {
             iNoiseWuStartIdx = iHeavyCenterIdx + (int) ((double)(mIntTotalFreqSeqsCnt - 1 - iHeavyCenterIdx) * 2.0/3.0);
             doubleNoiseMax = Double.NEGATIVE_INFINITY;
             doubleNoiseMin = Double.POSITIVE_INFINITY;
-            for(iVar2 = iNoiseWuStartIdx ; iVar2 < mIntTotalFreqSeqsCnt  ; iVar2++ ){
+            for(iVar2 = iNoiseWuStartIdx; iVar2 < mIntTotalFreqSeqsCnt; iVar2++){
                 if(doubleNoiseMax < mDoubleBVSpectrumValues [iVar][iVar2]){
                     doubleNoiseMax = mDoubleBVSpectrumValues [iVar][iVar2];
                 }
@@ -1466,14 +1471,23 @@ public class BVSignalProcessorPart1 {
                     doubleNoiseMin = mDoubleBVSpectrumValues [iVar][iVar2];
                 }
             }
+//            Log.d("doubleNoiseMax", String.valueOf(doubleNoiseMax));
+//            Log.d("doubleNoiseMin", String.valueOf(doubleNoiseMin));
             doubleNoiseRangeWuAccu = doubleNoiseRangeWuAccu + (doubleNoiseMax - doubleNoiseMin);
             doubleNoiseStrengthWuAccu = doubleNoiseStrengthWuAccu + (doubleNoiseMax + doubleNoiseMin) / 2.0;
         }
-        SystemConfig.mDoubleNoiseRangeWu = doubleNoiseRangeWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1);
-        SystemConfig.mDoubleNoiseStrengthWu = doubleNoiseStrengthWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1);
+        /* 將畫圖參數設定為固定常數 2023/02/22 by Doris */
+        SystemConfig.mDoubleNoiseRangeWu = 6.989132738914301E-11;
+        SystemConfig.mDoubleNoiseStrengthWu = 5.4366277970330474E-11;
+//        SystemConfig.mDoubleNoiseRangeWu = doubleNoiseRangeWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1);
+//        SystemConfig.mDoubleNoiseStrengthWu = doubleNoiseStrengthWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1);
         SystemConfig.mDoubleSignalStrengthWu = doubleSignalStrengthMaxWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1);
         SystemConfig.mDoubleSNRLearnedWu = SystemConfig.mDoubleSignalStrengthWu / SystemConfig.mDoubleNoiseStrengthWu;
 
+//        Log.d("mDoubleNoiseRangeWu", String.valueOf(SystemConfig.mDoubleNoiseRangeWu));
+//        Log.d("mDoubleNoiseRangeWu0", String.valueOf(doubleNoiseRangeWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1)));
+//        Log.d("mDoubleNoiseStrengthWu", String.valueOf(SystemConfig.mDoubleNoiseStrengthWu));
+//        Log.d("mDoubleNoiseStrengthWu0", String.valueOf(doubleNoiseStrengthWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1)));
     }
 
 
