@@ -121,7 +121,7 @@ public class BVSignalProcessController {
         }
     }
 
-    private void  SignalProcessThread(){
+    private void SignalProcessThread(){
         MyThreadQMsg myMsg;
         Message uiMessage;
         int iVar;
@@ -147,11 +147,11 @@ public class BVSignalProcessController {
                 if (myMsg != null) {
                     switch (myMsg.mIntMsgId) {
                         case MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN:
-                            //Log.d("BVSPC","myMsg = INT_MY_MSG_EVT_SPROCESS_DATA_IN");
                             boolReturn = receiveAttributeDataBySegmentOnLine(myMsg.mByteArray);
                             if(boolReturn){
                                 if(MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState == RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END){
                                     MainActivity.mSignalProcessController.putMsgForProcessDataFinish();
+                                    GIS_Log.Leslie_LogCat("Leslie","RECEIVE_STATE_END");
                                 }
 
                                 if (intervalForegroundService.isRunning &&
@@ -174,6 +174,7 @@ public class BVSignalProcessController {
                                     uiMessage = new Message();
                                     if (enumRxState == RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_CONTINUOUS) {
                                         uiMessage.what = MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN;
+//                                        GIS_Log.Leslie_LogCat("Leslie","STATE_CONTINUOUS");
                                     } else if (enumRxState == RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_START) {
                                         uiMessage.what = MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN_START;
                                     }
@@ -193,7 +194,6 @@ public class BVSignalProcessController {
                             break;
 
                         case MyThreadQMsg.INT_MY_MSG_CMD_SPROCESS_DATA_FINISH:
-
                             if(!mBoolStartedByGetFirstPower) {
                                 processAllSegmentPart1Step2OffLine();
 
@@ -207,6 +207,7 @@ public class BVSignalProcessController {
 
                                     //processAllSegmentHRByPeakMode();
                                     //processResultBloodSignal();
+                                    GIS_Log.Leslie_LogCat("Leslie","in");
                                     prepareWuDoppler();
                                     MainActivity.mBVSignalProcessorPart2Array[0].processAllSegmentHRnVTIOne();
                                     MainActivity.mBVSignalProcessorPart2Array[0].processResultBloodSignalByNoSelOne();
@@ -268,12 +269,14 @@ public class BVSignalProcessController {
                             break;
 
                         case MyThreadQMsg.INT_MY_MSG_CMD_SPROCESS_PREPARE_PROCESS:
+                            GIS_Log.Leslie_LogCat("Leslie","PREPARE_PROCESS");
                             mBoolStartedByGetFirstPower = false;
                             mMyMsgQueue.clearMsg();
                             mIntMaxMsgInQ = 0;
                             break;
 
                         case MyThreadQMsg.INT_MY_MSG_CMD_SPROCESS_STOP_BY_FIRST_POWER:
+                            GIS_Log.Leslie_LogCat("Leslie","FIRST_POWER");
                             mBoolStartedByGetFirstPower = true;
                             break;
                     }
@@ -342,6 +345,7 @@ public class BVSignalProcessController {
                 MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState = RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_START;
             } else if (iSegment == iTotalSegmentSize - 1) {
                 MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState = RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END;
+                GIS_Log.Leslie_LogCat("Leslie","processAllSegmentPart1Step1OffLine");
             }
             MainActivity.mBVSignalProcessorPart1.processSegment();
         }

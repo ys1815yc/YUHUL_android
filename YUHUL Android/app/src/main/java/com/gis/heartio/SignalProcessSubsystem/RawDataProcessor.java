@@ -4,11 +4,6 @@ package com.gis.heartio.SignalProcessSubsystem;
  * Created by Cavin on 2018/1/2.
  */
 
-
-import static com.gis.heartio.GIS_Log.storeByteToRawData16K;
-import static com.gis.heartio.GIS_Log.storeByteToRawData8K;
-import static com.gis.heartio.SignalProcessSubsystem.BVSignalProcessorPart1.isHRStableCount;
-
 import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
@@ -18,6 +13,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
 import com.gis.heartio.SupportSubsystem.MyDataFilter2;
@@ -26,6 +22,7 @@ import com.gis.heartio.SupportSubsystem.Utilitys;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 import com.gis.heartio.UIOperationControlSubsystem.UserManagerCommon;
 import com.gis.heartio.heartioApplication;
+import com.gis.heartio.GIS_VoiceAI;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -94,7 +91,7 @@ public class RawDataProcessor {
     public String mStrCurSeqNums ;
     public String mStrLostSeqNums;
     public String mStrSpeed ;
-    public boolean mBoolRxError ;
+    public boolean mBoolRxError, lastData; /*lastData測試用 2023/03/03 by Doris*/
 
     //private byte[] mByteCurPacketLittleEndian;
     private byte[] mByteCurPacket;
@@ -235,9 +232,9 @@ public class RawDataProcessor {
             mShortUltrasoundData = new short[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS];
             mIntUltrasoundDataNotDCOffset = new int[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS];
             mIntUltrasoundDataGainLevel = new int[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS];
-//            mShortUltrasoundDataBeforeFilter = new short[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS];
+            mShortUltrasoundDataBeforeFilter = new short[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS];
             /* 將 mShortUltrasoundDataBeforeFilter 長度重設為112000 (8000K * 14s) 2023/02/07 by Doris*/
-            mShortUltrasoundDataBeforeFilter = new short[SystemConfig.INT_ULTRASOUND_START_ONLINE_SEC * SystemConfig.INT_ULTRASOUND_SAMPLING_RATE_8K];
+//            mShortUltrasoundDataBeforeFilter = new short[SystemConfig.INT_ULTRASOUND_START_ONLINE_SEC * SystemConfig.INT_ULTRASOUND_SAMPLING_RATE_8K];
             mByteArrayUltrasoundDataOnLineSave = new byte[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS_ITRI_8K];
             mByteArrayWaveDataAfterFilter = new byte[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS * SystemConfig.INT_ULTRASOUND_DATA_1DATA_BYTES_16PCM];
 
@@ -327,11 +324,11 @@ public class RawDataProcessor {
 
             mIntLostCount = 0;
             mIntTotalPacketCount = 0;
-            try {
-                startAudioClassification();
-            }catch (IOException ex1){
-                ex1.printStackTrace();
-            }
+//            try {
+//                startAudioClassification();  GIS_VoiceAI
+//            }catch (IOException ex1){
+//                ex1.printStackTrace();
+//            }
 
        // }catch(Exception ex1){
             //SystemConfig.mMyEventLogger.appendDebugStr("RawDataProc.prepareStartOnLine.Exception","");
@@ -363,6 +360,7 @@ public class RawDataProcessor {
 //                Log.d(TAG,"isHeartIO2");
                 boolReturn = processUltrasoundAndEcgBySegOnline(byteArray);
             }else{
+//                 Log.d(TAG,"isYUHUL");
                 boolReturn = processUltrasoundDataBySegmentOnLine(byteArray);
             }
 
@@ -813,8 +811,12 @@ public class RawDataProcessor {
             iValue = (inputValue - mShortDCOffset);// * mIntBasicGainForSound;
             //            iValue = shortValueNotDCOffset;
         }
+        /* 驗證 mShortUltrasoundDataBeforeFilter 的 index 長度及寫入的 value 2023/03/02 by Doris */
+//        if (mIntDataNextIndex == 0 || mIntDataNextIndex == 8000 || mIntDataNextIndex == 16000|| mIntDataNextIndex == 104000) {
+//            Log.d("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
+//            Log.d("mIntDataNextIndex", String.valueOf(iValue));
+//        }
         // Cavin Test DC OFFSET 20211222 end
-        Log.d("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
         mShortUltrasoundData[mIntDataNextIndex] = (short) iValue;
         mIntUltrasoundDataGainLevel[mIntDataNextIndex] = SystemConfig.mIntGainLevel;
         if(SystemConfig.mIntFilterDataEnabled == SystemConfig.INT_FILTER_ENABLED_YES) {
@@ -823,6 +825,26 @@ public class RawDataProcessor {
 //            mMyDataFilter.filterProcessForData(mIntDataNextIndex);
         }
 
+        /* 驗證 mShortUltrasoundDataBeforeFilter的value 2023/03/03 by Doris*/
+//        for(int i=0; i< mShortUltrasoundDataBeforeFilter.length; i+=8000){
+//            Log.d("mShortUltrasoundDataBeforeFilter "+i, String.valueOf(mShortUltrasoundDataBeforeFilter[i]));
+//        }
+//        if (mIntDataNextIndex == 0 ||
+//                mIntDataNextIndex == 8000 ||
+//                mIntDataNextIndex == 16000 ||
+//                mIntDataNextIndex == 24000||
+//                mIntDataNextIndex == 32000||
+//                mIntDataNextIndex == 40000 ||
+//                mIntDataNextIndex == 48000 ||
+//                mIntDataNextIndex == 56000 ||
+//                mIntDataNextIndex == 64000 ||
+//                mIntDataNextIndex == 72000 ||
+//                mIntDataNextIndex == 80000 ||
+//                mIntDataNextIndex == 88000 ||
+//                mIntDataNextIndex == 96000 ||
+//                mIntDataNextIndex == 104000){
+//            Log.d("Array "+mIntDataNextIndex, String.valueOf(mShortUltrasoundDataBeforeFilter[mIntDataNextIndex]));
+//        }
 //        iByteIndex = mIntDataNextIndex * SystemConfig.mInt1DataBytes;
 
 //        if(mIntDataNextIndex < (mByteArrayUltrasoundDataOnLineSave.length / 2)) {
@@ -830,6 +852,7 @@ public class RawDataProcessor {
 //                mByteArrayUltrasoundDataOnLineSave[iByteIndex + iVar2] = byteArray[iVar2];
 //            }
 //        }
+//        Log.d("mIntUltrasoundSamplesMaxSizeForRun "+mIntDataNextIndex, String.valueOf(SystemConfig.mIntUltrasoundSamplesMaxSizeForRun));
 
         if(SystemConfig.mEnumStartState == SystemConfig.ENUM_START_STATE.STATE_START) {
             if (mIntDataNextIndex < SystemConfig.mIntUltrasoundSamplesMaxSizeForRun) {
@@ -857,7 +880,10 @@ public class RawDataProcessor {
                 if (mIntDataNextIndex == SystemConfig.mIntUltrasoundSamplesMaxSizeForRun - 1) {
                     if (!SystemConfig.isHeartIO2) {
                         storeByteDataToWavFile();
+//                        GIS_Log.Leslie_LogCat("Leslie","saveWav");
                     }
+//                    GIS_Log.Leslie_LogCat("Leslie","STATE_END");
+
                     mEnumUltrasoundOneDataReceiveState = ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END;
                     //SystemConfig.mMyEventLogger.appendDebugStr("storeByteDataToWavFile", "");
                 }
@@ -875,8 +901,10 @@ public class RawDataProcessor {
             if (mIntDataNextIndex == SystemConfig.mIntUltrasoundSamplesMaxSizeForRun) {
                 mIntDataNextIndex=0;
 //            }else if((mIntDataNextIndex % classificationIntervalPts == 0) && isHRStableCount>=3){ //加上HR穩定條件 2023/02/13 by Doris
-            }else if(mIntDataNextIndex % classificationIntervalPts == 0){
-                 classificationUSPA();
+            }else if(mIntDataNextIndex % classificationIntervalPts == 0){ // 1秒呼叫一次
+//                classificationUSPA();
+                GIS_VoiceAI.judgeVoice(mShortUltrasoundDataBeforeFilter, mIntDataNextIndex);
+//                Log.e("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
             }
         }
     }
@@ -2138,7 +2166,7 @@ public class RawDataProcessor {
 
     /* 將8K轉成16K 2023/02/06 by Doris */
     public short[] resampleTo16k(short[] rawArray){
-        int length = 224000;
+        int length = 16000;
         short[] temp = new short[length];
 //        for(int i = 0 ; i < length/2 ; i++){ //複製同樣的點
 //            temp[i * 2] = mShortUltrasoundDataBeforeFilter[i];
@@ -2147,7 +2175,7 @@ public class RawDataProcessor {
 
         for(int i = 0 ; i < length/2 ; i++){
             temp[i * 2] = rawArray[i];
-            if(i == 111999){
+            if(i == 7999){
                 temp[i * 2 + 1] = rawArray[i];
             }else{
                 temp[i * 2 + 1] = (short) ((rawArray[i] + rawArray[i+1]) / 2);
@@ -2157,31 +2185,36 @@ public class RawDataProcessor {
     }
 
     public void classificationUSPA(){
-              if (tensorAudio!=null &&
-                      mShortUltrasoundDataBeforeFilter!=null &&
-                      mIntDataNextIndex>classificationIntervalPts){
+//        Log.d("inside "+mIntDataNextIndex, String.valueOf(mShortUltrasoundDataBeforeFilter[mIntDataNextIndex]));
+
+        if (tensorAudio!=null &&
+                mShortUltrasoundDataBeforeFilter!=null &&
+                mIntDataNextIndex>=classificationIntervalPts){
+
+            short[] temp = Arrays.copyOfRange(mShortUltrasoundDataBeforeFilter,mIntDataNextIndex-classificationIntervalPts, mIntDataNextIndex);
+            tensorAudio.load(resampleTo16k(temp));
 //                  tensorAudio.load(mShortUltrasoundDataBeforeFilter
 //                          ,mIntDataNextIndex-classificationIntervalPts,classificationIntervalPts);
-//                  tensorAudio.load(resampleTo16k());
-                  tensorAudio.load(resampleTo16k(mShortUltrasoundDataBeforeFilter)
-                          ,mIntDataNextIndex*2-classificationIntervalPts,classificationIntervalPts);
 
-                  short[] ui = resampleTo16k(mShortUltrasoundDataBeforeFilter);
-//                  Log.d("mIntDataNextIndex: ", String.valueOf(mIntDataNextIndex*2));
-                  Log.d("mShortUltrasoundDataBeforeFilter1: ", String.valueOf(mShortUltrasoundDataBeforeFilter[0]));
-                  Log.d("mShortUltrasoundDataBeforeFilter2: ", String.valueOf(mShortUltrasoundDataBeforeFilter[8000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter3: ", String.valueOf(mShortUltrasoundDataBeforeFilter[16000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter4: ", String.valueOf(mShortUltrasoundDataBeforeFilter[24000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter5: ", String.valueOf(mShortUltrasoundDataBeforeFilter[32000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter6: ", String.valueOf(mShortUltrasoundDataBeforeFilter[40000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter7: ", String.valueOf(mShortUltrasoundDataBeforeFilter[48000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter8: ", String.valueOf(mShortUltrasoundDataBeforeFilter[56000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter9: ", String.valueOf(mShortUltrasoundDataBeforeFilter[64000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter10: ", String.valueOf(mShortUltrasoundDataBeforeFilter[72000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter11: ", String.valueOf(mShortUltrasoundDataBeforeFilter[80000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter12: ", String.valueOf(mShortUltrasoundDataBeforeFilter[88000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter13: ", String.valueOf(mShortUltrasoundDataBeforeFilter[96000]));
-                  Log.d("mShortUltrasoundDataBeforeFilter14: ", String.valueOf(mShortUltrasoundDataBeforeFilter[104000]));
+                  /* 驗證 mShortUltrasoundDataBeforeFilter的value 2023/03/02 by Doris*/
+//                  for(int i=0; i< mShortUltrasoundDataBeforeFilter.length; i+=8000){
+//                      if(!lastData){
+//                          lastArray = mShortUltrasoundDataBeforeFilter.clone();
+//                          lastData = true;
+//                          continue;
+//                      }
+//                      Log.d("mShortArray "+i, String.valueOf(mShortUltrasoundDataBeforeFilter[i]));
+//                      if (Math.abs(mShortUltrasoundDataBeforeFilter[i] - lastArray[i]) == 0){
+////                          Log.d("lastArray ", String.valueOf(i));
+////                          Log.d("nowArray "+i, String.valueOf(mShortArray[i]));
+////                          Log.d("nowArray "+i, String.valueOf(mShortUltrasoundDataBeforeFilter[i]));
+//                      }
+//                      lastArray = mShortUltrasoundDataBeforeFilter.clone();
+//                      Log.d("lastArray "+i, String.valueOf(lastArray[i]));
+////                      Log.d("lastData"+i, String.valueOf(lastData == false));
+//                  }
+
+
                   List<Classifications> output = audioClassifier.classify(tensorAudio);
 
                   List<Category> filteredCategory =
@@ -2199,11 +2232,12 @@ public class RawDataProcessor {
 //                      }
                   }else{
                       SystemConfig.isPAvoice = 0;
-                      Log.d(TAG, "clear PA count~");
+//                      Log.d(TAG, "clear PA count~");
                   }
 
                   Log.d(TAG, outputString);
-//                  Log.d("mShortUltrasoundDataBeforeFilter", String.valueOf(mShortUltrasoundDataBeforeFilter.length));
+//                  Log.d("mIntDataNextIndex"+mIntDataNextIndex, String.valueOf(mShortUltrasoundDataBeforeFilter[mIntDataNextIndex]));
+//                  Log.d("mIntDataNextIndex"+mIntDataNextIndex, String.valueOf(mIntDataNextIndex-classificationIntervalPts));
 //                  Log.d("tensorAudio", String.valueOf(tensorAudio.getFormat()));
 //                  Log.d("audioClassifier", String.valueOf(audioClassifier));
 //                  Log.d("audioClassifier", String.valueOf(audioClassifier.getRequiredTensorAudioFormat()));

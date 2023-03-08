@@ -256,7 +256,7 @@ public class onlineFragment extends Fragment {
                         public void run() {
                             if(MainActivity.mIsNotifyEnabled){
                                 mTBtnTryNotify.setChecked(false);
-                                mHandler.postDelayed(this, 300L);
+                                mHandler.postDelayed(this, 3000L);
 //                                Log.d("setChecked", "setChecked(false)");
                             } else {
                                 mTBtnTryNotify.setChecked(true);
@@ -1040,17 +1040,17 @@ public class onlineFragment extends Fragment {
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
                 if (isStable && SystemConfig.isPAvoice>=3) {
-                    mHRValueTextView.setTextColor(Color.BLACK);
+//                    mHRValueTextView.setTextColor(Color.BLACK);
                     if (!mTBtnRec.isChecked()) {
                         mTBtnRec.setTextColor(Color.argb(255, 0, 117, 0));
                         greenLightImg.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    mHRValueTextView.setTextColor(Color.GRAY);
+//                    mHRValueTextView.setTextColor(Color.GRAY);
                     mTBtnRec.setTextColor(Color.BLACK);
                     greenLightImg.setVisibility(View.INVISIBLE);
                 }
-                mHRValueTextView.setText(String.format(Locale.US, "%d", HR));
+//                mHRValueTextView.setText(String.format(Locale.US, "%d", HR));
             });
         }
     }
@@ -1416,6 +1416,7 @@ public class onlineFragment extends Fragment {
 
         MainActivity.mRawDataProcessor.mEnumUltrasoundAttributeReceiveState = RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END;
         MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState = RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END;
+        GIS_Log.Leslie_LogCat("Leslie","tryStopAction");
 
         if (SystemConfig.isHeartIO2) {
             for (EcgSegView ecgSegView : ecgSegViews) {
@@ -1525,6 +1526,7 @@ public class onlineFragment extends Fragment {
     private void stopRecord(){
         MainActivity.mRawDataProcessor.mEnumUltrasoundAttributeReceiveState = RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END;
         MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState = RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END;
+        GIS_Log.Leslie_LogCat("Leslie","stopRecord");
 
         recEndAction();
     }
