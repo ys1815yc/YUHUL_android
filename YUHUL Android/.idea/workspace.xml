@@ -113,10 +113,11 @@
       <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
 =======
     <list default="true" id="9933dbae-283d-49d7-af56-08ea8ba33006" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/GIS_VoiceAI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/BVSignalProcessController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/BVSignalProcessController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/BVSignalProcessorPart1.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/BVSignalProcessorPart1.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/RawDataProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/SignalProcessSubsystem/RawDataProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/MyPlotterBloodVelocity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/MyPlotterBloodVelocity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/onlineFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/gis/heartio/UIOperationControlSubsystem/onlineFragment.java" afterDir="false" />
 >>>>>>> 4f7d613959b0f59632c5d6283b1d465e0ca70c60
     </list>
