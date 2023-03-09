@@ -1,8 +1,6 @@
 package com.gis.heartio.SignalProcessSubsystem;
 
-import android.util.Log;
-
-import com.gis.heartio.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 
 /**

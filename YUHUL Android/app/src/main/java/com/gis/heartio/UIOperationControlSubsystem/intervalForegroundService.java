@@ -29,8 +29,8 @@ import com.gis.CommonUtils.Constants;
 import com.gis.CommonUtils.UUIDDatabase;
 import com.gis.CommonUtils.Utils;
 import com.gis.heartio.R;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
-import com.gis.heartio.SupportSubsystem.dataInfo;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.dataInfo;
 import com.gis.heartio.heartioApplication;
 
 import java.text.SimpleDateFormat;

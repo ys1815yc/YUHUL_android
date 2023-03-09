@@ -22,9 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.gis.heartio.R;
-import com.gis.heartio.SupportSubsystem.IwuSQLHelper;
-import com.gis.heartio.SupportSubsystem.LoginDatabaseAdapter;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.LoginDatabaseAdapter;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.google.android.material.textfield.TextInputEditText;
 
 

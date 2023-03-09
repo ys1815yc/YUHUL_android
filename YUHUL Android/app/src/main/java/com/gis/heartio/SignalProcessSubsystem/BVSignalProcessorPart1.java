@@ -6,7 +6,7 @@ import com.gis.CommonUtils.Constants;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Tag;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 
 import java.lang.reflect.Array;

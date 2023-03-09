@@ -98,7 +98,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 //import android.support.v7.app.AppCompatActivity;
 
-import com.gis.heartio.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 
 public class ProfileScanningFragment extends Fragment {
     private static final String TAG = "ProfileScanningFragment";

@@ -280,4 +280,19 @@ public class GIS_Log {
             ex.printStackTrace();
         }
     }
+    public static void resampleCutTest(short[] rawArray){
+        /* 先resample */
+        int length = 224000;
+        short[] temp = new short[length];
+
+        for(int i = 0 ; i < length/2 ; i++){
+            temp[i * 2] = rawArray[i];
+            if(i == 7999){
+                temp[i * 2 + 1] = rawArray[i];
+            }else{
+                temp[i * 2 + 1] = (short) ((rawArray[i] + rawArray[i+1]) / 2);
+            }
+        }
+        
+    }
 }

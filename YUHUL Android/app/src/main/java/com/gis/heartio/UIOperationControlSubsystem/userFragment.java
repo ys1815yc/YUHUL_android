@@ -32,8 +32,8 @@ import android.widget.TextView;
 
 import com.gis.CommonUtils.Constants;
 import com.gis.heartio.R;
-import com.gis.heartio.SupportSubsystem.IwuSQLHelper;
-import com.gis.heartio.SupportSubsystem.userInfo;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.userInfo;
 
 import java.util.ArrayList;
 

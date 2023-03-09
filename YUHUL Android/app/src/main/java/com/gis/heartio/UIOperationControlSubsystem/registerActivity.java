@@ -14,7 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gis.heartio.R;
-import com.gis.heartio.SupportSubsystem.LoginDatabaseAdapter;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.LoginDatabaseAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.sql.SQLException;

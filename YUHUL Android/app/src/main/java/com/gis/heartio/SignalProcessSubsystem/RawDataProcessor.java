@@ -4,6 +4,8 @@ package com.gis.heartio.SignalProcessSubsystem;
  * Created by Cavin on 2018/1/2.
  */
 
+import static com.gis.heartio.GIS_Log.storeByteToRawData8K;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
@@ -15,17 +17,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.gis.BLEConnectionServices.BluetoothLeService;
 import com.gis.heartio.GIS_VoiceAI;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
-import com.gis.heartio.SupportSubsystem.MyDataFilter2;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
-import com.gis.heartio.SupportSubsystem.Utilitys;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.MyDataFilter2;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.Utilitys;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 import com.gis.heartio.UIOperationControlSubsystem.UserManagerCommon;
 import com.gis.heartio.heartioApplication;
 
 import org.tensorflow.lite.support.audio.TensorAudio;
-import org.tensorflow.lite.support.label.Category;
 import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
-import org.tensorflow.lite.task.audio.classifier.Classifications;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -41,10 +41,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class RawDataProcessor {
 
@@ -230,9 +228,9 @@ public class RawDataProcessor {
             mShortUltrasoundData = new short[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS];
             mIntUltrasoundDataNotDCOffset = new int[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS];
             mIntUltrasoundDataGainLevel = new int[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS];
-            mShortUltrasoundDataBeforeFilter = new short[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS];
+//            mShortUltrasoundDataBeforeFilter = new short[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS];
             /* 將 mShortUltrasoundDataBeforeFilter 長度重設為112000 (8000K * 14s) 2023/02/07 by Doris*/
-//            mShortUltrasoundDataBeforeFilter = new short[SystemConfig.INT_ULTRASOUND_START_ONLINE_SEC * SystemConfig.INT_ULTRASOUND_SAMPLING_RATE_8K];
+            mShortUltrasoundDataBeforeFilter = new short[SystemConfig.INT_ULTRASOUND_START_ONLINE_SEC * SystemConfig.INT_ULTRASOUND_SAMPLING_RATE_8K];
             mByteArrayUltrasoundDataOnLineSave = new byte[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS_ITRI_8K];
             mByteArrayWaveDataAfterFilter = new byte[SystemConfig.INT_ULTRASOUND_DATA_MAX_SIS * SystemConfig.INT_ULTRASOUND_DATA_1DATA_BYTES_16PCM];
 
@@ -878,7 +876,7 @@ public class RawDataProcessor {
                 if (mIntDataNextIndex == SystemConfig.mIntUltrasoundSamplesMaxSizeForRun - 1) {
                     if (!SystemConfig.isHeartIO2) {
                         storeByteDataToWavFile();
-//                        GIS_Log.Leslie_LogCat("Leslie","saveWav");
+                        storeByteToRawData8K(mShortUltrasoundDataBeforeFilter);
                     }
 //                    GIS_Log.Leslie_LogCat("Leslie","STATE_END");
 

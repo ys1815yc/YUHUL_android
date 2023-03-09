@@ -5,8 +5,8 @@ import com.gis.heartio.SignalProcessSubsysII.processor.BloodVelocityProcessorIIP
 import com.gis.heartio.SignalProcessSubsysII.utilities.Methodoligies;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Tag;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
-import com.gis.heartio.SupportSubsystem.dataInfo;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.dataInfo;
 import com.gis.heartio.UIOperationControlSubsystem.UserManagerCommon;
 
 

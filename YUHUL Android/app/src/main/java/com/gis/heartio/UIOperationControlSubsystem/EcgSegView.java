@@ -10,7 +10,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.gis.heartio.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 
 public class EcgSegView extends View {
     private final static String TAG = EcgSegView.class.getSimpleName();

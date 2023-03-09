@@ -47,7 +47,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import com.gis.heartio.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.gis.heartio.UIOperationControlSubsystem.onlineFragment;
 
 /**

@@ -30,10 +30,8 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -49,9 +47,9 @@ import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessorPart1;
 import com.gis.heartio.SignalProcessSubsystem.RawDataProcessor;
-import com.gis.heartio.SupportSubsystem.MyThreadQMsg;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
-import com.gis.heartio.SupportSubsystem.dataInfo;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.MyThreadQMsg;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.dataInfo;
 import com.gis.heartio.heartioApplication;
 
 import java.math.BigDecimal;

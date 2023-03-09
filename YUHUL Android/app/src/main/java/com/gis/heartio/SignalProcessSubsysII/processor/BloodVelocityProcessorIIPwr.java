@@ -11,7 +11,7 @@ import com.gis.heartio.SignalProcessSubsysII.utilities.Methodoligies;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Tag;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessorPart1;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 
 import java.util.Arrays;

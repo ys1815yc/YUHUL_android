@@ -1,4 +1,4 @@
-package com.gis.heartio.SupportSubsystem;
+package com.gis.heartio.SignalProcessSubsystem.SupportSubsystem;
 
 public class adminInfo {
     public long adminID;

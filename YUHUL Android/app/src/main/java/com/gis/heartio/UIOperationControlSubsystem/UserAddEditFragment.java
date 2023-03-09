@@ -21,8 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.gis.heartio.R;
-import com.gis.heartio.SupportSubsystem.IwuSQLHelper;
-import com.gis.heartio.SupportSubsystem.userInfo;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.userInfo;
 
 import java.util.Objects;
 

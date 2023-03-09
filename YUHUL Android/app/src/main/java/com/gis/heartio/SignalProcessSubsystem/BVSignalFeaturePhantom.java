@@ -1,7 +1,6 @@
 package com.gis.heartio.SignalProcessSubsystem;
 
-import com.gis.heartio.SupportSubsystem.SystemConfig;
-import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 
 import java.util.Arrays;
 

@@ -25,8 +25,8 @@ import androidx.fragment.app.Fragment;
 
 import com.gis.CommonUtils.Constants;
 import com.gis.heartio.R;
-import com.gis.heartio.SupportSubsystem.IwuSQLHelper;
-import com.gis.heartio.SupportSubsystem.LoginDatabaseAdapter;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.LoginDatabaseAdapter;
 
 import java.sql.SQLException;
 import java.util.Objects;

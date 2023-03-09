@@ -1,4 +1,4 @@
-package com.gis.heartio.SupportSubsystem;
+package com.gis.heartio.SignalProcessSubsystem.SupportSubsystem;
 
 import android.app.Activity;
 import android.os.Environment;

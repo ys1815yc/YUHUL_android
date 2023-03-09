@@ -5,7 +5,6 @@ package com.gis.heartio.UIOperationControlSubsystem;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Rect;
 //import androidx.core.app.Fragment;
@@ -14,16 +13,13 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.gis.CommonUtils.Constants;
-import com.gis.heartio.GIS_Log;
 import com.gis.heartio.GIS_SystemConfig;
 import com.gis.heartio.SignalProcessSubsystem.RawDataProcessor;
 import com.gis.heartio.SignalProcessSubsystem.ecgResult;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 
 import java.util.Arrays;
 import java.util.List;
-
-import yogesh.firzen.mukkiasevaigal.P;
 
 /**
  * Created by brandon on 2017/10/31.

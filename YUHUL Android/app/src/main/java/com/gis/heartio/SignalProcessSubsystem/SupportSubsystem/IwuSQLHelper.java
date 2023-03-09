@@ -1,4 +1,4 @@
-package com.gis.heartio.SupportSubsystem;
+package com.gis.heartio.SignalProcessSubsystem.SupportSubsystem;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -7,17 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import android.content.ContentValues;
-import android.graphics.Path;
 import android.util.Log;
-import android.widget.SimpleCursorAdapter;
 
 import com.gis.heartio.UIOperationControlSubsystem.UserManagerCommon;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by brandon on 2017/8/14.

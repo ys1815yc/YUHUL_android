@@ -1,7 +1,7 @@
 package com.gis.heartio;
 
-import com.gis.heartio.SupportSubsystem.SystemConfig;
-import com.gis.heartio.SupportSubsystem.dataInfo;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.dataInfo;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 import com.gis.heartio.UIOperationControlSubsystem.UserManagerCommon;
 

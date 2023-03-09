@@ -7,8 +7,8 @@ import android.util.Log;
 import com.gis.heartio.GIS_Algorithm;
 import com.gis.heartio.SignalProcessSubsysII.parameters.BloodVelocityConfig;
 import com.gis.heartio.SignalProcessSubsysII.transformer.FastDctLee;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
-import com.gis.heartio.SupportSubsystem.Utilitys;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.Utilitys;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 import com.opencsv.CSVWriter;
 

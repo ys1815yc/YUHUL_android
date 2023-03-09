@@ -34,8 +34,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.gis.BLEConnectionServices.BluetoothLeService;
 import com.gis.CommonUtils.Constants;
 import com.gis.heartio.R;
-import com.gis.heartio.SupportSubsystem.LoginDatabaseAdapter;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.LoginDatabaseAdapter;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.gis.heartio.heartioApplication;
 
 import java.sql.SQLException;

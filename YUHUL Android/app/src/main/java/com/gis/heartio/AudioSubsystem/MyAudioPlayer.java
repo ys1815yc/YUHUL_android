@@ -8,8 +8,8 @@ import android.os.Build;
 import android.util.Log;
 
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessorPart1;
-import com.gis.heartio.SupportSubsystem.MyDataFilter2;
-import com.gis.heartio.SupportSubsystem.SystemConfig;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.MyDataFilter2;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 
 import java.nio.ByteBuffer;

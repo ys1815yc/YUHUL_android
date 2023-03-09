@@ -1,7 +1,7 @@
 package com.gis.heartio.AudioSubsystem;
 
-import com.gis.heartio.SupportSubsystem.MyMsgQueue;
-import com.gis.heartio.SupportSubsystem.MyThreadQMsg;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.MyMsgQueue;
+import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.MyThreadQMsg;
 
 /**
  * Created by brandon on 2017/1/9.
