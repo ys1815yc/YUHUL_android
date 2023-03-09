@@ -15,7 +15,10 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
+
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.GIS_VoiceAI;
+
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.MyDataFilter2;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
@@ -813,6 +816,9 @@ public class RawDataProcessor {
 //            Log.d("mIntDataNextIndex", String.valueOf(iValue));
 //        }
         // Cavin Test DC OFFSET 20211222 end
+
+        GIS_Log.d("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
+
         mShortUltrasoundData[mIntDataNextIndex] = (short) iValue;
         mIntUltrasoundDataGainLevel[mIntDataNextIndex] = SystemConfig.mIntGainLevel;
         if(SystemConfig.mIntFilterDataEnabled == SystemConfig.INT_FILTER_ENABLED_YES) {
@@ -1158,7 +1164,7 @@ public class RawDataProcessor {
             /* length = 224000 (8K*14s) */
             int length = SystemConfig.mIntUltrasoundSamplesMaxSizeForRun * SystemConfig.mInt1DataBytes;
             byte[] temp = new byte[length];
-//            Log.d("length: ", String.valueOf(length));
+            GIS_Log.d("length: ", String.valueOf(length));
             for(int i = 0 ; i < length/2 ; i++){ //分兩個byte來存
                 temp[i * 2] = (byte)(mShortUltrasoundDataBeforeFilter[i] & 0xFF);
                 temp[i * 2 + 1] = (byte)((mShortUltrasoundDataBeforeFilter[i] >> 8) & 0xFF);

@@ -965,7 +965,6 @@ public class GIS_Algorithm {
     }
 
     private static void findVtiAndVpk(vf3AndP1Result value, double angle){
-        //**********************************
         MainActivity.mVtiBoundaryResultByGIS = new vtiBoundaryResult();
         MainActivity.mVtiAndVpkResultByGIS = new vtiAndVpkResult();
         MainActivity.mVtiBoundaryResultByGIS = Doppler_VTI_Offline(value.p1);
@@ -978,34 +977,14 @@ public class GIS_Algorithm {
         }
         GIS_Log.e(TAG,"start = [" + startMsg + "]");
         GIS_Log.e(TAG,"end = [" + endMsg + "]");
-        //**********************************
     }
 
     public static double findDopplerAngle(){
         double angleResult;
         vf3AndP1Result result = findVf3AndP1();
-  /*      double[] rawDataNormalize = new double[BloodVelocityConfig.INTEGER_ULTRASOUND_CAPTURE_LENGTH_PTS];
-
-        for (int i = 0 ; i < rawDataNormalize.length ; i++){
-            rawDataNormalize[i] = MainActivity.mRawDataProcessor.mShortUltrasoundDataBeforeFilter[i] / 32768.0;
-        }
-
-        double rawDataNormalizeMean = mean(rawDataNormalize);
-        double[] ZK = new double[rawDataNormalize.length];
-        for (int i = 0 ; i < ZK.length ; i++){
-            ZK[i] = 16 * (rawDataNormalize[i] - rawDataNormalizeMean);
-        }
-
-        double[][] pp1 = Spectrogram(ZK, 256, 192);
-        double[][] p1 = normal(pp1);
-
-        SnsiVf3Result vf =  SNSI_VF3(pp1);
-        double[] vf2 = vf.vf.stream().mapToDouble(i -> i).toArray();
-        double[] X2 = vf.xx.stream().mapToDouble(i -> i).toArray();
-        double[] vf3 = VF_fit(X2 , vf2);
-*/
 
         angleResult = Doppler_angle(result.vf3, result.p1);
+
         findVtiAndVpk(result, angleResult);
 
         return angleResult;
@@ -1013,6 +992,9 @@ public class GIS_Algorithm {
 
     private static vtiBoundaryResult Doppler_VTI_Offline(double[][] STFT){
         boolean vtiRegionFlag = false;
+        double vtiRegionEndCount = 0;
+        double vtiRegionNoSignalCount = 0;
+
 
         boolean vtiStartFlag = false;
         double vtiStartRegister = 0;
@@ -1023,9 +1005,11 @@ public class GIS_Algorithm {
         double vtiEndCount = 1;
 
         double vtiFirstEndSoundCount = 0;
+        double vtiSecondEndSoundCount = 0;
         boolean firstEndSoundStartFlag = false;
         boolean firstEndSoundEndFlag = false;
         boolean secondEndSoundStartFlag = false;
+        boolean secondEndSoundEndFlag = false;
 
         vtiBoundaryResult result = new vtiBoundaryResult();
         List<Double> startLocationsList = new ArrayList<>();
@@ -1069,10 +1053,10 @@ public class GIS_Algorithm {
                                 vtiStartCount = 0;
                             } else if(noiseSlope < 1) {
                                 vtiStartCount = 0;
-                            } else if(noiseSlope > 2){
+                            } else if(noiseSlope > 2) {
                                 vtiStartCount++;
-                                if(vtiStartCount == 5){
-                                    vtiStartRegister = (countColumn) - 5;
+                                if(vtiStartCount == 10){
+                                    vtiStartRegister = (countColumn) - 10;
                                     vtiStartCount = 0;
                                     vtiRegionFlag = true;
                                     vtiStartFlag = false;
@@ -1082,20 +1066,50 @@ public class GIS_Algorithm {
                     }
 
                     if(vtiRegionFlag){
-                        if (noiseSlope > 15){
-                            vtiEndFlag = true;
-                            vtiRegionFlag = false;
+                        if (noiseSlope < 25) {
+                            if (noiseSlope > 10) {
+                                vtiRegionEndCount = vtiRegionEndCount + 1;
+                                if (vtiRegionEndCount == 1) {
+                                    vtiEndFlag = true;
+                                    vtiRegionFlag = false;
+                                    vtiRegionEndCount = 0;
+                                    vtiRegionNoSignalCount = 0;
+                                }
+                            }else {
+                                vtiRegionEndCount = 0;
+                                vtiRegionNoSignalCount = 0;
+                                if (noiseSlope < 2) {
+                                    vtiEndFlag = true;
+                                    vtiRegionFlag = false;
+                                    firstEndSoundStartFlag = true;
+                                    vtiEndRegister = countColumn;
+                                }
+                            }
+                        }else{
+                            vtiRegionNoSignalCount = vtiRegionNoSignalCount + 1;
+                            if (vtiRegionNoSignalCount == 10) {
+                                vtiRegionFlag = false;
+                                vtiStartFlag = false;
+                                vtiRegionEndCount = 0;
+                                vtiRegionNoSignalCount = 0;
+                            }
                         }
                     }
                 } else if (!firstEndSoundStartFlag) {
-                    if (noiseSlope < 10) {
+                    if (noiseSlope < 2) {
                         firstEndSoundStartFlag = true;
                         vtiFirstEndSoundCount = 0;
                         vtiEndRegister = countColumn;
                     } else {
-                        vtiFirstEndSoundCount = vtiFirstEndSoundCount + 1;
-                        if (vtiFirstEndSoundCount > 10) {
-                            vtiEndFlag = false;
+                        if (noiseSlope > 20) {
+                            vtiFirstEndSoundCount = vtiFirstEndSoundCount + 1;
+                            if (vtiFirstEndSoundCount == 2) {
+                                firstEndSoundStartFlag = true;
+                                vtiFirstEndSoundCount = 0;
+                                firstEndSoundEndFlag = true;
+                                vtiEndRegister = countColumn;
+                            }
+                        } else {
                             vtiFirstEndSoundCount = 0;
                         }
                     }
@@ -1106,11 +1120,11 @@ public class GIS_Algorithm {
                         }
                     } else {
                         if (!secondEndSoundStartFlag) {
-                            if (noiseSlope < 5) {
+                            if (noiseSlope < 20) {
                                 secondEndSoundStartFlag = true;
                                 vtiEndRegister = countColumn;
                             } else {
-                                if (noiseSlope > 15) {
+                                if (noiseSlope > 20) {
                                     vtiEndCount = vtiEndCount + 1;
                                     if (vtiEndCount > 10) {
                                         startLocationsList.add(vtiStartRegister);
@@ -1118,6 +1132,7 @@ public class GIS_Algorithm {
                                         vtiEndFlag = false;
                                         firstEndSoundStartFlag = false;
                                         firstEndSoundEndFlag = false;
+                                        secondEndSoundStartFlag = false;
                                         vtiEndCount = 1;
                                     }
                                 }
@@ -1125,15 +1140,32 @@ public class GIS_Algorithm {
                         }
 
                         if (secondEndSoundStartFlag) {
-                            startLocationsList.add(vtiStartRegister);
-                            endLocationsList.add(vtiEndRegister);
-                            vtiEndFlag = false;
-                            firstEndSoundStartFlag = false;
-                            firstEndSoundEndFlag = false;
+                            if (!secondEndSoundEndFlag) {
+                                if (noiseSlope > 20) {
+                                    vtiSecondEndSoundCount = vtiSecondEndSoundCount + 1;
+                                    if (vtiSecondEndSoundCount > 10) {
+                                        secondEndSoundEndFlag = true;
+                                    }
+                                }
+                            } else {
+                                startLocationsList.add(vtiStartRegister);
+                                endLocationsList.add(vtiEndRegister);
+                                vtiEndFlag = false;
+                                firstEndSoundStartFlag = false;
+                                firstEndSoundEndFlag = false;
+                                secondEndSoundStartFlag = false;
+                                vtiEndCount = 1;
+                                secondEndSoundEndFlag = false;
+                                vtiSecondEndSoundCount = 0;
+                            }
                         }
                     }
                 }
             }
+        }
+        if(startLocationsList.size() == 0){
+            startLocationsList.add(0.0);
+            endLocationsList.add(0.0);
         }
 
         result.startLocationsOffline = startLocationsList.stream().mapToDouble(i -> i).toArray();
@@ -1154,26 +1186,28 @@ public class GIS_Algorithm {
         voteResult = findAvgParaByVote(tempBandArray,1);
         double[] vpk = new double[(int)voteResult.maxVoteNum];
         double[] vti = new double[(int)voteResult.maxVoteNum];
-
-        for(int i = 0 ; i < size ; i++){
-            if(voteResult.realValue == tempBandArray[i]){
-                double[] Fmax = new double[tempBandArray[i]+1];
-                for(int count = (int)boundary.startLocationsOffline[i] ; count <= boundary.endLocationsOffline[i] ; count++){
-                    Fmax[count-(int)boundary.startLocationsOffline[i]] = vf[count];
+        if(boundary.endLocationsOffline[0] == 0 && size == 1){
+            result.vpkResult = 0;
+            result.vtiResult = 0;
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (voteResult.realValue == tempBandArray[i]) {
+                    double[] Fmax = new double[tempBandArray[i] + 1];
+                    for (int count = (int) boundary.startLocationsOffline[i]; count <= boundary.endLocationsOffline[i]; count++) {
+                        Fmax[count - (int) boundary.startLocationsOffline[i]] = vf[count];
+                    }
+                    vti[(int) voteResult.maxVoteNum - 1] = singleFreqToVelocity(sum(Fmax), HUMAN_C, angle) * 0.008 * 100;
+                    vpk[(int) voteResult.maxVoteNum - 1] = singleFreqToVelocity(maxFrom1DArray(Fmax), HUMAN_C, angle);
+                    voteResult.maxVoteNum--;
                 }
-
-                vti[(int)voteResult.maxVoteNum-1] = singleFreqToVelocity(sum(Fmax), HUMAN_C, angle)*0.008*100;
-                vpk[(int)voteResult.maxVoteNum-1] = singleFreqToVelocity(maxFrom1DArray(Fmax), HUMAN_C, angle);
-
-                voteResult.maxVoteNum--;
             }
-        }
-        vpkMax = maxFrom1DArray(vpk);
-        for(int i = 0 ; i < vpk.length ; i++){
-            if(vpkMax == vpk[i]){
-                result.vpkResult = vpk[i];
-                result.vtiResult = vti[i];
-                break;
+            vpkMax = maxFrom1DArray(vpk);
+            for (int i = 0; i < vpk.length; i++) {
+                if (vpkMax == vpk[i]) {
+                    result.vpkResult = vpk[i];
+                    result.vtiResult = vti[i];
+                    break;
+                }
             }
         }
         return result;

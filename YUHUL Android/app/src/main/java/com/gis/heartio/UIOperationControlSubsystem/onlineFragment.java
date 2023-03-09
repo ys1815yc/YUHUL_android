@@ -714,7 +714,7 @@ public class onlineFragment extends Fragment {
                 //showResultBloodVelocityCommon(MainActivity.mSignalProcessController.getResultDataAfterSignalProcess());
                 currentResult = MainActivity.mSignalProcessController.getResultDataAfterSignalProcessByWu();
                 showResultBloodVelocityCommon(currentResult);
-                GIS_Log.e("Leslie","1");
+
                 //?enableBloodVelocityStartFromCalculateAction();
             } catch (Exception ex1) {
                 ex1.printStackTrace();

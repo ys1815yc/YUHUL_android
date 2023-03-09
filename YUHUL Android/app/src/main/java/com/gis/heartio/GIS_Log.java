@@ -293,6 +293,6 @@ public class GIS_Log {
                 temp[i * 2 + 1] = (short) ((rawArray[i] + rawArray[i+1]) / 2);
             }
         }
-        
+
     }
 }
