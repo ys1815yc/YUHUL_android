@@ -257,7 +257,7 @@ public class onlineFragment extends Fragment {
                         public void run() {
                             if(MainActivity.mIsNotifyEnabled){
                                 mTBtnTryNotify.setChecked(false);
-                                mHandler.postDelayed(this, 3000L);
+                                mHandler.postDelayed(this, 300L);
 //                                Log.d("setChecked", "setChecked(false)");
                             } else {
                                 mTBtnTryNotify.setChecked(true);
