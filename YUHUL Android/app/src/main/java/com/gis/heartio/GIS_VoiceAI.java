@@ -1,7 +1,5 @@
 package com.gis.heartio;
 
-import android.util.Log;
-
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 
 import org.tensorflow.lite.support.audio.TensorAudio;
@@ -43,6 +41,8 @@ public class GIS_VoiceAI {
         if (tensorAudio != null && rawData != null && index >= indexLength) {
             short[] temp = Arrays.copyOfRange(rawData, index - indexLength, index);
             tensorAudio.load(resampleTo16k(temp));
+            GIS_Log.d(TAG+index, String.valueOf(index));
+            GIS_Log.d(TAG+indexLength, String.valueOf(indexLength));
 
             List<Classifications> output = audioClassifier.classify(tensorAudio);
 
@@ -55,13 +55,13 @@ public class GIS_VoiceAI {
 
             if (outputLabel.endsWith("PA")){
                 SystemConfig.isPAvoice++;
-                Log.d(TAG, String.valueOf(SystemConfig.isPAvoice));
+                GIS_Log.d(TAG, String.valueOf(SystemConfig.isPAvoice));
             } else {
                 SystemConfig.isPAvoice = 0;
             }
-            Log.d(TAG, outputLabel);
+            GIS_Log.d(TAG, outputLabel);
         } else {
-            Log.e(TAG, String.valueOf(tensorAudio));
+            GIS_Log.e(TAG, String.valueOf(tensorAudio));
         }
     }
 }

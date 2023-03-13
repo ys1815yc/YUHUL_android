@@ -1423,7 +1423,7 @@ public class onlineFragment extends Fragment {
     private void tryStopAction() {
 
         MainActivity.mRawDataProcessor.mEnumUltrasoundAttributeReceiveState = RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END;
-        MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState = RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END;
+//        MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState = RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END;
         GIS_Log.e("Leslie","tryStopAction");
 
         if (SystemConfig.isHeartIO2) {

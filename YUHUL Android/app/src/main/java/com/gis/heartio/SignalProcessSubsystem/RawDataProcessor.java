@@ -4,8 +4,6 @@ package com.gis.heartio.SignalProcessSubsystem;
  * Created by Cavin on 2018/1/2.
  */
 
-import static com.gis.heartio.GIS_Log.storeByteToRawData8K;
-
 import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
@@ -15,10 +13,8 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
-
 import com.gis.heartio.GIS_Log;
 import com.gis.heartio.GIS_VoiceAI;
-
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.MyDataFilter2;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
@@ -882,7 +878,7 @@ public class RawDataProcessor {
                 if (mIntDataNextIndex == SystemConfig.mIntUltrasoundSamplesMaxSizeForRun - 1) {
                     if (!SystemConfig.isHeartIO2) {
                         storeByteDataToWavFile();
-                        storeByteToRawData8K(mShortUltrasoundDataBeforeFilter);
+//                        resampleCutTest(tensorAudio, audioClassifier, mShortUltrasoundDataBeforeFilter);
                     }
 //                    GIS_Log.Leslie_LogCat("Leslie","STATE_END");
 
