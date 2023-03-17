@@ -813,7 +813,7 @@ public class RawDataProcessor {
 //        }
         // Cavin Test DC OFFSET 20211222 end
 
-        GIS_Log.d("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
+//        GIS_Log.d("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
 
         mShortUltrasoundData[mIntDataNextIndex] = (short) iValue;
         mIntUltrasoundDataGainLevel[mIntDataNextIndex] = SystemConfig.mIntGainLevel;
@@ -899,8 +899,8 @@ public class RawDataProcessor {
             if (mIntDataNextIndex == SystemConfig.mIntUltrasoundSamplesMaxSizeForRun) {
                 mIntDataNextIndex=0;
 //            }else if((mIntDataNextIndex % classificationIntervalPts == 0) && isHRStableCount>=3){ //加上HR穩定條件 2023/02/13 by Doris
-            }else if(mIntDataNextIndex % classificationIntervalPts == 0){ // 1秒呼叫一次
-                GIS_VoiceAI.judgeVoice(tensorAudio, audioClassifier, mShortUltrasoundDataBeforeFilter, mIntDataNextIndex);
+            }else if((mIntDataNextIndex+1) % classificationIntervalPts == 0){ // 1秒呼叫一次
+                GIS_VoiceAI.judgeVoice(tensorAudio, audioClassifier, mShortUltrasoundDataBeforeFilter, mIntDataNextIndex+1);
             }
         }
     }

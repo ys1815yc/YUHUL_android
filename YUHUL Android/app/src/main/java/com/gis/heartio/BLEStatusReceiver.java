@@ -9,10 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
-import com.gis.CommonFragments.ProfileScanningFragment;
-import com.gis.CommonFragments.ServiceDiscoveryFragment;
 import com.gis.CommonUtils.Constants;
-import com.gis.CommonUtils.Utils;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 import com.gis.heartio.UIOperationControlSubsystem.intervalForegroundService;
 
@@ -21,7 +18,7 @@ public class BLEStatusReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        //Log.d(TAG,"action = "+action);
+        GIS_Log.d(TAG,"action = "+action);
         if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
             Log.d(TAG,"action = "+BluetoothLeService.ACTION_GATT_DISCONNECTED);
             //Logger.e("onReceive--" + HomePageActivity.mApplicationInBackground);

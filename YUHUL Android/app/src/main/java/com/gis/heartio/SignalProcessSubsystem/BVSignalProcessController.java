@@ -148,18 +148,18 @@ public class BVSignalProcessController {
                 if (myMsg != null) {
                     switch (myMsg.mIntMsgId) {
                         case MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN:
-                            GIS_Log.d("Leslie","SPROCESS_DATA_IN");
+//                            GIS_Log.d("Leslie","SPROCESS_DATA_IN");
                             boolReturn = receiveAttributeDataBySegmentOnLine(myMsg.mByteArray);
                             if(boolReturn){
                                 if(MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState == RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END){
                                     MainActivity.mSignalProcessController.putMsgForProcessDataFinish();
-                                    GIS_Log.d("Leslie","RECEIVE_STATE_END");
+//                                    GIS_Log.d("Leslie","RECEIVE_STATE_END");
                                 }
 
                                 if (intervalForegroundService.isRunning &&
                                         MainActivity.mRawDataProcessor.mEnumUltrasoundAttributeReceiveState
                                                 == RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END ){
-                                    GIS_Log.d("Leslie","intervalForegroundService.isRunning="+intervalForegroundService.isRunning);
+//                                    GIS_Log.d("Leslie","intervalForegroundService.isRunning="+intervalForegroundService.isRunning);
                                     Message message = Message.obtain();
                                     message.what = intervalForegroundService.ACTION_MESSAGE_ID_RECORD_END;
                                     try{
@@ -170,21 +170,21 @@ public class BVSignalProcessController {
                                 }
 
                                 if (SystemConfig.mEnumUltrasoundUIState == SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE) {
-                                    GIS_Log.d("Leslie","SystemConfig.mEnumUltrasoundUIState == SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE");
+//                                    GIS_Log.d("Leslie","SystemConfig.mEnumUltrasoundUIState == SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE");
                                     enumRxState = MainActivity.mRawDataProcessor.mEnumUltrasoundAttributeReceiveState;
 
                                     uiMessage = new Message();
                                     if (enumRxState == RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_CONTINUOUS) {
                                         uiMessage.what = MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN;
-                                        GIS_Log.d("Leslie","RECEIVE_STATE_CONTINUOUS");
+//                                        GIS_Log.d("Leslie","RECEIVE_STATE_CONTINUOUS");
                                     } else if (enumRxState == RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_START) {
                                         uiMessage.what = MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN_START;
-                                        GIS_Log.d("Leslie","RECEIVE_STATE_START");
+//                                        GIS_Log.d("Leslie","RECEIVE_STATE_START");
                                     }
                                     if(SystemConfig.mEnumStartState == SystemConfig.ENUM_START_STATE.STATE_START) {
                                         if (enumRxState == RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END) {
                                             uiMessage.what = MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN_END;
-                                            GIS_Log.d("Leslie","STATE_START/RECEIVE_STATE_END");
+//                                            GIS_Log.d("Leslie","STATE_START/RECEIVE_STATE_END");
                                         }
                                     }
                                     iUiMsgWhat = uiMessage.what;
@@ -198,7 +198,7 @@ public class BVSignalProcessController {
                             break;
 
                         case MyThreadQMsg.INT_MY_MSG_CMD_SPROCESS_DATA_FINISH:
-                            GIS_Log.d("Leslie","SPROCESS_DATA_FINISH");
+//                            GIS_Log.d("Leslie","SPROCESS_DATA_FINISH");
                             if(!mBoolStartedByGetFirstPower) {
                                 processAllSegmentPart1Step2OffLine();
 
@@ -271,14 +271,14 @@ public class BVSignalProcessController {
                             break;
 
                         case MyThreadQMsg.INT_MY_MSG_CMD_SPROCESS_PREPARE_PROCESS:
-                            GIS_Log.d("Leslie","SPROCESS_PREPARE_PROCESS");
+//                            GIS_Log.d("Leslie","SPROCESS_PREPARE_PROCESS");
                             mBoolStartedByGetFirstPower = false;
                             mMyMsgQueue.clearMsg();
                             mIntMaxMsgInQ = 0;
                             break;
 
                         case MyThreadQMsg.INT_MY_MSG_CMD_SPROCESS_STOP_BY_FIRST_POWER:
-                            GIS_Log.d("Leslie","SPROCESS_STOP_BY_FIRST_POWER");
+//                            GIS_Log.d("Leslie","SPROCESS_STOP_BY_FIRST_POWER");
                             mBoolStartedByGetFirstPower = true;
                             break;
                     }

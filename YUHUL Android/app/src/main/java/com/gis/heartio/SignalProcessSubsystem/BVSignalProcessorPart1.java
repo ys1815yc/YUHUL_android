@@ -1,5 +1,7 @@
 package com.gis.heartio.SignalProcessSubsystem;
 
+import static com.gis.heartio.GIS_VoiceAI.isPA;
+
 import android.util.Log;
 
 import com.gis.CommonUtils.Constants;
@@ -644,7 +646,7 @@ public class BVSignalProcessorPart1 {
                                 Log.d("BVSP1","HR stable!!!!!!!!!!!");
                             }
                         }
-                        MainActivity.oFrag.updateHRValue(tmpHR,(isHRStableCount>=3));
+                        MainActivity.oFrag.updateHRValue(tmpHR,(isHRStableCount>=3 && isPA()));
                         lastHR = tmpHR;
                     }
                 }

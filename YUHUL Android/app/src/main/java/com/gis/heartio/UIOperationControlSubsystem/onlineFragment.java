@@ -255,7 +255,7 @@ public class onlineFragment extends Fragment {
                         public void run() {
                             if(MainActivity.mIsNotifyEnabled){
                                 mTBtnTryNotify.setChecked(false);
-                                mHandler.postDelayed(this, 300L);
+                                mHandler.postDelayed(this, 2000L);
 //                                Log.d("setChecked", "setChecked(false)");
                             } else {
                                 mTBtnTryNotify.setChecked(true);
@@ -263,7 +263,7 @@ public class onlineFragment extends Fragment {
                             }
                         }
                     };
-                    mHandler.postDelayed(mRunnable,75 * 1000L);
+                    mHandler.postDelayed(mRunnable,240 * 1000L);
 
                     if (!SystemConfig.mTestMode) {
                         // 5 mins 1 min per tick
@@ -282,10 +282,10 @@ public class onlineFragment extends Fragment {
                             @Override
                             public void onFinish() {
                                 Log.d(TAG, "Counter timer onFinish");
-                                mTBtnTryNotify.setChecked(false);
-                                if (mActivity != null) {
-                                    showMessageDialog(getString(R.string.msg_click_try_to_countinu_testing), mActivity);
-                                }
+//                                mTBtnTryNotify.setChecked(false);
+//                                if (mActivity != null) {
+//                                    showMessageDialog(getString(R.string.msg_click_try_to_countinu_testing), mActivity);
+//                                }
                                 //reTry();
                             }
                         };
@@ -1047,7 +1047,7 @@ public class onlineFragment extends Fragment {
     public void updateHRValue(final int HR, final boolean isStable) {
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
-                if (isStable && SystemConfig.isPAvoice>=3) {
+                if (isStable) {
 //                    mHRValueTextView.setTextColor(Color.BLACK);
                     if (!mTBtnRec.isChecked()) {
                         mTBtnRec.setTextColor(Color.argb(255, 0, 117, 0));
@@ -1345,10 +1345,14 @@ public class onlineFragment extends Fragment {
      */
     void stopBroadcastDataNotify(BluetoothGattCharacteristic gattCharacteristic) {
         if (gattCharacteristic != null) {
+//            GIS_Log.e("Leslie", String.valueOf(gattCharacteristic));
             if ((gattCharacteristic.getProperties() | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
                 BluetoothLeService.setCharacteristicNotification(
                         gattCharacteristic, false);
+//                GIS_Log.d("Leslie", "setCharacteristicNotification");
             }
+        }else {
+//            GIS_Log.e("Leslie", "gattCharacteristic = null");
         }
     }
 
@@ -1391,9 +1395,8 @@ public class onlineFragment extends Fragment {
             BluetoothGattCharacteristic gattChara = mApplication.getBluetoothgattRuncharacteristic();
             BluetoothLeService.write2Char3(1,gattChara);
         }else{*/
-        BluetoothLeService.setCharacteristicNotification(mApplication.getBluetoothgattDatacharacteristic(), //mDataNotifyCharacteristic,
-                true);
-        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+        BluetoothLeService.setCharacteristicNotification(mNotifyCharacteristic, true);
+        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -1401,9 +1404,12 @@ public class onlineFragment extends Fragment {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            GIS_Log.d("Leslie checkSelfPermission", "true");
             return;
+        }else{
+            BluetoothLeService.mBluetoothGatt.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_HIGH);
+//            GIS_Log.d("Leslie requestConnectionPriority", String.valueOf(BluetoothLeService.mBluetoothGatt.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_HIGH)));
         }
-        BluetoothLeService.mBluetoothGatt.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_HIGH);
 //        }
 
         //SystemConfig.mMyEventLogger.appendDebugStr("Send Notify Start");
@@ -1448,6 +1454,7 @@ public class onlineFragment extends Fragment {
 
     public void tryEndAction(boolean boolNotifyStop) {
         SystemConfig.mEnumTryState = SystemConfig.ENUM_TRY_STATE.STATE_TRY_STOP;
+        GIS_Log.e("Leslie","tryEndAction");
         if (boolNotifyStop) {
             //SystemConfig.mUltrasoundComm.notifyStopCharacteristic();
             /*
@@ -1471,7 +1478,7 @@ public class onlineFragment extends Fragment {
         int iVar;
 
         // try {
-
+        GIS_Log.d("Leslie","startRecord");
         if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_CONNECTED) {
                 /*
                 mTextViewBleState.setBackgroundColor(Color.RED);
@@ -1508,7 +1515,7 @@ public class onlineFragment extends Fragment {
             mBoolNotifyUsedByDataComm = true;
 */
         //SystemConfig.mUltrasoundComm.notifyStartCharacteristic();
-        BluetoothLeService.setCharacteristicNotification(mApplication.getBluetoothgattDatacharacteristic(), //mDataNotifyCharacteristic,
+        BluetoothLeService.setCharacteristicNotification(mNotifyCharacteristic, //mDataNotifyCharacteristic,
                 true);
 /*
             SystemConfig.mUltrasoundComm.mBoolRxData = true;

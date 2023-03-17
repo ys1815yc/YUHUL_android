@@ -11,10 +11,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import yogesh.firzen.mukkiasevaigal.P;
+
 public class GIS_VoiceAI {
     private static final String TAG = "GIS_VoiceAI";
 
-    private static int indexLength = 8000; // 0.5s
+    private static int indexLength = 8000; // 1s
 
     /* 將8K轉成16K 2023/02/06 by Doris */
     public static short[] resampleTo16k(short[] rawArray){
@@ -36,13 +38,14 @@ public class GIS_VoiceAI {
         return temp;
     }
 
+    /*判斷聲音種類，之後存10秒的類別 by Doris*/
     public static void judgeVoice(TensorAudio tensorAudio, AudioClassifier audioClassifier, short[] rawData, int index) {
 
         if (tensorAudio != null && rawData != null && index >= indexLength) {
             short[] temp = Arrays.copyOfRange(rawData, index - indexLength, index);
             tensorAudio.load(resampleTo16k(temp));
-            GIS_Log.d(TAG+index, String.valueOf(index));
-            GIS_Log.d(TAG+indexLength, String.valueOf(indexLength));
+//            GIS_Log.d(TAG+index, String.valueOf(index));
+//            GIS_Log.d(TAG+indexLength, String.valueOf(indexLength));
 
             List<Classifications> output = audioClassifier.classify(tensorAudio);
 
@@ -53,15 +56,39 @@ public class GIS_VoiceAI {
 
             String outputLabel = filteredCategory.get(0).getLabel();
 
-            if (outputLabel.endsWith("PA")){
-                SystemConfig.isPAvoice++;
-                GIS_Log.d(TAG, String.valueOf(SystemConfig.isPAvoice));
-            } else {
-                SystemConfig.isPAvoice = 0;
+            if(SystemConfig.voiceIndex < 10){
+                SystemConfig.voiceCategory[SystemConfig.voiceIndex++] = outputLabel;
+                if(SystemConfig.voiceIndex == 10){
+                    SystemConfig.voiceIndex = 0;
+                }
             }
-            GIS_Log.d(TAG, outputLabel);
+            GIS_Log.e(TAG, outputLabel);
+
+//            if (outputLabel.endsWith("PA")){
+//                SystemConfig.isPAvoice++;
+//                GIS_Log.d(TAG, String.valueOf(SystemConfig.isPAvoice));
+//            } else {
+//                SystemConfig.isPAvoice = 0;
+//            }
         } else {
             GIS_Log.e(TAG, String.valueOf(tensorAudio));
         }
+    }
+
+    /*判斷聲音類別是否為PA超過5個 2023/03/16 by Doris*/
+    public static boolean isPA(){
+        boolean PA = false;
+        short times = 0;
+        for (int i=0; i<SystemConfig.voiceCategory.length; i++){
+            if(SystemConfig.voiceCategory[i].equals("PA")){
+                times++;
+            }
+            GIS_Log.d(TAG + i, SystemConfig.voiceCategory[i]);
+        }
+        if (times >= 5){
+            PA = true;
+        }
+        GIS_Log.d(TAG, "PA "+PA);
+        return PA;
     }
 }
