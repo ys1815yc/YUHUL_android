@@ -138,8 +138,7 @@ public class onlineFragment extends Fragment {
     private dataInfo currentResult;
 
     private ImageView greenLightImg;
-    private Handler mHandler;
-    private Runnable mRunnable;
+
     public onlineFragment() {
         //SystemConfig.mEnumUltrasoundUIState = SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE;
         //if(SystemConfig.mEnumUltrasoundUIState == SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE){
@@ -203,6 +202,9 @@ public class onlineFragment extends Fragment {
         mBtnCalculate = rootView.findViewById(R.id.calculateOnline);
         mBtnCalculate.setOnClickListener(btnCalculateOnClick);
         mBtnCalculate.setEnabled(false);
+        if(!SystemConfig.mTestMode){
+            mBtnCalculate.setVisibility(View.INVISIBLE);
+        }
 
         mBtnSave = rootView.findViewById(R.id.saveBtn);
         mBtnSave.setOnClickListener(btnSaveOnClick);
@@ -247,28 +249,11 @@ public class onlineFragment extends Fragment {
                     }
                     MainActivity.mIsNotifyEnabled = true;
                     enableTryAction();
-
                     greenLightImg.setVisibility(View.INVISIBLE);
                     mTBtnRec.setTextColor(Color.BLACK);
                     mTBtnRec.setVisibility(View.VISIBLE);
                     mBtnCalculate.setEnabled(false);
                     mBtnSave.setEnabled(false);
-
-                    mHandler = new Handler();
-                    mRunnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            if(MainActivity.mIsNotifyEnabled){
-                                mTBtnTryNotify.setChecked(false);
-                                mHandler.postDelayed(this, 2000L);
-//                                Log.d("setChecked", "setChecked(false)");
-                            } else {
-                                mTBtnTryNotify.setChecked(true);
-//                                Log.d("setChecked", "setChecked(true)");
-                            }
-                        }
-                    };
-//                    mHandler.postDelayed(mRunnable, 30 * 60 * 1000L);
 
                     if (!SystemConfig.mTestMode) {
                         // 5 mins 1 min per tick
@@ -299,9 +284,6 @@ public class onlineFragment extends Fragment {
                     }
                 } else {
                     MainActivity.mIsNotifyEnabled = false;
-                    if(mHandler != null){
-                        mHandler.removeCallbacks(mRunnable);
-                    }
                     tryStopAction();
                     /* 將接收raw data的陣列清空 2023/02/23 by Doris */
                     Arrays.fill(MainActivity.mRawDataProcessor.mShortUltrasoundDataBeforeFilter, (short) 0);
@@ -364,9 +346,6 @@ public class onlineFragment extends Fragment {
                     mTBtnRec.setTextColor(Color.BLACK);
                     greenLightImg.setVisibility(View.INVISIBLE);
                     tryEndAction(false);
-                    if(mHandler != null){
-                        mHandler.removeCallbacks(mRunnable);
-                    }
                     // For power level
                 /*
                 SystemConfig.mUltrasoundComm.mBoolRxData = false;
@@ -440,7 +419,7 @@ public class onlineFragment extends Fragment {
                 }
             }
         });
-        mTBtnRec.setVisibility(View.GONE);
+        mTBtnRec.setVisibility(View.INVISIBLE);
 
         mSurfaceViewTimeScaleDown = (SurfaceView) rootView.findViewById(R.id.svTimeScaleDown);
         mSurfaceViewTimeScaleDown.setZOrderOnTop(true);
@@ -531,7 +510,6 @@ public class onlineFragment extends Fragment {
         mCOValueTextView = rootView.findViewById(R.id.COValueTextView);
 
         mBloodVelocityPlotter = new MyPlotterBloodVelocity(mSurfaceViewUltrasound, this, mSurfaceViewScale);
-
         mBloodVelocityPlotter.setEcgSegViews(ecgSegViews);
 
         if (SystemConfig.mIntTimeScaleEnabled != SystemConfig.INT_TIME_SCALE_ENABLED_YES) {
@@ -1301,10 +1279,6 @@ public class onlineFragment extends Fragment {
 
         if (MainActivity.mIsNotifyEnabled) {
             tryEndAction(true);
-            if (mHandler != null) {
-                mHandler.removeCallbacks(mRunnable);
-                mHandler = null;
-            }
         }
 
         super.onDestroy();
@@ -1409,11 +1383,9 @@ public class onlineFragment extends Fragment {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            GIS_Log.d("Leslie checkSelfPermission", "true");
             return;
         }else{
             BluetoothLeService.mBluetoothGatt.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_HIGH);
-//            GIS_Log.d("Leslie requestConnectionPriority", String.valueOf(BluetoothLeService.mBluetoothGatt.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_HIGH)));
         }
 //        }
 

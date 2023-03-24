@@ -102,6 +102,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
         private EcgSegView[] ecgSegViews = null;
 
+
         public MyPlotterBloodVelocity(SurfaceView inputSV,onlineFragment inputFragment, SurfaceView inputScaleSV) {
 
             mIntTimeScaleLineStrokeWidth = 10;
@@ -115,7 +116,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             mSurfaceViewTimeScaleDown = oFrag.mSurfaceViewTimeScaleDown;
             mSurfaceViewTimeScaleUp = oFrag.mSurfaceViewTimeScaleUp;
             initPaintsAndColor();
-            Log.d("test", "online");
+            GIS_Log.d("test", "online");
             drawFreqScale(this.mSurfaceViewScale);
             initSurfaceHolderOffline();
             clearCanvasByHolder(mSurfaceHolderBVOffLine);
@@ -134,7 +135,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             mSurfaceViewTimeScaleDown = offFrag.mSurfaceViewTimeScaleDown;
             mSurfaceViewTimeScaleUp = offFrag.mSurfaceViewTimeScaleUp;
             initPaintsAndColor();
-            Log.d("test", "offline");
+            GIS_Log.d("test", "offline");
             drawFreqScale(this.mSurfaceViewScale);
             initSurfaceHolderOffline();
             clearCanvasByHolder(mSurfaceHolderBVOffLine);
@@ -545,7 +546,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
         private void clearCanvasByHolder(SurfaceHolder inputHolder){
             Canvas mCanvas = inputHolder.lockCanvas();
-
             if (mCanvas!=null) {
                 if (SystemConfig.darkMode){
                     mCanvas.drawColor(Color.BLACK);
@@ -614,7 +614,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             try {
 
                 mCanvasBVOffLine = mSurfaceHolderBVOffLine.lockCanvas();
-
                 //synchronized (mSurfaceHolderBVOffLine) {
                 if (mCanvasBVOffLine!=null){
                     if (SystemConfig.darkMode){
