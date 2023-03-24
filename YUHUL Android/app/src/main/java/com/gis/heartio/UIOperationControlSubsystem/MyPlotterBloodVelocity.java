@@ -13,6 +13,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.gis.CommonUtils.Constants;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.GIS_SystemConfig;
 import com.gis.heartio.SignalProcessSubsystem.RawDataProcessor;
 import com.gis.heartio.SignalProcessSubsystem.ecgResult;
@@ -347,6 +348,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             int iCurSubSegSize;
 
             iCurSubSegSize = MainActivity.mBVSignalProcessorPart1.getCurSubSegSize();
+//            Log.d("MPBV","iCurSubSegSize = "+iCurSubSegSize);
             drawByEndSubSegIdxOnLine(iCurSubSegSize - 1);
         }
 
@@ -365,17 +367,19 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
             if (!mBoolColorAndSignalMappedSetted) {
                 if(SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_0_SNSI_GM){
+//                    Log.e("MPBV", "mIntEndIdxNoiseLearn = "+SystemConfig.mIntEndIdxNoiseLearn);
                     if (iTryEndSubSegIdxParam >= SystemConfig.mIntEndIdxNoiseLearn) {
                         if (SystemConfig.mDoubleNoiseRangeWu != 0) {
                             prepareColorAndSignalMappingWuMode();
+                            GIS_Log.e(TAG, "UI test3");
                             //SystemConfig.mMyEventLogger.appendDebugStr("SignalMappingWuMode().exec", "");
                             mBoolColorAndSignalMappedSetted = true;
                         }
                     }
                 }else if(SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_1_WU_NEW) {
                     if (iTryEndSubSegIdxParam >= SystemConfig.mIntEndIdxNoiseLearn) {
-                            prepareColorAndSignalMappingWuNewMode();
-                            mBoolColorAndSignalMappedSetted = true;
+                        prepareColorAndSignalMappingWuNewMode();
+                        mBoolColorAndSignalMappedSetted = true;
                     }
                 }else{   // SNR Mode
                     if (iTryEndSubSegIdxParam >= SystemConfig.mIntEndIdxNoiseLearn) {
@@ -496,6 +500,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             if (oFrag == null){
                 return;
             }
+            Log.i(TAG, "clearSviewsByIdxOnLine");
             SurfaceHolder surfaceHolder;
 
             surfaceHolder = onlineFragment.mSurfaceViewsOnline[iClearViewIdx].getHolder();

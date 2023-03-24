@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -218,6 +219,10 @@ public class onlineFragment extends Fragment {
                 Log.d(TAG, "onCheckedChanged b=" + b);
                 final boolean tb = b;
                 if (b) {
+                    for (int iVar = 0; iVar < SystemConfig.INT_SURFACE_VIEWS_ON_LINE_USE_SIZE; iVar++) {
+                        mSurfaceViewsOnline[iVar].getHolder().setFormat(PixelFormat.TRANSPARENT);
+                        mSurfaceViewsOnline[iVar].getHolder().setFormat(PixelFormat.OPAQUE);
+                    }
                     if (mBtnSave.isEnabled()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
                         builder.setTitle(getString(R.string.msg_save_data));
@@ -263,7 +268,7 @@ public class onlineFragment extends Fragment {
                             }
                         }
                     };
-                    mHandler.postDelayed(mRunnable,240 * 1000L);
+//                    mHandler.postDelayed(mRunnable, 30 * 60 * 1000L);
 
                     if (!SystemConfig.mTestMode) {
                         // 5 mins 1 min per tick

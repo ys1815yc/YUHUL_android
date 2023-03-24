@@ -5,6 +5,7 @@ import static com.gis.heartio.GIS_VoiceAI.isPA;
 import android.util.Log;
 
 import com.gis.CommonUtils.Constants;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Tag;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
@@ -343,7 +344,7 @@ public class BVSignalProcessorPart1 {
             SystemConfig.mIntStartIdxNoiseLearn = (int) (((double) SystemConfig.mIntUltrasoundSamplerate * SystemConfig.DOUBLE_NOISE_SIGNAL_LEARN_START_SEC)
                     / (double) SystemConfig.mIntSTFTWindowShiftSize) + 1;
             SystemConfig.mIntEndIdxNoiseLearn = (int) (((double) SystemConfig.mIntUltrasoundSamplerate * SystemConfig.DOUBLE_NOISE_SIGNAL_LEARN_END_SEC)
-                    / (double) SystemConfig.mIntSTFTWindowShiftSize);
+                    / (double) SystemConfig.mIntSTFTWindowShiftSize); //mIntEndIdxNoiseLearn = 375
 
             if ((SystemConfig.mEnumDeviceType == SystemConfig.ENUM_DEVICE_TYPE.ITRI_8K_BE_ONLINE)
                     || (SystemConfig.mEnumDeviceType == SystemConfig.ENUM_DEVICE_TYPE.ITRI_8K_LE_ONLINE)
@@ -737,6 +738,7 @@ public class BVSignalProcessorPart1 {
                 } else {
                     if(SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_0_SNSI_GM){
                         processNoiseAndSignalByWu();    //--- for Algorithm SNSI_GM
+                        GIS_Log.e("MPBV", "processNoiseAndSignalByWu");
                         //*j+,0524  SNR
                         processNoiseAndSignalBaseAndMaxIdxLevel();    //--- for Algorithm SNR_AMP & SNR_PSD
                         //*j+,0524  SNR */

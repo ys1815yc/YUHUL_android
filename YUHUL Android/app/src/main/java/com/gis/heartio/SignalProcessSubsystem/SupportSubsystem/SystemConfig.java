@@ -16,7 +16,7 @@ public class SystemConfig {
     public static boolean mBoolDebugGainControl = false;
     public static boolean mBoolDebugPowerLevelChangeHistory = false;
 
-    public static boolean mTestMode = false;
+    public static boolean mTestMode = true;
     public static boolean isHeartIO2 = false;
     public static boolean saveFile = true;
     public static boolean vtiSegPlot = true;

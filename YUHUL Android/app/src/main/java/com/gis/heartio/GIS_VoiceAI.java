@@ -75,7 +75,7 @@ public class GIS_VoiceAI {
         }
     }
 
-    /*判斷聲音類別是否為PA超過5個 2023/03/16 by Doris*/
+    /*判斷聲音類別是否為PA超過8個 2023/03/16 by Doris*/
     public static boolean isPA(){
         boolean PA = false;
         short times = 0;
@@ -85,7 +85,7 @@ public class GIS_VoiceAI {
             }
             GIS_Log.d(TAG + i, SystemConfig.voiceCategory[i]);
         }
-        if (times >= 5){
+        if (times >= 8){
             PA = true;
         }
         GIS_Log.d(TAG, "PA "+PA);
