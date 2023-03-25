@@ -21,7 +21,7 @@ import java.nio.ByteOrder;
 public class MyAudioPlayer {
 
 
-    private static final int AUDIO_TOTAL_DATA_SEC = 1;//unit: sec
+    private static final double AUDIO_TOTAL_DATA_SEC = 0.1;//Leslie modified //unit: sec
 
     //----- for Audio Basic Info. ---------------------
     public static final String INFO_TAG_AUDIO = "Audio Info";
@@ -361,7 +361,7 @@ public class MyAudioPlayer {
         Log.d("AudioPlayer","Start Play Audio!!!!!!!");
         int audio_track_play_buffer_size;
         try {
-            audio_track_play_buffer_size = iSamplingRate * AUDIO_TOTAL_DATA_SEC * SystemConfig.INT_ULTRASOUND_DATA_1DATA_BYTES_16PCM;
+            audio_track_play_buffer_size = (int)(iSamplingRate * AUDIO_TOTAL_DATA_SEC * SystemConfig.INT_ULTRASOUND_DATA_1DATA_BYTES_16PCM);
             if (Build.VERSION.SDK_INT <23){
                  audio_track_handle = new AudioTrack(AudioManager.STREAM_MUSIC,
                                                 iSamplingRate,

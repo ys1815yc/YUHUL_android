@@ -372,7 +372,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
                     if (iTryEndSubSegIdxParam >= SystemConfig.mIntEndIdxNoiseLearn) {
                         if (SystemConfig.mDoubleNoiseRangeWu != 0) {
                             prepareColorAndSignalMappingWuMode();
-                            GIS_Log.e(TAG, "UI test3");
                             //SystemConfig.mMyEventLogger.appendDebugStr("SignalMappingWuMode().exec", "");
                             mBoolColorAndSignalMappedSetted = true;
                         }

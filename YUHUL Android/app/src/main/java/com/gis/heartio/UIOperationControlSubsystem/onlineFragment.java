@@ -65,7 +65,7 @@ import java.util.Objects;
  */
 
 public class onlineFragment extends Fragment {
-    private final String TAG = "online";
+    private final static String TAG = onlineFragment.class.getSimpleName();
     private final String mStrFailed = "Failed ";
     public Button mBtnNotify;
     private Button mBtnCalculate;
@@ -138,6 +138,8 @@ public class onlineFragment extends Fragment {
     private dataInfo currentResult;
 
     private ImageView greenLightImg;
+
+    private boolean findFirstTime = true;
 
     public onlineFragment() {
         //SystemConfig.mEnumUltrasoundUIState = SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE;
@@ -221,10 +223,16 @@ public class onlineFragment extends Fragment {
                 Log.d(TAG, "onCheckedChanged b=" + b);
                 final boolean tb = b;
                 if (b) {
-                    for (int iVar = 0; iVar < SystemConfig.INT_SURFACE_VIEWS_ON_LINE_USE_SIZE; iVar++) {
-                        mSurfaceViewsOnline[iVar].getHolder().setFormat(PixelFormat.TRANSPARENT);
-                        mSurfaceViewsOnline[iVar].getHolder().setFormat(PixelFormat.OPAQUE);
+                    if(!findFirstTime){
+                        for (int iVar = 0; iVar < SystemConfig.INT_SURFACE_VIEWS_ON_LINE_USE_SIZE; iVar++) {
+                            SurfaceHolder surfaceHolder = mSurfaceViewsOnline[iVar].getHolder();
+                            Canvas canvas = surfaceHolder.lockCanvas();
+                            canvas.drawColor(Color.WHITE);
+                            surfaceHolder.unlockCanvasAndPost(canvas);
+                        }
                     }
+                    findFirstTime = false;
+
                     if (mBtnSave.isEnabled()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
                         builder.setTitle(getString(R.string.msg_save_data));
@@ -1407,7 +1415,6 @@ public class onlineFragment extends Fragment {
 
         MainActivity.mRawDataProcessor.mEnumUltrasoundAttributeReceiveState = RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END;
 //        MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState = RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END;
-        GIS_Log.e("Leslie","tryStopAction");
 
         if (SystemConfig.isHeartIO2) {
             for (EcgSegView ecgSegView : ecgSegViews) {
@@ -1431,7 +1438,6 @@ public class onlineFragment extends Fragment {
 
     public void tryEndAction(boolean boolNotifyStop) {
         SystemConfig.mEnumTryState = SystemConfig.ENUM_TRY_STATE.STATE_TRY_STOP;
-        GIS_Log.e("Leslie","tryEndAction");
         if (boolNotifyStop) {
             //SystemConfig.mUltrasoundComm.notifyStopCharacteristic();
             /*
@@ -1455,7 +1461,6 @@ public class onlineFragment extends Fragment {
         int iVar;
 
         // try {
-        GIS_Log.d("Leslie","startRecord");
         if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_CONNECTED) {
                 /*
                 mTextViewBleState.setBackgroundColor(Color.RED);
@@ -1518,7 +1523,6 @@ public class onlineFragment extends Fragment {
     private void stopRecord(){
         MainActivity.mRawDataProcessor.mEnumUltrasoundAttributeReceiveState = RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END;
         MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState = RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END;
-        GIS_Log.e("Leslie","stopRecord");
 
         recEndAction();
     }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.gis.CommonUtils.Constants;
 import com.gis.heartio.GIS_Log;
+import com.gis.heartio.GIS_VoiceAI;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Tag;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Type;
@@ -346,6 +347,7 @@ public class BVSignalProcessorPart1 {
             SystemConfig.mIntEndIdxNoiseLearn = (int) (((double) SystemConfig.mIntUltrasoundSamplerate * SystemConfig.DOUBLE_NOISE_SIGNAL_LEARN_END_SEC)
                     / (double) SystemConfig.mIntSTFTWindowShiftSize); //mIntEndIdxNoiseLearn = 375
 
+
             if ((SystemConfig.mEnumDeviceType == SystemConfig.ENUM_DEVICE_TYPE.ITRI_8K_BE_ONLINE)
                     || (SystemConfig.mEnumDeviceType == SystemConfig.ENUM_DEVICE_TYPE.ITRI_8K_LE_ONLINE)
                     || (SystemConfig.mEnumDeviceType == SystemConfig.ENUM_DEVICE_TYPE.ITRI_8K_OFFLINE)) {
@@ -522,6 +524,7 @@ public class BVSignalProcessorPart1 {
                 mShortTimeFT.feedData(mShortFeedData);
 
                 doubleData = mShortTimeFT.getSpectrumAmpOutArrayElement(0);
+
 //                Log.d("BVSPP1","doubleData.length ="+doubleData.length);
 
                 if (BVSignalProcessorPart1.isInverseFreq){
@@ -666,6 +669,7 @@ public class BVSignalProcessorPart1 {
                         //        / (double) SystemConfig.mIntUltrasoundSamplerate / (double) SystemConfig.mIntSTFTWindowSize;
                       //* jaufa, 180809, #
                         mDoubleBVSpectrumValues[mIntSTFFTNextSubSegIdx][iVar2] = tmpDoubleData;
+
 //                        Log.d("mDoubleBVSpectrumValues", String.valueOf(tmpDoubleData));
                       //* jaufa, 180809, # */
 
@@ -734,6 +738,7 @@ public class BVSignalProcessorPart1 {
                 if (mIntSTFFTNextSubSegIdx < (SystemConfig.mIntEndIdxNoiseLearn+1)) {
 //                    Log.d("mBoolMaxIdxBaseLearned", "mBoolMaxIdxBaseLearned");
 //                    會執行這個return
+
                     return;
                 } else {
                     if(SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_0_SNSI_GM){
@@ -1450,6 +1455,7 @@ public class BVSignalProcessorPart1 {
         doubleNoiseRangeWuAccu = 0;
         doubleNoiseStrengthWuAccu = 0;
         doubleSignalStrengthMaxWuAccu = 0;
+
         for (iVar = SystemConfig.mIntStartIdxNoiseLearn; iVar <= iLearnEndIdx; iVar++) {
             //--- calculate Signal Max. ---
             doubleSignalStrengthMaxWu = 0;
