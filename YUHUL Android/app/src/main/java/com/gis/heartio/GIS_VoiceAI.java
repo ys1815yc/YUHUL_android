@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import yogesh.firzen.mukkiasevaigal.P;
 
 public class GIS_VoiceAI {
-    private static final String TAG = "GIS_VoiceAI";
+    private static final String TAG = GIS_VoiceAI.class.getSimpleName();;
 
     private static int indexLength = 8000; // 1s
 

@@ -116,7 +116,7 @@ public class MyAudioPlayerController {
 
     private boolean putMsg(MyThreadQMsg myMsg){
         try {
-            if (mMyMsgQueue.putMsg(myMsg, 1000) == false) {
+            if (!mMyMsgQueue.putMsg(myMsg, 1000)) {
                 mIntPutMsgLostCnt++;
                 return false;
             }

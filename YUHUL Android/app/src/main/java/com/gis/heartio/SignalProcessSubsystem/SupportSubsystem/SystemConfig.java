@@ -186,8 +186,8 @@ public class SystemConfig {
     //**********************************************************************************
     // ***************** Noise & Signal Learning   *************************************
     //**********************************************************************************
-    public static final double DOUBLE_NOISE_SIGNAL_LEARN_START_SEC = 1.0;   // for DC offset
-    public static final double DOUBLE_NOISE_SIGNAL_LEARN_END_SEC = 3.0;
+    public static final double DOUBLE_NOISE_SIGNAL_LEARN_START_SEC = 0.0;//Leslie modified 1.0;   // for DC offset
+    public static final double DOUBLE_NOISE_SIGNAL_LEARN_END_SEC = 0.0;//Leslie modified 3.0;
     public static final double DOUBLE_SIGNAL_SORT_RATIO = 0.95;
     public static final double DOUBLE_NOISE_SORT_RATIO = 0.05;
     public static int mIntStartIdxNoiseLearn, mIntEndIdxNoiseLearn;
