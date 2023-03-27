@@ -501,7 +501,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             if (oFrag == null){
                 return;
             }
-            Log.i(TAG, "clearSviewsByIdxOnLine");
+//            Log.i(TAG, "clearSviewsByIdxOnLine");
             SurfaceHolder surfaceHolder;
 
             surfaceHolder = onlineFragment.mSurfaceViewsOnline[iClearViewIdx].getHolder();

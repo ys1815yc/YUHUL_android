@@ -62,7 +62,7 @@ public class GIS_VoiceAI {
                     SystemConfig.voiceIndex = 0;
                 }
             }
-            GIS_Log.e(TAG, outputLabel);
+            GIS_Log.d(TAG, outputLabel);
 
 //            if (outputLabel.endsWith("PA")){
 //                SystemConfig.isPAvoice++;
@@ -83,7 +83,7 @@ public class GIS_VoiceAI {
             if(SystemConfig.voiceCategory[i].equals("PA")){
                 times++;
             }
-            GIS_Log.d(TAG + i, SystemConfig.voiceCategory[i]);
+//            GIS_Log.d(TAG + i, SystemConfig.voiceCategory[i]);
         }
         if (times >= 8){
             PA = true;
