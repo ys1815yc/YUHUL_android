@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gis.CommonUtils.Constants;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.userInfo;
@@ -97,7 +98,7 @@ public class userFragment extends Fragment {
                     final Cursor cursor = (Cursor) mUserListCursorAdapter.getItem(i);
                     final String selectStr = cursor.getString(0);
                     final int selectedIdx = i;
-                    Log.d(TAG,"Selected String = "+selectStr);
+                    GIS_Log.d(TAG,"Selected String = "+selectStr);
                     AlertDialog alertDialog = new AlertDialog.Builder(mActivity).create(); //Read Update
                     alertDialog.setTitle("Action");
                     //alertDialog.setMessage("Upgrade Text Here");
@@ -136,7 +137,6 @@ public class userFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.d(TAG,"onCreateOptionMenu");
         inflater.inflate(R.menu.user_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -221,7 +221,6 @@ public class userFragment extends Fragment {
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-            //Log.d(TAG,"newView................");
             View view = LayoutInflater.from(context).inflate(R.layout.listitem_user, viewGroup, false);
             return view;
         }
@@ -242,7 +241,6 @@ public class userFragment extends Fragment {
             //String strSelected = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_CURRENT_USER));
             SharedPreferences sharedPref = mActivity.getPreferences(Context.MODE_PRIVATE);
             int currentUserID_primary = sharedPref.getInt(IwuSQLHelper.KEY_CURRENT_USER,1);
-            //Log.d(TAG,"currentUserID_primary="+currentUserID_primary);
             if (currentUserID_primary==cursor.getInt(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_PRIMARY))){
                 currentUserIV.setImageDrawable(ContextCompat.getDrawable(mActivity,R.drawable.checkbox_checked));
             }else{
@@ -261,7 +259,7 @@ public class userFragment extends Fragment {
         //strWhere = "_id=" + UserManagerCommon.mUserInfoCur.mIntUserID;
         strWhere = IwuSQLHelper.KEY_USER_ID_NUMBER+" = '"+deleteID+"'";
         mHelper.mDBWrite.beginTransaction();
-        Log.d(TAG,"strWhere="+strWhere);
+        GIS_Log.d(TAG,"strWhere="+strWhere);
         try {
             lnReturn =mHelper.mDBWrite.delete(IwuSQLHelper.STR_TABLE_USER, strWhere, null);
             mHelper.mDBWrite.setTransactionSuccessful();

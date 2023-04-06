@@ -220,7 +220,7 @@ public class onlineFragment extends Fragment {
 
             @Override
             public void onCheckedChanged(final CompoundButton compoundButton, boolean b) {
-                Log.d(TAG, "onCheckedChanged b=" + b);
+                GIS_Log.d(TAG, "onCheckedChanged b=" + b);
                 final boolean tb = b;
                 if (b) {
                     if(!findFirstTime){
@@ -272,7 +272,7 @@ public class onlineFragment extends Fragment {
                             public void onTick(long l) {
                                 int iProgress = (5 - (int) (l / 60000));
                                 //mProgressBar.setProgress(14-(int)(l/1000));
-                                Log.d(TAG, "progress:" + iProgress);
+                                GIS_Log.d(TAG, "progress:" + iProgress);
                                 //mRecordSecondsCount.setText(""+l/1000);
 //                            if (iProgress > 1){
 //                                reTry();
@@ -281,7 +281,7 @@ public class onlineFragment extends Fragment {
 
                             @Override
                             public void onFinish() {
-                                Log.d(TAG, "Counter timer onFinish");
+                                GIS_Log.d(TAG, "Counter timer onFinish");
 //                                mTBtnTryNotify.setChecked(false);
 //                                if (mActivity != null) {
 //                                    showMessageDialog(getString(R.string.msg_click_try_to_countinu_testing), mActivity);
@@ -320,7 +320,6 @@ public class onlineFragment extends Fragment {
 
                     //    mTextViewDataLostState.setVisibility(View.GONE);
                     if (!mTBtnTryNotify.isChecked()) {
-                        Log.d(TAG, "Did not try!!!!");
                         if (mBtnSave.isEnabled()) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
                             builder.setTitle(getString(R.string.msg_save_data));
@@ -407,7 +406,6 @@ public class onlineFragment extends Fragment {
                             @Override
                             public void onTick(long l) {
                                 mProgressBar.setProgress(14 - (int) (l / 1000));
-                                //Log.d(TAG,"progress:"+(14-(int)(l/1000)));
                                 mRecordSecondsCount.setText("" + l / 1000);
                             }
 
@@ -672,7 +670,6 @@ public class onlineFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.d(TAG, "onCreateOptionMenu");
         inflater.inflate(R.menu.fake_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -794,7 +791,7 @@ public class onlineFragment extends Fragment {
                     if (SystemConfig.mIntPowerLevel != -1 && SystemConfig.mIntPowerLevel <= 2) {
                         lowPowerCount++;
                         if (lowPowerCount > 3) {
-                            Log.d(TAG, "Low power count > 3 !!!!!!");
+                            GIS_Log.d(TAG, "Low power count > 3 !!!!!!");
                             showMessageDialog(getString(R.string.alert_msg_low_power_charge), mActivity);
                             stopAndDisableMeasurement();
                             lowPowerCount = 0;
@@ -829,12 +826,12 @@ public class onlineFragment extends Fragment {
                 } else if (iMsgId == MainActivity.UI_MSG_ID_SHOW_BV_SV_AFTER_ONLINE_START) {
                     mBloodVelocityPlotter.DrawBySubSegOffLine(SystemConfig.mIntSVDrawStartBloodVelocity, SystemConfig.mIntSVDrawSizeBloodVelocity);
                 } else if (iMsgId == MainActivity.UI_MSG_ID_BLE_CONNECTED) {
-                    Log.d(TAG, "iMsgId == MainActivity.UI_MSG_ID_BLE_CONNECTED");
+                    GIS_Log.d(TAG, "iMsgId == MainActivity.UI_MSG_ID_BLE_CONNECTED");
                     bleStateImageView.setImageResource(R.drawable.ic_bluetooth_connected_black_24dp);
                     mTBtnTryNotify.setEnabled(true);
                     updateWithServiceDiscoveryFragment();
                 } else if (iMsgId == MainActivity.UI_MSG_ID_BLE_DISCONNECTED) {
-                    Log.d(TAG, "iMsgId == MainActivity.UI_MSG_ID_BLE_DISCONNECTED");
+                    GIS_Log.d(TAG, "iMsgId == MainActivity.UI_MSG_ID_BLE_DISCONNECTED");
                     bleStateImageView.setImageResource(R.drawable.ic_bluetooth_black_24dp);
                     mTBtnTryNotify.setEnabled(false);
                 }
@@ -1005,7 +1002,6 @@ public class onlineFragment extends Fragment {
     public void updateSViewBySegmentOnLine(int iRxState) {
 
         try {
-            //Log.d("onlineFragment","updateSViewBySegmentOnLine iRxState="+iRxState);
             if ((SystemConfig.mEnumUltrasoundSubUIState == SystemConfig.ENUM_SUB_UI_STATE.BLOOD_FLOW_VELOCITY)
                     || (SystemConfig.mEnumUltrasoundSubUIState == SystemConfig.ENUM_SUB_UI_STATE.AUX_INFO)) {
                 // mOnLineBloodVelocityUiManager.updateSViewBySegmentOnLine();
@@ -1162,7 +1158,6 @@ public class onlineFragment extends Fragment {
             //-----------------------------------------------------------------------------------
             //if (MainActivity.mBVSignalProcessorPart2Selected.getPeakVelocityAverage() <= 0) {
             if (inputData.Vpk <= 0) {
-                //Log.d(TAG,"VPK : "+mStrFailed );
                 mVpkValueTextView.setText("--");
             } else {
                 //doubleVpkAfterAngleAfterCali = MainActivity.mBVSignalProcessorPart2Selected.mDoubleVpkMeterAverageAfterAngleAfterCali;
@@ -1180,7 +1175,7 @@ public class onlineFragment extends Fragment {
             //---------------------------------------------------------------
             //if(MainActivity.mBVSignalProcessorPart2Selected.getVTIAverage() <= 0) {
             if (inputData.VTI <= 0) {
-                Log.d(TAG, "VTI : " + mStrFailed);
+                GIS_Log.d(TAG, "VTI : " + mStrFailed);
             } else {
                 //doubleVtiAfterAngleAfterCali = MainActivity.mBVSignalProcessorPart2Selected.mDoubleVtiCmAverageAfterAngleAfterCali;
                 doubleVtiAfterAngleAfterCali = inputData.VTI;
@@ -1342,14 +1337,11 @@ public class onlineFragment extends Fragment {
      */
     void stopBroadcastDataNotify(BluetoothGattCharacteristic gattCharacteristic) {
         if (gattCharacteristic != null) {
-//            GIS_Log.e("Leslie", String.valueOf(gattCharacteristic));
             if ((gattCharacteristic.getProperties() | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
                 BluetoothLeService.setCharacteristicNotification(
                         gattCharacteristic, false);
-//                GIS_Log.d("Leslie", "setCharacteristicNotification");
             }
         }else {
-//            GIS_Log.e("Leslie", "gattCharacteristic = null");
         }
     }
 
@@ -1357,7 +1349,7 @@ public class onlineFragment extends Fragment {
     private void enableTryAction() {
         //    try {
         if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_CONNECTED) {
-            Log.d(TAG, "connection state!=BluetoothLeService.STATE_CONNECTED");
+            GIS_Log.d(TAG, "connection state!=BluetoothLeService.STATE_CONNECTED");
             return;
         }
 
@@ -1442,7 +1434,7 @@ public class onlineFragment extends Fragment {
             MainActivity.mAudioPlayerController.putMsgForAudioClose();
         }
         if (MainActivity.mRawDataProcessor.mBoolRxError) {
-            Log.d(TAG, "Lost Count = " + MainActivity.mRawDataProcessor.mIntLostCount);
+            GIS_Log.d(TAG, "Lost Count = " + MainActivity.mRawDataProcessor.mIntLostCount);
         }
     }
 
@@ -1602,7 +1594,6 @@ public class onlineFragment extends Fragment {
     public View.OnTouchListener mSvUltrasoundOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            //Log.d(TAG,"onTouch event.getX:"+event.getX()+"  event.getY: "+event.getY());
             int iEventAction, iCurSubSeg, iSubSegIdx;
             float fCurVpkPosY, fDiffY;
             float fSvHeight;
@@ -1617,7 +1608,6 @@ public class onlineFragment extends Fragment {
                     return true;
                 }
 
-                //Log.d(TAG,"onTouch event.getAction="+event.getAction());
                 iEventAction = event.getAction();
                 switch (iEventAction) {
                     case MotionEvent.ACTION_DOWN:
@@ -1726,7 +1716,6 @@ public class onlineFragment extends Fragment {
 
             } catch (Exception e) {
                 //String strMsg = e.toString();
-                //Log.d("ITRI", strMsg);
                 e.printStackTrace();
             }
         }

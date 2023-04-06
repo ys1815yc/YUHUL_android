@@ -1,13 +1,15 @@
 package com.google.corp.productivity.specialprojects.android.samples.fft;
 //from w  ww  . j  a  v a 2  s .  co m
-import java.util.Arrays;
 
 import android.util.Log;
 
 import com.google.corp.productivity.specialprojects.android.fft.RealDoubleFFT;
 
+import java.util.Arrays;
+
 // Short Time Fourier Transform
 public class STFT {
+    private static final String TAG = "STFT";
     // data for frequency Analysis
     private double[] spectrumAmpOutCum;
     private double[] spectrumAmpOutTmp;
@@ -127,7 +129,6 @@ public class STFT {
     }
     public void feedData(short[] ds, int dsLen) {
         if (dsLen > ds.length) {
-            Log.e("STFT", "dsLen > ds.length !");
             dsLen = ds.length;
         }
         int inLen = spectrumAmpIn.length;

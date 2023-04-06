@@ -30,6 +30,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.gis.heartio.GIS_DataController;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsysII.utilities.Doppler;
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessController;
@@ -61,7 +62,7 @@ import yogesh.firzen.filelister.FileListerDialog;
  */
 
 public class offlineFragment extends Fragment {
-    private final String TAG = "offline";
+    private final String TAG = "offlineFragment";
 
     private static final String ARG_FILENAME = "filename";
     private static final String ARG_ID = "id";
@@ -291,7 +292,7 @@ public class offlineFragment extends Fragment {
 
             fileListerDialog.setOnFileSelectedListener((file, path) -> {
                 //your code here
-                Log.d("offline","selected file path:"+path);
+                GIS_Log.d(TAG,"selected file path:"+path);
                 openFilePath = path;
                 currentFilename = file.getName();
                 mDataInfoTextView.setText(currentFilename);
@@ -316,10 +317,8 @@ public class offlineFragment extends Fragment {
 
             dirListerDialog.setOnFileSelectedListener((file, path) -> {
                 //your code here
-//                    Log.d("offline","selected file path:"+path);
                 File directory = new File(path);
                 File[] files = directory.listFiles();
-//                    Log.d("Files", "Size: "+ files.length);
                 List<dataInfoTestMode> singleDataInfoList;
                 List<dataInfo> dataInfoList;
 //                if(SystemConfig.mIntSingleVpkEnabled == SystemConfig.INT_SINGLE_VPK_ENABLED_YES) {
@@ -330,9 +329,7 @@ public class offlineFragment extends Fragment {
 
                 for (int i = 0; i < files.length; i++)
                 {
-                    //Log.d("Files", "FileName:" + files[i].getName());
                     String wavPath = path+File.separator+files[i].getName();
-                    //Log.d("Files", "FilePath"+i+":" + wavPath);
                     // jaufa, +, '181121, Prepare For SingleMode Data
                     if(SystemConfig.mIntSingleVpkEnabled == SystemConfig.INT_SINGLE_VPK_ENABLED_YES){
                         dataInfoTestMode tmpDataSingleMode = getResultFromFileSingleMode(wavPath);
@@ -350,7 +347,7 @@ public class offlineFragment extends Fragment {
                             tmpData.userId = directory.getName();
                             tmpData.createdDate = getCreateDateStrFromFilename(tmpData.fileName);
                             dataInfoList.add(tmpData);
-                            Log.d(TAG, "HR:" + tmpData.HR + ", Vpk: " + tmpData.Vpk + ", VTI: " + tmpData.VTI +
+                            GIS_Log.d(TAG, "HR:" + tmpData.HR + ", Vpk: " + tmpData.Vpk + ", VTI: " + tmpData.VTI +
                                     ", SV:" + tmpData.SV + "/n CO: " + tmpData.CO + ", Filename: " +
                                     tmpData.fileName + ", Result:" + tmpData.result + ", UserID: " + tmpData.userId + " ,CreateDate: " + tmpData.createdDate);
                         }
@@ -543,7 +540,6 @@ public class offlineFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.d(TAG,"onCreateOptionMenu");
         inflater.inflate(R.menu.fake_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -610,9 +606,7 @@ public class offlineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG,"onResume offline");
         /*if (!openFilePath.equalsIgnoreCase("")){
-            Log.d(TAG,"onResume openFilePath = "+openFilePath);
         }*/
 
         if (!inputFileName.equals("")){
@@ -708,7 +702,6 @@ public class offlineFragment extends Fragment {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            //Log.d(TAG,"onTouch event.getX:"+event.getX()+"  event.getY: "+event.getY());
             int iEventAction, iCurSubSeg, iSubSegIdx;
             float fSvHeight;
 
@@ -722,7 +715,6 @@ public class offlineFragment extends Fragment {
                     return true;
                 }
 
-                //Log.d(TAG,"onTouch event.getAction="+event.getAction());
                 iEventAction = event.getAction();
                 switch (iEventAction) {
                     case MotionEvent.ACTION_DOWN:
@@ -799,8 +791,8 @@ public class offlineFragment extends Fragment {
                                     mBVPOffline.drawBVSignalByChangeDiscarededState();
                                 }
                             } else {
-                                Log.d(TAG,"lastPoint = "+ lastPoint+"");
-                                Log.d(TAG,"iCurSubSeg = "+ iCurSubSeg+"");
+                                GIS_Log.d(TAG,"lastPoint = "+ lastPoint+"");
+                                GIS_Log.d(TAG,"iCurSubSeg = "+ iCurSubSeg+"");
                               if (lastPoint != -1) {
                                     if (Math.abs(iCurSubSeg - lastPoint)<90){
                                         if (lastPoint > iCurSubSeg){
@@ -811,8 +803,7 @@ public class offlineFragment extends Fragment {
                                             twoPointEnd = iCurSubSeg;
                                         }
                                         showResultBloodVelocity(BVSignalProcessController.getResultFromTwoPointWu(twoPointStart,twoPointEnd));
-                                        //Log.d(TAG,"two point VTI="+ BVSignalProcessController.getVTIFromTwoPointWu(twoPointStart,twoPointEnd));
-//                                        Doppler.exportIPC(mActivity);
+                                        //Doppler.exportIPC(mActivity);
                                     }
                                 }
                                 lastPoint = iCurSubSeg;
@@ -1040,7 +1031,7 @@ public class offlineFragment extends Fragment {
         File exportFile = new File(exportDir,filename);
         try {
             if (exportFile.createNewFile()){
-                Log.d(TAG,"Create file "+filename+" successfully.");
+                GIS_Log.d(TAG,"Create file "+filename+" successfully.");
                 CSVWriter csvWriter = new CSVWriter(new FileWriter(exportFile));
 
 
@@ -1081,7 +1072,7 @@ public class offlineFragment extends Fragment {
                 //        getString(R.string.alert_msg_save_csv_to)+exportFile.getAbsolutePath());
 
             }else{
-                Log.d(TAG,"file "+filename+" existed.");
+                GIS_Log.d(TAG,"file "+filename+" existed.");
                 //showAlertDialog(getString(R.string.alert_title_failure),null);
             }
 
@@ -1106,7 +1097,7 @@ public class offlineFragment extends Fragment {
         File exportFile = new File(exportDir,filename);
         try {
             if (exportFile.createNewFile()){
-                Log.d(TAG,"Create file "+filename+" successfully.");
+                GIS_Log.d(TAG,"Create file "+filename+" successfully.");
                 CSVWriter csvWriter = new CSVWriter(new FileWriter(exportFile));
 
 
@@ -1150,7 +1141,7 @@ public class offlineFragment extends Fragment {
                 //        getString(R.string.alert_msg_save_csv_to)+exportFile.getAbsolutePath());
 
             }else{
-                Log.d(TAG,"file "+filename+" existed.");
+                GIS_Log.d(TAG,"file "+filename+" existed.");
                 //showAlertDialog(getString(R.string.alert_title_failure),null);
             }
 
@@ -1215,8 +1206,6 @@ public class offlineFragment extends Fragment {
 
                 }
 
-                //Log.d(TAG,"HR:"+resultData.HR+", Vpk: "+resultData.Vpk+", VTI: "+resultData.VTI+
-                //        ", SV:"+resultData.SV+", CO: "+resultData.CO);
             }else{
                 resultData = null;
             }
@@ -1252,8 +1241,6 @@ public class offlineFragment extends Fragment {
                 // For Wu algorithm test 20201022
                 resultData = MainActivity.mSignalProcessController.getResultDataAfterSignalProcessWu201022();
                 //resultData = MainActivity.mSignalProcessController.getResultDataAfterSignalProcess();
-                //Log.d(TAG,"HR:"+resultData.HR+", Vpk: "+resultData.Vpk+", VTI: "+resultData.VTI+
-                //        ", SV:"+resultData.SV+", CO: "+resultData.CO);
             }else{
                 resultData = null;
             }
@@ -1338,7 +1325,7 @@ public class offlineFragment extends Fragment {
 
         strID = String.valueOf(inputID);
         strWhere = "_id="+strID;
-        Log.d(TAG,"strWhere="+strWhere);
+        GIS_Log.d(TAG,"strWhere="+strWhere);
         mHelper.mDBWrite.beginTransaction();
         mHelper.mDBWrite.update(IwuSQLHelper.STR_TABLE_DATA,cv,strWhere,null);
         mHelper.mDBWrite.setTransactionSuccessful();
@@ -1404,7 +1391,7 @@ public class offlineFragment extends Fragment {
             // check if data available
             //------------------------------------------------------------------
             if (!SystemConfig.mBoolProcessorPart2Selected) {
-                Log.d(TAG,"SystemConfig.mBoolProcessorPart2Selected == false");
+                GIS_Log.d(TAG,"SystemConfig.mBoolProcessorPart2Selected == false");
                 initResultValue();
                 mBVPOffline.DrawBySubSegOffLine(iDrawStartIdx, iDrawSize);
                 return;
@@ -1419,7 +1406,6 @@ public class offlineFragment extends Fragment {
                 mHRValueTextView.setText("--");
             } else {
                 strHR = String.valueOf(iHR) + " ";
-                //Log.d(TAG,"HR : "+strHR);
                 mHRValueTextView.setText(strHR);
             }
 
@@ -1616,10 +1602,10 @@ public class offlineFragment extends Fragment {
             } else {
                 SystemConfig.initItriDevice44K();
             }
-            Log.d(TAG, String.valueOf(enumDeviceType));
+            GIS_Log.d(TAG, String.valueOf(enumDeviceType));
             return true;
         }else if (MainActivity.mRawDataProcessor.isFileTxtType(strNoPathFileName)){
-            Log.d(TAG,"It is a text file!!!!!!");
+            GIS_Log.d(TAG,"It is a text file!!!!!!");
             SystemConfig.initItriDevice8KOnlineBE();
             return true;
         } else{

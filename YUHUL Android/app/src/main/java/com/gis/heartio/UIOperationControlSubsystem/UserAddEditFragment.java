@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.userInfo;
@@ -35,7 +36,7 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class UserAddEditFragment extends Fragment {
-    private static final String TAG = "addEditUserFragment";
+    private static final String TAG = "UserAddEditFragment";
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -121,7 +122,7 @@ public class UserAddEditFragment extends Fragment {
         mAgeEditText = rootView.findViewById(R.id.ageEditTextNumber);
 
         if (mActivity.getSupportActionBar()!=null){
-            Log.d(TAG,"inputUserPriID = "+inputUserPriID);
+            GIS_Log.d(TAG,"inputUserPriID = "+inputUserPriID);
             if (inputUserPriID==null){
                 mActivity.getSupportActionBar().setTitle(getString(R.string.title_add_user));
                 resetBtn.setVisibility(View.VISIBLE);
@@ -227,7 +228,7 @@ public class UserAddEditFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
-        Log.d(TAG,"onCreateOptionMenu");
+        GIS_Log.d(TAG,"onCreateOptionMenu");
         inflater.inflate(R.menu.fake_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -348,7 +349,7 @@ public class UserAddEditFragment extends Fragment {
 
         strID = String.valueOf(updateInfo.userCount);
         strWhere = "_id="+strID;
-        Log.d(TAG,"strWhere="+strWhere);
+        GIS_Log.d(TAG,"strWhere="+strWhere);
         mHelper.mDBWrite.beginTransaction();
         mHelper.mDBWrite.update(IwuSQLHelper.STR_TABLE_USER,cv,strWhere,null);
         mHelper.mDBWrite.setTransactionSuccessful();

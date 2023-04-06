@@ -27,7 +27,7 @@ import java.util.List;
  */
 
 public class MyPlotterBloodVelocity extends MyPlotter {
-        private final static String TAG = "MPBV";
+        private final static String TAG = "MyPlotterBloodVelocity";
         private Paint mPaintVelocity = null;
         private Paint mPaintSumAmp = null;
         private Paint mPaintMaxIdx = null;
@@ -116,7 +116,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             mSurfaceViewTimeScaleDown = oFrag.mSurfaceViewTimeScaleDown;
             mSurfaceViewTimeScaleUp = oFrag.mSurfaceViewTimeScaleUp;
             initPaintsAndColor();
-            GIS_Log.d("test", "online");
             drawFreqScale(this.mSurfaceViewScale);
             initSurfaceHolderOffline();
             clearCanvasByHolder(mSurfaceHolderBVOffLine);
@@ -135,7 +134,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             mSurfaceViewTimeScaleDown = offFrag.mSurfaceViewTimeScaleDown;
             mSurfaceViewTimeScaleUp = offFrag.mSurfaceViewTimeScaleUp;
             initPaintsAndColor();
-            GIS_Log.d("test", "offline");
             drawFreqScale(this.mSurfaceViewScale);
             initSurfaceHolderOffline();
             clearCanvasByHolder(mSurfaceHolderBVOffLine);
@@ -241,7 +239,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
                 mPaintVTIStartGIS = new Paint();
                 mPaintVTIEndGIS = new Paint();
-                if(GIS_SystemConfig.isVisible){
+                if(GIS_SystemConfig.lineIsVisible){
                     mPaintVTIStartGIS.setColor(Color.RED);
                     mPaintVTIEndGIS.setColor(Color.RED);
                 } else{
@@ -265,7 +263,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             prepareColorForGrayMode();
 
             //}catch(Exception ex1){
-            //    Log.i("Application Error", "In BloodVelocityPlotter()");
             //}
         }
 
@@ -299,7 +296,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             mSurfaceHolderBVOffLine.addCallback(new SurfaceHolder.Callback() {
                 @Override
                 public void surfaceCreated(SurfaceHolder surfaceHolder) {
-//                    Log.d(TAG,"mSurfaceHolderBVOffLine surfaceCreated!!!!!!!!");
                     clearCanvasByHolder(mSurfaceHolderBVOffLine);
                     if (needRedrawBVCanvas){
                         drawBloodVelocityByStartEndSubSegIdxOffLine(redrawStartIdx, redrawEndIdx, false);
@@ -308,7 +304,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
                 @Override
                 public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-                    //Log.d(TAG,"mSurfaceHolderBVOffLine surfaceChanged!!!!!!");
 
                 }
 
@@ -349,7 +344,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             int iCurSubSegSize;
 
             iCurSubSegSize = MainActivity.mBVSignalProcessorPart1.getCurSubSegSize();
-//            Log.d("MPBV","iCurSubSegSize = "+iCurSubSegSize);
             drawByEndSubSegIdxOnLine(iCurSubSegSize - 1);
         }
 
@@ -368,7 +362,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
             if (!mBoolColorAndSignalMappedSetted) {
                 if(SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_0_SNSI_GM){
-//                    Log.e("MPBV", "mIntEndIdxNoiseLearn = "+SystemConfig.mIntEndIdxNoiseLearn);
                     if (iTryEndSubSegIdxParam >= SystemConfig.mIntEndIdxNoiseLearn) {
                         if (SystemConfig.mDoubleNoiseRangeWu != 0) {
                             prepareColorAndSignalMappingWuMode();
@@ -386,7 +379,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
                         prepareColorAndSignalMappingHuangMode();
                         mBoolColorAndSignalMappedSetted = true;
                     }
-                    //Log.d(TAG,"(!mBoolColorAndSignalMappedAutoMode) && (SystemConfig.mEnumTryState == SystemConfig.ENUM_TRY_STATE.STATE_TRY)");
                 }
                 return;
             }
@@ -404,7 +396,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             }
 
             doubleSignalToShow = MainActivity.mBVSignalProcessorPart1.mDoubleBVSpectrumValues;
-            //Log.d(TAG,"doubleSignalToShow="+doubleSignalToShow);
             //SystemConfig.mMyEventLogger.appendDebugIntEvent("ViewIdx=", mIntSViewDrawOnlineNextViewIdx,0,0,0,0);
             iTryEndSubSegIdx = mIntSViewDrawOnlineNextSubSegIdx;
             iTryStartSubSegIdx = mIntSViewDrawOnlineNextSubSegIdx - SystemConfig.INT_SVIEW_ONLINE_DRAW_SUBSEG_SIZE + 1;
@@ -459,7 +450,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
                                 if (doubleAmpVal > 0) {
                                     mPaintVelocity.setColor(getPaintColor(doubleAmpVal));
-//                                    Log.d("color", String.valueOf(getPaintColor(doubleAmpVal)));
                                     if (SystemConfig.mBloodVelocityPlotterDrawType == SystemConfig.BLOOD_VELOCITY_PLOTTER_DRAW_TYPE_ENUM.TYPE_LINE) {
                                         if (iYVar == 0) {
                                             canvas.drawPoint((int) fPosX, (int) fPosY2, mPaintVelocity);
@@ -500,7 +490,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             if (oFrag == null){
                 return;
             }
-//            Log.i(TAG, "clearSviewsByIdxOnLine");
             SurfaceHolder surfaceHolder;
 
             surfaceHolder = onlineFragment.mSurfaceViewsOnline[iClearViewIdx].getHolder();
@@ -519,11 +508,9 @@ public class MyPlotterBloodVelocity extends MyPlotter {
         public void drawByStartEndSubSegIdxOffLine(final int iStartSubSegIdx, final int iEndSubSegIdx) {
             if (SystemConfig.mIntPlotterModeIdx == SystemConfig.INT_PLOTTER_MODE_IDX_0_BLOOD_VELOCITY) {
                 if(mSurfaceHolderBVOffLine == null) {
-                    //Log.d(TAG,"[415] mSurfaceHolderBVOffLine == null");
                     initSurfaceHolderOffline();
                     //drawBloodVelocityByStartEndSubSegIdxOffLine(iStartSubSegIdx, iEndSubSegIdx, false);
                 }else{
-                    //Log.d(TAG,"mSurfaceHolderBVOffLine != null");
                     drawBloodVelocityByStartEndSubSegIdxOffLine(iStartSubSegIdx, iEndSubSegIdx, false);
                     if (SystemConfig.isHeartIO2||(offFrag!=null && offFrag.hasECG)){
                         if (MainActivity.currentFragmentTag.equals(Constants.ITRI_ULTRASOUND_FRAGMENT_TAG)){  //online
@@ -606,7 +593,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
             mFloatBasicGainY = mFloatSurfaceViewHeight / (float) mIntSvDrawMaxFreqCnt;
             /*if(mSurfaceHolderBVOffLine == null) {
-                Log.d(TAG,"[486] mSurfaceHolderBVOffLine == null");
                 mSurfaceHolderBVOffLine = mSurfaceViewBV.getHolder();
             }*/
 
@@ -688,7 +674,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
                     while (iXVar <= iEndSubSegIdx) {
                         fPosX = (float) (iXVar - iStartSubSegIdx + 1) * mFloatXGainDrawSizeToPointsRatio;
 
-                        if(GIS_SystemConfig.isVisible){
+                        if(GIS_SystemConfig.lineIsVisible){
                             //Draw Vti Boundary ( Start and End ) Line
                             for (double start:MainActivity.mVtiBoundaryResultByGIS.startLocationsOffline) {
                                 if(iXVar == (int)start){
@@ -845,7 +831,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
                                     boolVTIEnd = (iXVar == offlineFragment.twoPointEnd);
 //                                    fPosY2 = (float)SystemConfig.mDopplerVFOutput[0][iXVar] * mFloatBasicGainY;
                                     fPosY2 = MainActivity.mBVSignalProcessorPart1.mIntArrayMaxIdxByMovingAverage[iXVar] * mFloatBasicGainY;
-//                                Log.d(TAG,"fPosY2="+fPosY2);
+
 //                                mCanvasBVOffLine.drawPoint(fPosX,fPosY2,paintVTICurUsed);
                                     if(boolVTIStart) {
                                         //mCanvasBVOffLine.drawPoint((int) fPosX, (int) fPosY2, mPaintVTIMax);
@@ -1065,7 +1051,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             mFloatBasicGainX = fSurfaceViewWidth / (float) (iDrawSubSegSize + 1);
 
             /*if(mSurfaceHolderBVOffLine == null) {
-                Log.d(TAG,"[798] mSurfaceHolderBVOffLine == null");
                 mSurfaceHolderBVOffLine = mSurfaceViewBV.getHolder();
             }*/
             try {
@@ -1280,7 +1265,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             } else {
                 mDoubleColorSignalAmps[iVar] = mDoubleColorSignalAmps[grayBoundary] + doubleStepGap * (iVar);
             }
-//            Log.d("prepareColorMapToSignalWuMode210713", String.valueOf(mDoubleColorSignalAmps[iVar]));
         }
     }
 
@@ -1415,7 +1399,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
         //int iRed, iGreen, iBlue;
 
         iTheIdx = Arrays.binarySearch(mDoubleColorSignalAmps, doubleSignalStrength);
-//        Log.d("getPaintColorWuMode", String.valueOf(iTheIdx));
         if (iTheIdx < 0) {
             iTheIdx = -iTheIdx-1;
         }
@@ -1457,8 +1440,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             double fSurfaceViewWidth = canvas.getWidth();
 
             iDrawTextSize = (float) (fSurfaceViewWidth/2.5);
-//            Log.d(TAG,"fSurfaceViewWidth = "+fSurfaceViewWidth);
-//            Log.d(TAG,"iDrawTextSize = "+iDrawTextSize);
             paintVar.setTextSize(iDrawTextSize);
             double doubleSvGap =  (double) fSurfaceViewHeight / (double)iScaleSize;
             for(int iVar = 0; iVar < iScaleSize; iVar++) {
@@ -1495,7 +1476,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
     }
 
     private void drawFreqScale(SurfaceView inputSV){
-        Log.d(TAG,"drawFreqScale");
+        GIS_Log.d(TAG,"drawFreqScale");
         //surfaceHolder = oFrag.mSurfaceViewScale.getHolder(); //SystemConfig.mFragment.mSurfaceViewScale.getHolder();
 
        // try {
@@ -1504,13 +1485,13 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
                 @Override
                 public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                    Log.d(TAG,"surfaceHolder surfaceCreated!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    GIS_Log.d(TAG,"surfaceHolder surfaceCreated!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     drawFreqScaleByHolder(surfaceHolder);
                 }
 
                 @Override
                 public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-                    Log.d(TAG,"surfaceHolder Changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    GIS_Log.d(TAG,"surfaceHolder Changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                 }
 
@@ -1694,7 +1675,6 @@ public class MyPlotterBloodVelocity extends MyPlotter {
             fPosEndY = fHeight;
 
             /*if (mSurfaceHolderBVOffLine == null) {
-                Log.d(TAG,"[1231] mSurfaceHolderBVOffLine == null");
                 mSurfaceHolderBVOffLine = mSurfaceViewBV.getHolder(); //SystemConfig.mFragment.mSurfaceViewUltrasound.getHolder();
             }*/
 
@@ -1750,7 +1730,7 @@ public class MyPlotterBloodVelocity extends MyPlotter {
 
     public void drawBVSvByTimeScaleTouchUp(float fPos){
         try {
-            Log.d(TAG,"drawBVSvByTimeScaleTouchUp("+fPos+")");
+            GIS_Log.d(TAG,"drawBVSvByTimeScaleTouchUp("+fPos+")");
             drawBVSvByTimeScaleTouchDown(fPos);
             drawBloodVelocityByStartEndSubSegIdxOffLine(mIntDrawSubSegStart, mIntDrawSubSegEnd, true);
 

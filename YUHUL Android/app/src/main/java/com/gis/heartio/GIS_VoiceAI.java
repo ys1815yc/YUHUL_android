@@ -11,21 +11,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import yogesh.firzen.mukkiasevaigal.P;
-
 public class GIS_VoiceAI {
-    private static final String TAG = GIS_VoiceAI.class.getSimpleName();;
+    private static final String TAG = GIS_VoiceAI.class.getSimpleName();
 
-    private static int indexLength = 8000; // 1s
+    private static final int indexLength = 8000; // 1s
 
     /* 將8K轉成16K 2023/02/06 by Doris */
     public static short[] resampleTo16k(short[] rawArray){
         int length = 16000;
         short[] temp = new short[length];
-//        for(int i = 0 ; i < length/2 ; i++){ //複製同樣的點
-//            temp[i * 2] = mShortUltrasoundDataBeforeFilter[i];
-//            temp[i * 2 + 1] = mShortUltrasoundDataBeforeFilter[i];
-//        }
 
         for(int i = 0 ; i < length/2 ; i++){
             temp[i * 2] = rawArray[i];
@@ -44,8 +38,6 @@ public class GIS_VoiceAI {
         if (tensorAudio != null && rawData != null && index >= indexLength) {
             short[] temp = Arrays.copyOfRange(rawData, index - indexLength, index);
             tensorAudio.load(resampleTo16k(temp));
-//            GIS_Log.d(TAG+index, String.valueOf(index));
-//            GIS_Log.d(TAG+indexLength, String.valueOf(indexLength));
 
             List<Classifications> output = audioClassifier.classify(tensorAudio);
 
@@ -64,14 +56,8 @@ public class GIS_VoiceAI {
             }
             GIS_Log.d(TAG, outputLabel);
 
-//            if (outputLabel.endsWith("PA")){
-//                SystemConfig.isPAvoice++;
-//                GIS_Log.d(TAG, String.valueOf(SystemConfig.isPAvoice));
-//            } else {
-//                SystemConfig.isPAvoice = 0;
-//            }
         } else {
-            GIS_Log.e(TAG, String.valueOf(tensorAudio));
+            GIS_Log.d(TAG, String.valueOf(tensorAudio));
         }
     }
 
@@ -83,7 +69,6 @@ public class GIS_VoiceAI {
             if(SystemConfig.voiceCategory[i].equals("PA")){
                 times++;
             }
-//            GIS_Log.d(TAG + i, SystemConfig.voiceCategory[i]);
         }
         if (times >= 8){
             PA = true;

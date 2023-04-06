@@ -32,7 +32,7 @@ import com.gis.heartio.UIOperationControlSubsystem.onlineFragment;
  * Created by 780797 on 2016/8/29.
  */
 public class BVSignalProcessController {
-
+    private static final String TAG = "BVSignalProcessController";
     private final int INT_MSGQ_MSG_CNT_MAX = 4000;
     public int mIntPutMsgLostCnt;
     public int mIntMaxMsgInQ;
@@ -144,22 +144,18 @@ public class BVSignalProcessController {
 
             while (!mBoolEndCmd) {
                 myMsg = mMyMsgQueue.getMsg(MyMsgQueue.MY_MSG_TIMEOUT_MILISEC_INFINITIVE);
-                //Log.d("BVSPC","myMsg = "+myMsg.toString());
                 if (myMsg != null) {
                     switch (myMsg.mIntMsgId) {
                         case MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN:
-//                            GIS_Log.d("Leslie","SPROCESS_DATA_IN");
                             boolReturn = receiveAttributeDataBySegmentOnLine(myMsg.mByteArray);
                             if(boolReturn){
                                 if(MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState == RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END){
                                     MainActivity.mSignalProcessController.putMsgForProcessDataFinish();
-//                                    GIS_Log.d("Leslie","RECEIVE_STATE_END");
                                 }
 
                                 if (intervalForegroundService.isRunning &&
                                         MainActivity.mRawDataProcessor.mEnumUltrasoundAttributeReceiveState
                                                 == RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END ){
-//                                    GIS_Log.d("Leslie","intervalForegroundService.isRunning="+intervalForegroundService.isRunning);
                                     Message message = Message.obtain();
                                     message.what = intervalForegroundService.ACTION_MESSAGE_ID_RECORD_END;
                                     try{
@@ -170,21 +166,18 @@ public class BVSignalProcessController {
                                 }
 
                                 if (SystemConfig.mEnumUltrasoundUIState == SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE) {
-//                                    GIS_Log.d("Leslie","SystemConfig.mEnumUltrasoundUIState == SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE");
+
                                     enumRxState = MainActivity.mRawDataProcessor.mEnumUltrasoundAttributeReceiveState;
 
                                     uiMessage = new Message();
                                     if (enumRxState == RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_CONTINUOUS) {
                                         uiMessage.what = MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN;
-//                                        GIS_Log.d("Leslie","RECEIVE_STATE_CONTINUOUS");
                                     } else if (enumRxState == RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_START) {
                                         uiMessage.what = MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN_START;
-//                                        GIS_Log.d("Leslie","RECEIVE_STATE_START");
                                     }
                                     if(SystemConfig.mEnumStartState == SystemConfig.ENUM_START_STATE.STATE_START) {
                                         if (enumRxState == RawDataProcessor.ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END) {
                                             uiMessage.what = MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN_END;
-//                                            GIS_Log.d("Leslie","STATE_START/RECEIVE_STATE_END");
                                         }
                                     }
                                     iUiMsgWhat = uiMessage.what;
@@ -198,7 +191,6 @@ public class BVSignalProcessController {
                             break;
 
                         case MyThreadQMsg.INT_MY_MSG_CMD_SPROCESS_DATA_FINISH:
-//                            GIS_Log.d("Leslie","SPROCESS_DATA_FINISH");
                             if(!mBoolStartedByGetFirstPower) {
                                 processAllSegmentPart1Step2OffLine();
 
@@ -255,7 +247,6 @@ public class BVSignalProcessController {
                                 if (intervalForegroundService.isRunning //&&
                                         //uiMessage.what == MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_RESULT_OK ){
                                         ){
-                                    //Log.d("BVSPC","intervalForegroundService.isRunning="+intervalForegroundService.isRunning);
                                     Message message = Message.obtain();
                                     message.what = intervalForegroundService.ACTION_MESSAGE_ID_SAVE_RESULT;
                                     try{
@@ -271,21 +262,19 @@ public class BVSignalProcessController {
                             break;
 
                         case MyThreadQMsg.INT_MY_MSG_CMD_SPROCESS_PREPARE_PROCESS:
-//                            GIS_Log.d("Leslie","SPROCESS_PREPARE_PROCESS");
                             mBoolStartedByGetFirstPower = false;
                             mMyMsgQueue.clearMsg();
                             mIntMaxMsgInQ = 0;
                             break;
 
                         case MyThreadQMsg.INT_MY_MSG_CMD_SPROCESS_STOP_BY_FIRST_POWER:
-//                            GIS_Log.d("Leslie","SPROCESS_STOP_BY_FIRST_POWER");
                             mBoolStartedByGetFirstPower = true;
                             break;
                     }
                 }
             }
         }catch(Exception ex1){
-            Log.i("DataProController Exp", "SignalProcessThread: ");
+            GIS_Log.e(TAG, "SignalProcessThread: " + ex1);
             ex1.printStackTrace();
         }
     }
@@ -347,7 +336,6 @@ public class BVSignalProcessController {
                 MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState = RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_START;
             } else if (iSegment == iTotalSegmentSize - 1) {
                 MainActivity.mRawDataProcessor.mEnumUltrasoundOneDataReceiveState = RawDataProcessor.ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END;
-                GIS_Log.e("Leslie","processAllSegmentPart1Step1OffLine");
             }
             MainActivity.mBVSignalProcessorPart1.processSegment();
         }
@@ -550,7 +538,7 @@ public class BVSignalProcessController {
                 mIntArrayUsedCnt[iVar] = MainActivity.mBVSignalProcessorPart2Array[iVar].mIntHRAccuCntUsed;
                 MainActivity.mBVSignalProcessorPart2Selected = MainActivity.mBVSignalProcessorPart2Array[SystemConfig.mIntPart2TestIdx];
                 SystemConfig.mBoolProcessorPart2Selected = true;
-                Log.d("BVSignalPC","[323] SystemConfig.mBoolProcessorPart2Selected = true");
+                GIS_Log.d(TAG,"[323] SystemConfig.mBoolProcessorPart2Selected = true");
                 return;
             } else {
                 for (iVar = 0; iVar < SystemConfig.INT_HR_GROUP_CNT; iVar++) {
@@ -606,7 +594,6 @@ public class BVSignalProcessController {
                 if(iFirstHumanIdx == -1){       // Human no found
                     MainActivity.mBVSignalProcessorPart2Selected = MainActivity.mBVSignalProcessorPart2Array[iLastPhantomIdx];
                     SystemConfig.mBoolProcessorPart2Selected = true;
-                    //Log.d("BVSignalPC","[378] SystemConfig.mBoolProcessorPart2Selected = true");
 
                 }else{
                     doubleHRAreaCompareRatio = mDoubleArrayHRAreaVariAllRatio[iLastPhantomIdx];
@@ -618,14 +605,12 @@ public class BVSignalProcessController {
                         iSelectIdx = selectFromHumanGroup(iFirstHumanIdx);
                         MainActivity.mBVSignalProcessorPart2Selected = MainActivity.mBVSignalProcessorPart2Array[iSelectIdx];
                         SystemConfig.mBoolProcessorPart2Selected = true;
-                        //Log.d("BVSignalPC","[390] SystemConfig.mBoolProcessorPart2Selected = true");
                     }
                 }
             }else if(iFirstHumanIdx != -1){     //--- only human signal
                 iSelectIdx = selectFromHumanGroup(iFirstHumanIdx);
                 MainActivity.mBVSignalProcessorPart2Selected = MainActivity.mBVSignalProcessorPart2Array[iSelectIdx];
                 SystemConfig.mBoolProcessorPart2Selected = true;
-                //Log.d("BVSignalPC","[397] SystemConfig.mBoolProcessorPart2Selected = true");
             }
 
             if (MainActivity.mBVSignalProcessorPart2Selected == null) {
@@ -639,19 +624,16 @@ public class BVSignalProcessController {
                     }
                 }
 
-                //Log.d("BVSignalPC","[411] SystemConfig.mBoolProcessorPart2Selected = false");
             }
             if( MainActivity.mBVSignalProcessorPart2Selected == null){
                 MainActivity.mBVSignalProcessorPart2Selected = MainActivity.mBVSignalProcessorPart2Array[1];
                 MainActivity.mBVSignalProcessorPart2Selected.setAllResultDiscarded();
                 SystemConfig.mBoolProcessorPart2Selected = false;
-                //Log.d("BVSignalPC","[416] SystemConfig.mBoolProcessorPart2Selected = false");
             }
 
             if(SystemConfig.mIntVTIModeIdx == SystemConfig.INT_VTI_MODE_2_TWO_POINT){
                 MainActivity.mBVSignalProcessorPart2Selected.setAllResultDiscarded();
                 SystemConfig.mBoolProcessorPart2Selected = false;
-                //Log.d("BVSignalPC","[423] SystemConfig.mBoolProcessorPart2Selected = false");
             }
 
         }catch(Exception ex1){
@@ -1046,7 +1028,7 @@ public class BVSignalProcessController {
 
         result.HR = (int)SystemConfig.mDopplerInfo.HR;
 
-        Log.d("BVSPC","SystemConfig.rxAngle ="+SystemConfig.rxAngle);
+        GIS_Log.d(TAG,"SystemConfig.rxAngle ="+SystemConfig.rxAngle);
 
         if (SystemConfig.mIntSingleVpkEnabled == SystemConfig.INT_SINGLE_VPK_ENABLED_YES){
             result.VTI = getVpkOrgFromTwoPointWu(startPoint,endPoint);
@@ -1062,11 +1044,11 @@ public class BVSignalProcessController {
 
         result.SV = result.VTI * doubleCSArea;
         result.CO = result.SV * result.HR / 1000.0;
-        Log.d("BVPC","two Point result HR = "+result.HR);
-        Log.d("BVPC","two Point result VTI = "+result.VTI);
-        Log.d("BVPC","two Point result Vpk = "+result.Vpk);
-        Log.d("BVPC","two Point result SV = "+result.SV);
-        Log.d("BVPC","two Point result CO = "+result.CO);
+        GIS_Log.d(TAG,"two Point result HR = "+result.HR);
+        GIS_Log.d(TAG,"two Point result VTI = "+result.VTI);
+        GIS_Log.d(TAG,"two Point result Vpk = "+result.Vpk);
+        GIS_Log.d(TAG,"two Point result SV = "+result.SV);
+        GIS_Log.d(TAG,"two Point result CO = "+result.CO);
 
         return result;
     }
@@ -1113,31 +1095,28 @@ public class BVSignalProcessController {
                 double tmpSum = 0;
                 int rPeakIdx = list.get(j).RPeakIndex / 4;
                 if (rPeakIdx<1750){
-//                    Log.d("BVSPC","rPeakIdx="+rpeakIdx);
                     double maxVpk = 0.0;
                     for (int i = rPeakIdx+15;i<rPeakIdx+SystemConfig.vtiLengthUS;i++){
                         if (i<SystemConfig.mDopplerVFOutput[2].length){
-//                            Log.d("BVSPC","SystemConfig.mDopplerVFOutput[2]["+i+"]="+SystemConfig.mDopplerVFOutput[2][i]);
                             if (SystemConfig.mDopplerVFOutput[2][i]<2){
                                 tmpSum += SystemConfig.mDopplerVFOutput[2][i];
                                 if (maxVpk < SystemConfig.mDopplerVFOutput[2][i]){
                                     maxVpk = SystemConfig.mDopplerVFOutput[2][i];
                                 }
                             }else{
-                                Log.d("BVSPC","SystemConfig.mDopplerVFOutput[2]["+i+"]="+SystemConfig.mDopplerVFOutput[2][i]);
+                                GIS_Log.d(TAG,"SystemConfig.mDopplerVFOutput[2]["+i+"]="+SystemConfig.mDopplerVFOutput[2][i]);
                             }
                         }
                     }
                     list.get(j).setDoubleVTI(tmpSum);
                     list.get(j).setDoubleVpk(maxVpk);
 
-//                    Log.d("BVSPC","tmpVTI="+tmpSum);
                 }
             }
             ecgResult tmpEcg = list.stream()
                     .max(Comparator.comparing(ecgResult::getDoubleVTI))
                     .orElseThrow(NoSuchElementException::new);
-            Log.d("BVSPC","vti index = "+list.indexOf(tmpEcg));
+            GIS_Log.d(TAG,"vti index = "+list.indexOf(tmpEcg));
             result = tmpEcg.getDoubleVTI();
 
         }
@@ -1156,7 +1135,6 @@ public class BVSignalProcessController {
         mDataInfo = BVProcessSubsysII.getJResultDataAfterSignalProcess();
 
         mDataInfo.ErrCode = MainActivity.mBVSignalProcessorPart1.mIntHRErrCode;
-//        Log.d("BVSPC", "error code = "+mDataInfo.ErrCode);
 
         return mDataInfo;
     }
@@ -1183,21 +1161,21 @@ public class BVSignalProcessController {
         if (SystemConfig.isHeartIO2||(MainActivity.offFrag!=null && MainActivity.offFrag.hasECG)){
             int ecgHR = getHRFromECG();
             double ecgVTI = getVTIFromECG();
-            Log.d("BVSPC","ECG HR = "+  ecgHR+" , US HR = "+ mDataInfo.HR);
-            Log.d("BVSPC","ECG VTI = "+ecgVTI);
+            GIS_Log.d(TAG,"ECG HR = "+  ecgHR+" , US HR = "+ mDataInfo.HR);
+            GIS_Log.d(TAG,"ECG VTI = "+ecgVTI);
             double ecgSV = ecgVTI * doubleCSArea;
             double ecgCO = ecgSV * ecgHR / 1000.0;
-            Log.d("BVSPC", "ECG SV = "+ecgSV+", ECG CO = "+ecgCO);
+            GIS_Log.d(TAG, "ECG SV = "+ecgSV+", ECG CO = "+ecgCO);
 
             ecgResult tmpEcg = MainActivity.mBVSignalProcessorPart1.mEcgList.stream()
                     .max(Comparator.comparing(ecgResult::getDoubleVTI))
                     .orElseThrow(NoSuchElementException::new);
 
-            Log.d("BVSPC", "ECG Vpk = "+tmpEcg.getDoubleVpk());
+            GIS_Log.d(TAG, "ECG Vpk = "+tmpEcg.getDoubleVpk());
         }
 
         mDataInfo.ErrCode = MainActivity.mBVSignalProcessorPart1.mIntHRErrCode;
-        Log.d("BVSPC", "error code = "+mDataInfo.ErrCode);
+        GIS_Log.e(TAG, "error code = "+mDataInfo.ErrCode);
 
         return mDataInfo;
     }
@@ -1484,7 +1462,6 @@ public class BVSignalProcessController {
 //        SNSIResult snsiResult = Doppler.SNSI_VF3(o_im2);
 //        double[] vf3 = Doppler.MOV_AVG(snsiResult.vf,7);
 //        double[][] fpkResult = Doppler.fpk_snsi(vf3,50,1);
-//        Log.d("BVSPC","fpk mean = "+Doppler.mean(fpkResult[1]));
         // test SNSI end  20210409
 
         //  Test for Dr. Wu STFT Check End output CSV
@@ -1493,28 +1470,21 @@ public class BVSignalProcessController {
 //        SystemConfig.mDopplerVFOutput = Doppler.VF_test(o_im4);
         SystemConfig.mDopplerVFOutput = Doppler.VF_SNSI(o_im5);
         SystemConfig.mDopplerInfo = new wuDopplerInfo();
-        Log.d("BVPC","Wu HR interval = "+ SystemConfig.mDopplerVFOutput[7][12]);
-        Log.d("BVPC","Wu SNR fail number = "+ SystemConfig.mDopplerVFOutput[4][0]);
-//        Log.d("BVPC","SNR fail flag = "+ SystemConfig.mDopplerVFOutput[4][1]);
-//        Log.d("BVPC","SEG fail flag = "+ SystemConfig.mDopplerVFOutput[4][2]);
-//        Log.d("BVPC","HR fail flag = "+ SystemConfig.mDopplerVFOutput[4][3]);
+        GIS_Log.d(TAG,"Wu HR interval = "+ SystemConfig.mDopplerVFOutput[7][12]);
+        GIS_Log.d(TAG,"Wu SNR fail number = "+ SystemConfig.mDopplerVFOutput[4][0]);
         SystemConfig.mDopplerInfo.isSNRFail = (SystemConfig.mDopplerVFOutput[4][1] == 1);
         SystemConfig.mDopplerInfo.isSegFail = (SystemConfig.mDopplerVFOutput[4][2] == 1);
         SystemConfig.mDopplerInfo.isHRFail = (SystemConfig.mDopplerVFOutput[4][3] == 1);
-//        Log.d("BVPC","SNR fail flag = "+ SystemConfig.mDopplerInfo.isSNRFail);
-//        Log.d("BVPC","SEG fail flag = "+ SystemConfig.mDopplerInfo.isSegFail);
-//        Log.d("BVPC","HR fail flag = "+ SystemConfig.mDopplerInfo.isHRFail);
         SystemConfig.mDopplerInfo.HR = SystemConfig.mDopplerVFOutput[4][4];
         SystemConfig.mDopplerInfo.Vpk = SystemConfig.mDopplerVFOutput[4][5];
         SystemConfig.mDopplerInfo.VTI = SystemConfig.mDopplerVFOutput[4][6];
-        Log.d("BVPC","Wu HR = "+ SystemConfig.mDopplerInfo.HR);
-        Log.d("BVPC","Wu Vpk = "+ SystemConfig.mDopplerInfo.Vpk);
-        Log.d("BVPC","Wu VTI = "+ SystemConfig.mDopplerInfo.VTI);
+        GIS_Log.d(TAG,"Wu HR = "+ SystemConfig.mDopplerInfo.HR);
+        GIS_Log.d(TAG,"Wu Vpk = "+ SystemConfig.mDopplerInfo.Vpk);
+        GIS_Log.d(TAG,"Wu VTI = "+ SystemConfig.mDopplerInfo.VTI);
         SystemConfig.mDopplerInfo.HRLength = SystemConfig.mDopplerVFOutput[7][12];
         for (int j = 7; j< SystemConfig.mDopplerVFOutput.length; j++){
             if (SystemConfig.mDopplerVFOutput[j][16]!=0){
                 segObject tmpSeg;
-                //Log.d("BVPP","SystemConfig.mDopplerVFOutput["+j+"]["+i+"] = "+SystemConfig.mDopplerVFOutput[j][i]);
                 // last end point can't overlap this start point
                 if (j>=8 && (SystemConfig.mDopplerVFOutput[j][15] == SystemConfig.mDopplerVFOutput[j-1][16])){
                     tmpSeg = new segObject((int)(SystemConfig.mDopplerVFOutput[j][15]+1),
@@ -1528,12 +1498,9 @@ public class BVSignalProcessController {
                             SystemConfig.mDopplerVFOutput[j][18]);
                 }
 
-//                Log.d("BVSPC","tmpSeg.StartPt  = "+ tmpSeg.StartPt);
                 // find vpk index
 //                for (int i = tmpSeg.StartPt; i<tmpSeg.EndPt;i++){
-//                    Log.d("BVSPC","SystemConfig.mDopplerVFOutput[1]["+i+"]  = "+ SystemConfig.mDopplerVFOutput[1][i]);
 //                    if (SystemConfig.mDopplerVFOutput[2][i] == tmpSeg.segVpk){
-//                        Log.d("BVSPC","found vpk index = "+ i);
 //                        tmpSeg.segVpkIdx = i;
 //                    }
 //
@@ -1560,11 +1527,11 @@ public class BVSignalProcessController {
             }
         }
         if (maxCount >= 2){
-            Log.d("BVSPC","maxFeq = "+maxFeq);
-            Log.d("BVSPC","maxCount = "+maxCount);
-            Log.d("BVSPC","count33 = "+ count33);
-            Log.d("BVSPC","count66 = "+ count65);
-            Log.d("BVSPC","count97 = "+ count97);
+            GIS_Log.d(TAG,"maxFeq = "+maxFeq);
+            GIS_Log.d(TAG,"maxCount = "+maxCount);
+            GIS_Log.d(TAG,"count33 = "+ count33);
+            GIS_Log.d(TAG,"count66 = "+ count65);
+            GIS_Log.d(TAG,"count97 = "+ count97);
         }
 
 
@@ -1572,8 +1539,6 @@ public class BVSignalProcessController {
 //                Type.toInt(Doppler.MOV_AVG(SystemConfig.mDopplerVFOutput[0], 6))
 //                , Type.toInt(Doppler.MOV_AVG(SystemConfig.mDopplerVFOutput[0], 6)));
 //        for (int i = 0; i< SystemConfig.mDopplerInfo.segList.size();i++){
-//            Log.d("BVSPC","SystemConfig.mDopplerInfo.segList.get("+i+").segVTIStartPt = "+SystemConfig.mDopplerInfo.segList.get(i).segVTIStartPt);
-//            Log.d("BVSPC","SystemConfig.mDopplerInfo.segList.get("+i+").segVTIEndPt = "+SystemConfig.mDopplerInfo.segList.get(i).segVTIEndPt);
 //        }
     }
 

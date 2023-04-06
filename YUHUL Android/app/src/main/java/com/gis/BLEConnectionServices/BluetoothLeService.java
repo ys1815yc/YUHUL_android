@@ -24,6 +24,7 @@ import com.gis.CommonUtils.Constants;
 import com.gis.CommonUtils.GattAttributes;
 import com.gis.CommonUtils.UUIDDatabase;
 import com.gis.CommonUtils.Utils;
+import com.gis.heartio.GIS_Log;
 //import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 
 import java.lang.reflect.Method;
@@ -127,7 +128,6 @@ public class BluetoothLeService extends Service {
         public void onConnectionStateChange(BluetoothGatt gatt, int status,
                                             int newState) {
             //Logger.i("onConnectionStateChange");
-            //Log.d(TAG,"onConnectionStateChange");
             String intentAction;
             // GATT Server connected
             if (newState == BluetoothProfile.STATE_CONNECTED) {
@@ -214,7 +214,6 @@ public class BluetoothLeService extends Service {
                 if (gatt!=null && SystemConfig.isHeartIO2){
                     BluetoothGattService service = gatt.getService(UUIDDatabase.UUID_HEARTIO_DATA_SERVICE);
 //                    if (service!=null && service.getCharacteristic(UUIDDatabase.UUID_HEARTIO2_RUNCMD_CHARACTERISTIC)!=null){
-//                        Log.d(TAG,"set gatt char3...........");
 //                        gatt_char3 = gatt;
 //                    }
                     BluetoothGattCharacteristic characteristic = service.getCharacteristic(UUIDDatabase.UUID_HEARTIO2_DATA_CHARACTERISTIC);
@@ -323,7 +322,6 @@ public class BluetoothLeService extends Service {
 
             String descriptorValue = " " + Utils.ByteArraytoHex(descriptor.getValue()) + " ";
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                // Log.d("BLEService","status==BluetoothGatt.GATT_SUCCESS");
                 UUID descriptorUUID = descriptor.getUuid();
                 final Intent intent = new Intent(ACTION_DATA_AVAILABLE);
                 Bundle mBundle = new Bundle();
@@ -461,7 +459,6 @@ public class BluetoothLeService extends Service {
                     "[ " + characteristicValue + " ]";
             Logger.datalog(dataLog);
             */
-//            Log.d(TAG,"onCharacteristicChange");
             broadcastNotifyUpdate(characteristic);
         }
 
@@ -519,7 +516,6 @@ public class BluetoothLeService extends Service {
 
     private static void broadcastNotifyUpdate(final BluetoothGattCharacteristic characteristic) {
         //try {
-//            Log.i("Test in", "broadcastNotifyUpdate: ");
             final Intent intent = new Intent(BluetoothLeService.ACTION_DATA_AVAILABLE);
             Bundle mBundle = new Bundle();
             // Putting the byte value read for GATT Db
@@ -601,11 +597,9 @@ public class BluetoothLeService extends Service {
             //if (SystemConfig.mUltrasoundComm != null){
             //    SystemConfig.mUltrasoundComm.onReceive(intent);
             //}
-            //Log.i("Test Out", "broadcastNotifyUpdate: ");
 
         //}catch(Exception ex1) {
 
-       //     Log.i("BThLeService Exception", " in broadcastNotifyUpdate() ");
         //}
     }
 
@@ -685,7 +679,7 @@ public class BluetoothLeService extends Service {
      * Reconnect method to connect to already connected device
      */
     public static void reconnect() {
-        Log.e(TAG,"<--Reconnecting device-->");
+        GIS_Log.d(TAG,"<--Reconnecting device-->");
         BluetoothDevice device = mBluetoothAdapter
                 .getRemoteDevice(mBluetoothDeviceAddress);
         if (device == null) {
@@ -718,7 +712,7 @@ public class BluetoothLeService extends Service {
                 return (Boolean) localMethod.invoke(localBluetoothGatt);
             }
         } catch (Exception localException) {
-            Log.i(TAG,"An exception occured while refreshing device");
+            GIS_Log.e(TAG,"An exception occured while refreshing device");
         }
         return false;
     }
@@ -730,7 +724,7 @@ public class BluetoothLeService extends Service {
      * callback.
      */
     public static void disconnect() {
-        Log.i(TAG,"disconnect called");
+        GIS_Log.d(TAG,"disconnect called");
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             return;
         } else {
@@ -743,7 +737,7 @@ public class BluetoothLeService extends Service {
             //String dataLog = mContext.getResources().getString(R.string.dl_commaseparator)
             //        + "[" + mBluetoothDeviceName + "|" + mBluetoothDeviceAddress + "] " +
             //        mContext.getResources().getString(R.string.dl_disconnection_request);
-            //Log.d(TAG,dataLog);
+
            /* close();*/
         }
 
@@ -758,7 +752,7 @@ public class BluetoothLeService extends Service {
             //String dataLog = mContext.getResources().getString(R.string.dl_commaseparator)
             //        + "[" + mBluetoothDeviceName + "|" + mBluetoothDeviceAddress + "] " +
             //        mContext.getResources().getString(R.string.dl_service_discovery_request);
-            //Log.d(TAG,dataLog);
+
         }
 
     }
@@ -783,7 +777,7 @@ public class BluetoothLeService extends Service {
     }
 
     private static void broadcastConnectionUpdate(final String action) {
-        Log.i(TAG,"action :" + action);
+        GIS_Log.d(TAG,"action :" + action);
         final Intent intent = new Intent(action);
         mContext.sendBroadcast(intent);
     }
@@ -826,9 +820,9 @@ public class BluetoothLeService extends Service {
             Class class1 = Class.forName("android.bluetooth.BluetoothDevice");
             Method createBondMethod = class1.getMethod("createBond");
             Boolean returnValue = (Boolean) createBondMethod.invoke(mBluetoothGatt.getDevice());
-            Log.e(TAG,"Pair initates status-->" + returnValue);
+            GIS_Log.d(TAG,"Pair initates status-->" + returnValue);
         } catch (Exception e) {
-            Log.e(TAG,"Exception Pair" + e.getMessage());
+            GIS_Log.d(TAG,"Exception Pair" + e.getMessage());
         }
 
     }
@@ -963,7 +957,7 @@ public class BluetoothLeService extends Service {
     public void onCreate() {
         // Initializing the service
         if (!initialize()) {
-            Log.d(TAG,"Service not initialized");
+            GIS_Log.d(TAG,"Service not initialized");
         }
     }
 
@@ -1011,13 +1005,13 @@ public class BluetoothLeService extends Service {
 //        if (gatt_char3 == null) {
         if (mBluetoothGatt == null) {
 //			Toast.makeText(getApplicationContext(), "gatt_char3 = null", Toast.LENGTH_SHORT).show();
-            Log.d(TAG,"gatt_char3 = null");
+            GIS_Log.d(TAG,"gatt_char3 = null");
             return;
         }
 
         if (characteristic3 == null) {
 //			Toast.makeText(getApplicationContext(), "char3 = null", Toast.LENGTH_SHORT).show();
-            Log.d(TAG,"char3 = null");
+            GIS_Log.d(TAG,"char3 = null");
             return;
         }
 
@@ -1025,7 +1019,7 @@ public class BluetoothLeService extends Service {
         if ((properties & (BluetoothGattCharacteristic.PROPERTY_WRITE | BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) == 0)
         {
 //			Toast.makeText(getApplicationContext(), "char3 no WRITE_PROPERTY", Toast.LENGTH_SHORT).show();
-            Log.d(TAG,"char3 no WRITE_PROPERTY");
+            GIS_Log.d(TAG,"char3 no WRITE_PROPERTY");
             return;
         }
 
@@ -1099,7 +1093,6 @@ public class BluetoothLeService extends Service {
                 }
             }
         }catch(Exception ex1){
-            Log.i("setCharNotify", "setCharacteristicNotification: ");
         }
 */
         if (characteristic.getDescriptor(UUID
@@ -1249,7 +1242,7 @@ public class BluetoothLeService extends Service {
         //    SystemConfig.mMyEventLogger.appendDebugStr("Wrt Chara UUID=","");
             //Logger.d("gatt.writeCharacteristic(" + characteristic.getUuid() + ")");
         //}
-        Log.d(TAG,"gatt.writeCharacteristic(" + characteristic.getUuid() + "), value="+characteristic.getValue().toString());
+        GIS_Log.d(TAG,"gatt.writeCharacteristic(" + characteristic.getUuid() + "), value="+characteristic.getValue().toString());
         return gatt.writeCharacteristic(characteristic);
     }
 

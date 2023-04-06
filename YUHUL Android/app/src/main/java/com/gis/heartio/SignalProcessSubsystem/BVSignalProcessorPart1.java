@@ -28,7 +28,7 @@ import uk.me.berndporr.iirj.*;
  * Created by 780797 on 2016/6/20.
  */
 public class BVSignalProcessorPart1 {
-
+    private static final String TAG = "BVSignalProcessorPart1";
     private double DOUBLE_LEARN_MAX_IDX_HIGH_COMPARE_RATIO = 0.7;
 
     //****************************
@@ -376,7 +376,7 @@ public class BVSignalProcessorPart1 {
             isHRStableCount = 0;
             lastHR=-1;
         } catch (Exception ex1) {
-            Log.i("BloodVelSignalProcessor", "prepareStart: ");
+            GIS_Log.e(TAG, "prepareStart: " + ex1);
             ex1.printStackTrace();
         }
     }
@@ -413,7 +413,7 @@ public class BVSignalProcessorPart1 {
         double [][] o_im5 = Doppler.normal2(tmpSpectrogramValues);
         HR = Doppler.getHRByVFSNSI(o_im5);
 
-        Log.d("BVSP1","HR = "+HR);
+        GIS_Log.d(TAG,"HR = "+HR);
         return HR;
     }
 
@@ -504,7 +504,6 @@ public class BVSignalProcessorPart1 {
                 }
 
                 doubleGainValueRatio = (double) SystemConfig.mIntGainLevelMapVer1[iGainLevelMax] / (double) SystemConfig.mIntGainLevelMapVer1[iGainLevelMin];
-//                Log.d("spp1","doubleGainValueRatio = " + doubleGainValueRatio);
 
                 //--- 將所有要做shortTimeFT 之Data, 將其Gain 值需調到相同, 一律調到最大值 -----
                 for (iVar2 = 0; iVar2 < SystemConfig.mIntSTFTWindowSize; iVar2++) {
@@ -525,26 +524,16 @@ public class BVSignalProcessorPart1 {
 
                 doubleData = mShortTimeFT.getSpectrumAmpOutArrayElement(0);
 
-//                Log.d("BVSPP1","doubleData.length ="+doubleData.length);
 
                 if (BVSignalProcessorPart1.isInverseFreq){
                     double[] tmpDoubleData1 = mShortTimeFT.getSpectrumAmpInTmpValue();
-//                    if (mIntSTFFTNextSubSegIdx==0){
-//                        for (int i=0;i<tmpDoubleData.length;i++){
-//                            Log.d("BVSPP1","tmpDoubleData["+i+"]= "+tmpDoubleData[i]+", mShortFeedData["+i+"]= "+mShortFeedData[i]);
-//                        }
-//                    }
 
                     double[] tmpDoubleData = flipFFT(tmpDoubleData1);
                     // DC offset
 //                    tmpDoubleData[0] = 0;
 
                     mShortTimeFT.feedBData(tmpDoubleData);
-//                    if (mIntSTFFTNextSubSegIdx==0||mIntSTFFTNextSubSegIdx==1){
-//                        for (int i=0;i<tmpDoubleData.length;i++){
-//                            Log.d("BVSPP1","tmpDoubleData["+i+"]= "+(short)(tmpDoubleData[i]*128)+", mShortFeedData["+i+"]= "+mShortFeedData[i]);
-//                        }
-//                    }
+
                     iNextDataIdx = iNextDataStartIdx + iVar * SystemConfig.mIntSTFTWindowShiftSize;
                     iNextDataIdx = iNextDataIdx % SystemConfig.mIntUltrasoundSamplesMaxSizeForRun;
                     if (!MainActivity.currentFragmentTag.equals(Constants.ITRI_ULTRASOUND_FRAGMENT_TAG)){
@@ -634,7 +623,6 @@ public class BVSignalProcessorPart1 {
                 if (MainActivity.currentFragmentTag.equals(Constants.ITRI_ULTRASOUND_FRAGMENT_TAG)){
                     int samples=125*6;
                     int updateSamples=125;
-//                    Log.i("BVSP1", "mIntSTFFTNextSubSegIdx : "+mIntSTFFTNextSubSegIdx);
                     if (mIntSTFFTNextSubSegIdx>samples && mIntSTFFTNextSubSegIdx%updateSamples==0){
                         int tmpHR = getOnlineHR(samples);
                         if (lastHR!=-1){
@@ -645,10 +633,10 @@ public class BVSignalProcessorPart1 {
                                 isHRStableCount++;
                             }else{
                                 isHRStableCount=0;
-                                Log.d("BVSP1","HR stable count clear.");
+                                GIS_Log.d(TAG,"HR stable count clear.");
                             }
                             if (isHRStableCount>=3){ //連續3次穩定
-                                Log.d("BVSP1","HR stable!!!!!!!!!!!");
+                                GIS_Log.d(TAG,"HR stable!!!!!!!!!!!");
                             }
                         }
                         MainActivity.oFrag.updateHRValue(tmpHR,(isHRStableCount>=3 && isPA()));
@@ -670,8 +658,6 @@ public class BVSignalProcessorPart1 {
                         //        / (double) SystemConfig.mIntUltrasoundSamplerate / (double) SystemConfig.mIntSTFTWindowSize;
                       //* jaufa, 180809, #
                         mDoubleBVSpectrumValues[mIntSTFFTNextSubSegIdx][iVar2] = tmpDoubleData;
-
-//                        Log.d("mDoubleBVSpectrumValues", String.valueOf(tmpDoubleData));
                       //* jaufa, 180809, # */
 
                     }else if (SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_1_WU_NEW) {
@@ -737,14 +723,13 @@ public class BVSignalProcessorPart1 {
             //----------------------------------------------------------------
             if (!mBoolMaxIdxBaseLearned) {
                 if (mIntSTFFTNextSubSegIdx < (SystemConfig.mIntEndIdxNoiseLearn+1)) {
-//                    Log.d("mBoolMaxIdxBaseLearned", "mBoolMaxIdxBaseLearned");
 //                    會執行這個return
 
                     return;
                 } else {
                     if(SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_0_SNSI_GM){
                         processNoiseAndSignalByWu();    //--- for Algorithm SNSI_GM
-                        GIS_Log.e("MPBV", "processNoiseAndSignalByWu");
+                        GIS_Log.e(TAG, "processNoiseAndSignalByWu");
                         //*j+,0524  SNR
                         processNoiseAndSignalBaseAndMaxIdxLevel();    //--- for Algorithm SNR_AMP & SNR_PSD
                         //*j+,0524  SNR */
@@ -825,8 +810,6 @@ public class BVSignalProcessorPart1 {
 
             if (index * 4 > ringbuff){
                 if (mdf_ECG >= ecgThreshold && ecgSW){
-//                                Log.d("BVSP1","mdf_ECG = "+mdf_ECG);
-//                                Log.d("BVSP1","ecgThreshold = "+ecgThreshold);
                     ecgRC++;
                     if (ecgRC==3){
                         ecgRC = 0;
@@ -852,13 +835,11 @@ public class BVSignalProcessorPart1 {
                         ecgSW = true;
 //                                    RRsecond = last_scal_x;
 //                                    RS = last_data;
-//                        Log.d("BVSP1","R index = "+last_x);
                         ecgResult tmpEcg = new ecgResult();
                         tmpEcg.setRPeakIndex(last_x);
                         mEcgList.add(tmpEcg);
                         last_data = 0;
                         last_x = 0;
-                        //Log.d("BVSP1","mEcgList.size()="+mEcgList.size());
                         //po.WriteLine(Convert.ToString(last_scal_x) + '\t' + Convert.ToString(last_data));
                             /*
                               RP.WriteLine(Convert.ToString(last_scal_x) + '\t' + Convert.ToString(last_data));//record ECG Rx data
@@ -1187,10 +1168,8 @@ public class BVSignalProcessorPart1 {
 
     public int getCurSubSegSize() {
         if (SystemConfig.mEnumTryState != SystemConfig.ENUM_TRY_STATE.STATE_TRY) {
-            //Log.d("BVSPP1","SystemConfig.mEnumTryState != SystemConfig.ENUM_TRY_STATE.STATE_TRY mIntSTFFTNextSubSegIdx="+mIntSTFFTNextSubSegIdx);
             return mIntSTFFTNextSubSegIdx;
         } else {
-            //Log.d("BVSPP1","mIntTrySTFFTNextSubSegIdx="+mIntTrySTFFTNextSubSegIdx);
             return mIntTrySTFFTNextSubSegIdx;
         }
     }
@@ -1482,8 +1461,6 @@ public class BVSignalProcessorPart1 {
                     doubleNoiseMin = mDoubleBVSpectrumValues [iVar][iVar2];
                 }
             }
-//            Log.d("doubleNoiseMax", String.valueOf(doubleNoiseMax));
-//            Log.d("doubleNoiseMin", String.valueOf(doubleNoiseMin));
             doubleNoiseRangeWuAccu = doubleNoiseRangeWuAccu + (doubleNoiseMax - doubleNoiseMin);
             doubleNoiseStrengthWuAccu = doubleNoiseStrengthWuAccu + (doubleNoiseMax + doubleNoiseMin) / 2.0;
         }
@@ -1494,12 +1471,7 @@ public class BVSignalProcessorPart1 {
 //        SystemConfig.mDoubleNoiseStrengthWu = doubleNoiseStrengthWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1);
         SystemConfig.mDoubleSignalStrengthWu = doubleSignalStrengthMaxWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1);
         SystemConfig.mDoubleSNRLearnedWu = SystemConfig.mDoubleSignalStrengthWu / SystemConfig.mDoubleNoiseStrengthWu;
-
-//        Log.d("mDoubleNoiseRangeWu", String.valueOf(SystemConfig.mDoubleNoiseRangeWu));
-//        Log.d("mDoubleNoiseRangeWu0", String.valueOf(doubleNoiseRangeWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1)));
-//        Log.d("mDoubleNoiseStrengthWu", String.valueOf(SystemConfig.mDoubleNoiseStrengthWu));
-//        Log.d("mDoubleNoiseStrengthWu0", String.valueOf(doubleNoiseStrengthWuAccu / (double)(iLearnEndIdx-SystemConfig.mIntStartIdxNoiseLearn+1)));
-    }
+ }
 
 
 

@@ -471,7 +471,6 @@ public class ServiceDiscoveryFragment extends Fragment {
 
         if (SystemConfig.mIntGainControlEnabled == SystemConfig.INT_GAIN_CONTROL_ENABLED_YES) {
             if (!checkGainService()) {
-                //Log.d("ServiceDiscovery","Check Gain Service fail.");
                 return false;
             }
         }
@@ -531,7 +530,6 @@ public class ServiceDiscoveryFragment extends Fragment {
 
         for (int i = 0; i < mGattServiceData.size(); i++) {
             strUuid = mGattServiceData.get(i).get("UUID").getUuid().toString();
-//            Log.d("checkUltrasoundService","strUuid = "+strUuid);
             if (mGattServiceData.get(i).get("UUID").getUuid().equals(UUIDDatabase.UUID_ULTRASOUND_DATA_SERVICE)||
                 mGattServiceData.get(i).get("UUID").getUuid().equals(UUIDDatabase.UUID_HEARTIO_DATA_SERVICE)) {
                 boolDataServiceFound = true;
@@ -544,10 +542,8 @@ public class ServiceDiscoveryFragment extends Fragment {
                 for (BluetoothGattCharacteristic gattCharacteristic : mCharacteristics){
                     uuid = gattCharacteristic.getUuid();
                     if (uuid.equals(UUIDDatabase.UUID_FIRMWARE_REVISION_STRING)){
-//                        Log.d("checkUltrasoundService","get firmware uuid = "+uuid);
                         mApplication.setBluetoothgattFirmwareVersionharacteristic(gattCharacteristic);
                     } else if (uuid.equals(UUIDDatabase.UUID_SOFTWARE_REVISION_STRING)){
-//                        Log.d("checkUltrasoundService","get MAC uuid = "+uuid);
                         mApplication.setBluetoothgattMacAddrcharacteristic(gattCharacteristic);
                     }
                 }
@@ -562,7 +558,6 @@ public class ServiceDiscoveryFragment extends Fragment {
         mApplication.setGattDataCharacteristics(mGattDataCharacteristics);
         for (BluetoothGattCharacteristic gattCharacteristic : mGattDataCharacteristics) {
             uuid = gattCharacteristic.getUuid();
-//            Log.d("checkUltrasoundService","uuid = "+uuid);
             if (uuid.equals(UUIDDatabase.UUID_ULTRASOUND_DATA_CHARACTERISTIC)||
                 uuid.equals(UUIDDatabase.UUID_HEARTIO_DATA_CHARACTERISTIC)) {
                 boolDataCharacteristicFound = true;

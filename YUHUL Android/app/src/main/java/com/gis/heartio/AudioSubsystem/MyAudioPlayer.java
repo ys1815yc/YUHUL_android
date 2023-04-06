@@ -7,6 +7,7 @@ import android.media.AudioTrack;
 import android.os.Build;
 import android.util.Log;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessorPart1;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.MyDataFilter2;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
@@ -19,7 +20,7 @@ import java.nio.ByteOrder;
  * Created by 780797 on 2016/8/30.
  */
 public class MyAudioPlayer {
-
+    private static final String TAG = "MyAudioPlayer";
 
     private static final double AUDIO_TOTAL_DATA_SEC = 0.1;//Leslie modified //unit: sec
 
@@ -80,10 +81,10 @@ public class MyAudioPlayer {
         int iSegmentEndIdx, result_write_num;
 
         if (mState != STATE_PCM_DECODER_PLAY) {
-            Log.d("AudioPlayer","mState != STATE_PCM_DECODER_PLAY");
+            GIS_Log.d(TAG,"mState != STATE_PCM_DECODER_PLAY");
             return;
         }else if(MainActivity.mRawDataProcessor.mIntDataNextIndex == mIntStartNextIdxOnLine){
-            Log.d("AudioPlayer","MainActivity.mRawDataProcessor.mIntDataNextIndex == mIntStartNextIdxOnLine");
+            GIS_Log.d(TAG,"MainActivity.mRawDataProcessor.mIntDataNextIndex == mIntStartNextIdxOnLine");
             return;
         }
 
@@ -107,12 +108,9 @@ public class MyAudioPlayer {
             }
 
             //------- put data to audio -------------------------------
-//            Log.d("AudioPlayer","mIntStartNextIdxOnLine="+mIntStartNextIdxOnLine);
-//            Log.d("AudioPlayer","iSegmentEndIdx="+iSegmentEndIdx);
             if(mIntStartNextIdxOnLine > iSegmentEndIdx){
                 //SystemConfig.mMyEventLogger.appendDebugStr("AudioStep1", "");
                 iDataLength1 = SystemConfig.mIntUltrasoundSamplesMaxSizeForRun - mIntStartNextIdxOnLine ;
-                //Log.d("AudioPlayer","iDataLength1="+iDataLength1);
                 while (iDataLength1 > 0) {
                     if (BVSignalProcessorPart1.isInverseFreq){
                         result_write_num = audio_track_handle.write(MainActivity.mRawDataProcessor.mShortUltrasoundDataInverse, mIntStartNextIdxOnLine, iDataLength1);
@@ -130,7 +128,6 @@ public class MyAudioPlayer {
 
             //SystemConfig.mMyEventLogger.appendDebugStr("AudioStep2", "");
             iDataLength2 = iSegmentEndIdx - mIntStartNextIdxOnLine +1;
-            //Log.d("AudioPlayer","iDataLength2="+iDataLength2);
             //SystemConfig.mMyEventLogger.appendDebugStr("iDataLength2=", String.valueOf(iDataLength2));
             while (iDataLength2 > 0) {
                 if (BVSignalProcessorPart1.isInverseFreq){
@@ -358,7 +355,7 @@ public class MyAudioPlayer {
 
     public void StartPlayAudio(int iSamplingRate)
     {
-        Log.d("AudioPlayer","Start Play Audio!!!!!!!");
+        GIS_Log.d(TAG,"Start Play Audio!!!!!!!");
         int audio_track_play_buffer_size;
         try {
             audio_track_play_buffer_size = (int)(iSamplingRate * AUDIO_TOTAL_DATA_SEC * SystemConfig.INT_ULTRASOUND_DATA_1DATA_BYTES_16PCM);

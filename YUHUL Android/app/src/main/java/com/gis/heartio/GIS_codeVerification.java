@@ -45,7 +45,7 @@ public class GIS_codeVerification {
             byte[] temp = new byte[length];
             /* tempRaw長度=111999 用來儲存原始raw array兩點相加除以2的值 2023/02/09 by Doris */
             short[] tempRaw = new short[length/4-1];
-            GIS_Log.d("length: ", String.valueOf(temp.length));
+            GIS_Log.d(TAG,"length: " + String.valueOf(temp.length));
 
             //分兩個byte來存 用複製點的方式
 //            for(int i = 0 ; i < length/4 ; i++){
@@ -96,7 +96,7 @@ public class GIS_codeVerification {
 
             int length = 224000;
             byte[] temp = new byte[length];
-            GIS_Log.d("length: ", String.valueOf(temp.length));
+            GIS_Log.d(TAG,"length: " + String.valueOf(temp.length));
             for(int i = 0 ; i < length/2 ; i++){ //分兩個byte來存
                 temp[i * 2] = (byte)(rawArray[i] & 0xFF);
                 temp[i * 2 + 1] = (byte)((rawArray[i] >> 8) & 0xFF);
@@ -141,7 +141,7 @@ public class GIS_codeVerification {
                 buff.close();
             }
         }catch (IOException e){
-            GIS_Log.e(TAG, String.valueOf(e));
+            GIS_Log.e(TAG, "resampleCutTest: " + e);
         }
     }
 }

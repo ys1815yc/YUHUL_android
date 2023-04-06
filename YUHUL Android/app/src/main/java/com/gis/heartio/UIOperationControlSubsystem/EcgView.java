@@ -96,14 +96,12 @@ public class EcgView extends View {
                 }
                 canvas.drawLine(fPosX, y1,
                         fPosX+mFloatXGainDrawSizeToPointsRatio, y2, mPaintECG);
-//                Log.d(TAG,"shortSignalToShow["+iXVar+"]["+j+"]="+shortSignalToShow[iXVar][j]);
 
                 ecgResult tmpEcg = new ecgResult();
                 int tmpIndex = (iXVar*4+j);
                 tmpEcg.setRPeakIndex(tmpIndex);
                 if (SystemConfig.vtiSegPlot){
                     if (containRPeak(MainActivity.mBVSignalProcessorPart1.mEcgList, tmpIndex)){
-//                    Log.d(TAG,"Find R Peak = "+tmpIndex);
                         canvas.drawLine(fPosX, 0,
                                 fPosX, fViewHeight, mPaintRPeak);
                         lastRIndex = tmpIndex;

@@ -33,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.gis.CommonUtils.Constants;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
@@ -193,7 +194,6 @@ public class dataFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.action_export:
                 // TODO: export data to csv file.
-                Log.d(TAG,"Oh~do that to me one more time~~");
                 exportDB();
                 return true;
             default:
@@ -218,7 +218,7 @@ public class dataFragment extends Fragment {
         File exportFile = new File(exportDir,filename);
         try {
             if (exportFile.createNewFile()){
-                Log.d(TAG,"Create file "+filename+" successfully.");
+                GIS_Log.d(TAG,"Create file "+filename+" successfully.");
                 CSVWriter csvWriter = new CSVWriter(new FileWriter(exportFile));
                 SQLiteDatabase db = mHelper.getReadableDatabase();
                 Cursor curCSV = db.rawQuery("select *  from "+IwuSQLHelper.STR_TABLE_DATA+" where userID = ?",new String[] {UserManagerCommon.mUserInfoCur.userID});
@@ -243,7 +243,7 @@ public class dataFragment extends Fragment {
                                 getString(R.string.alert_msg_save_csv_to)+exportFile.getAbsolutePath());
 
             }else{
-                Log.d(TAG,"file "+filename+" existed.");
+                GIS_Log.d(TAG,"file "+filename+" existed.");
                 showAlertDialog(getString(R.string.alert_title_failure),null);
             }
 
@@ -311,7 +311,6 @@ public class dataFragment extends Fragment {
 
             if (data!=null){
                  /*for (int i=0;i<labels.length;i++){
-                Log.d(TAG,"label "+i+"="+labels[i]);
             }*/
                 String[] labels = data.getDataSetLabels();
 
@@ -390,18 +389,15 @@ public class dataFragment extends Fragment {
 
                 @Override
                 public void onChartLongPressed(MotionEvent me) {
-                    if (me==null){
-                        Log.d(TAG,"me == null");
+                    if (me == null){
+                        GIS_Log.d(TAG,"me == null");
                         return;
                     }
                     //final int idx = (int)me.getX()-1;
                     final float rightX = holder.chart.getHighestVisibleX();
 
                     //final int idx = (int)me.getAxisValue((int)me.getX());
-                    Log.d(TAG,"selectedIdx = "+selectedIdx+"  dataList.size="+dataList.size());
-                    /*Log.d(TAG, "data _id :"+ dataList.get(idx).Id+" date: "+dataList.get(idx).createdDate + " Vpk = " + dataList.get(idx).Vpk
-                            +"  ,VTI= "+dataList.get(idx).VTI + " ,SV="+dataList.get(idx).SV
-                            +" ,HR= "+dataList.get(idx).HR +" ,Path= "+dataList.get(idx).fileName);*/
+                    GIS_Log.d(TAG,"selectedIdx = "+selectedIdx+"  dataList.size="+dataList.size());
                     AlertDialog alertDialog = new AlertDialog.Builder(mActivity).create(); //Read Update
                     alertDialog.setTitle(dataList.get(selectedIdx).createdDate);
                     alertDialog.setMessage(" Vpk = " + String.format("%.2f",dataList.get(selectedIdx).Vpk)
@@ -525,9 +521,6 @@ public class dataFragment extends Fragment {
             rightAxis.setSpaceTop(15f);
 
             String[] labels = data.getDataSetLabels();
-            /*for (int i=0;i<labels.length;i++){
-                Log.d(TAG,"label "+i+"="+labels[i]);
-            }*/
             if (labels[0].equals("Vpk")){
 //                data.setValueFormatter(new IValueFormatter() {
 //                    @Override
@@ -608,10 +601,10 @@ public class dataFragment extends Fragment {
             }
             //RectF bounds = new RectF();
             //holder.chart.getBarBounds(e,bounds);
-            //Log.d(TAG,e.toString());
+
             final int idx = (int)e.getX()-1;
             selectedIdx = idx;
-            Log.d(TAG, "data _id :"+ dataList.get(idx).Id+" date: "+dataList.get(idx).createdDate + " Vpk = " + dataList.get(idx).Vpk
+            GIS_Log.d(TAG, "data _id :"+ dataList.get(idx).Id+" date: "+dataList.get(idx).createdDate + " Vpk = " + dataList.get(idx).Vpk
                     +"  ,VTI= "+dataList.get(idx).VTI + " ,SV="+dataList.get(idx).SV
                     +" ,HR= "+dataList.get(idx).HR +" ,Path= "+dataList.get(idx).fileName);
 
@@ -674,7 +667,7 @@ public class dataFragment extends Fragment {
         //strWhere = "_id=" + UserManagerCommon.mUserInfoCur.mIntUserID;
         strWhere = IwuSQLHelper.KEY_DATA_TABLE_PRIMARY+" = '"+deleteID+"'";
         mHelper.mDBWrite.beginTransaction();
-        Log.d(TAG,"strWhere="+strWhere);
+        GIS_Log.d(TAG,"strWhere="+strWhere);
         try {
             lnReturn =mHelper.mDBWrite.delete(IwuSQLHelper.STR_TABLE_DATA, strWhere, null);
             mHelper.mDBWrite.setTransactionSuccessful();
@@ -685,9 +678,9 @@ public class dataFragment extends Fragment {
             File deleteFile = new File(deleteFilePath);
             if (deleteFile.exists()){
                 if (deleteFile.delete()){
-                    Log.d(TAG,deleteFilePath+" had been deleted.");
+                    GIS_Log.d(TAG,deleteFilePath+" had been deleted.");
                 }else{
-                    Log.d(TAG,deleteFilePath+"  delete file fail.");
+                    GIS_Log.d(TAG,deleteFilePath+"  delete file fail.");
                 }
             }
         }catch(Exception ex2){
@@ -798,7 +791,7 @@ public class dataFragment extends Fragment {
                     break;
             }
             if (ldSet != null){
-                Log.d(TAG,"itemType="+itemType +"  set data style");
+                GIS_Log.d(TAG,"itemType="+itemType +"  set data style");
                 //ldSet.setColor(Color.BLACK);
                 //ldSet.setCircleColor(Color.BLACK);
                 //ldSet.setCircleRadius(4.5f);

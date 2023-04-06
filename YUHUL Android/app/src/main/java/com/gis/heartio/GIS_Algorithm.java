@@ -976,8 +976,8 @@ public class GIS_Algorithm {
             startMsg.append(MainActivity.mVtiBoundaryResultByGIS.startLocationsOffline[i]).append(", ");
             endMsg.append(MainActivity.mVtiBoundaryResultByGIS.endLocationsOffline[i]).append(", ");
         }
-        GIS_Log.e(TAG,"start = [" + startMsg + "]");
-        GIS_Log.e(TAG,"end = [" + endMsg + "]");
+        GIS_Log.d(TAG,"start = [" + startMsg + "]");
+        GIS_Log.d(TAG,"end = [" + endMsg + "]");
     }
 
     public static double findDopplerAngle(){

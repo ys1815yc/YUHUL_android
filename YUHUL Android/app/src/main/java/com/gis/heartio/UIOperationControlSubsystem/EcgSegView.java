@@ -65,7 +65,6 @@ public class EcgSegView extends View {
 
         iTryEndSubSegIdx = mViewDrawOnlineNextSubSegIdx;
         iTryStartSubSegIdx = mViewDrawOnlineNextSubSegIdx - SystemConfig.INT_SVIEW_ONLINE_DRAW_SUBSEG_SIZE + 1;
-//        Log.d(TAG,"iTryStartSubSegIdx = "+iTryStartSubSegIdx);
         fSurfaceViewWidth = canvas.getWidth();
         fSurfaceViewHeight = canvas.getHeight();
 
@@ -73,7 +72,6 @@ public class EcgSegView extends View {
 
         mFloatBasicGainY = fSurfaceViewHeight / (float)4000.0;
         mFloatBasicGainX = fSurfaceViewWidth / (float)(( iDrawSubSegSize*4)+1);
-//        Log.d(TAG,"mFloatBasicGainX = "+mFloatBasicGainX);
         if (SystemConfig.darkMode){
             canvas.drawColor(Color.BLACK);
         }else{
@@ -84,7 +82,6 @@ public class EcgSegView extends View {
         while (iTryXVar <= iTryEndSubSegIdx) {
             fPosX = (float) (iTryXVar - iTryStartSubSegIdx + 1) * (mFloatBasicGainX * 4);
             iXVar = iTryXVar % MainActivity.mBVSignalProcessorPart1.mIntTotalSubSegMaxSize;
-//            Log.d(TAG,"iXVar = "+iXVar);
 
             for (int j=0;j<SystemConfig.mIntEcgSegCnt;j++){
                 float y1 = fSurfaceViewHeight -(shortSignalToShow[iXVar][j] * mFloatBasicGainY) -1;
@@ -102,14 +99,11 @@ public class EcgSegView extends View {
 
                 canvas.drawLine(fPosX, y1,
                         fPosX+mFloatBasicGainX, y2, mPaintECG);
-//                Log.d(TAG,"shortSignalToShow["+iXVar+"]["+j+"]="+shortSignalToShow[iXVar][j]);
                 fPosX+=mFloatBasicGainX;
-//                Log.d(TAG,"fPosX = "+fPosX);
 //                logX = logX +""+ fPosX+" ,";
             }
 
             iTryXVar++;
         }
-//        Log.d(TAG,logX);
     }
 }

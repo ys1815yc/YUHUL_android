@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.gis.CommonUtils.Constants;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.LoginDatabaseAdapter;
@@ -134,7 +135,7 @@ public class adminFragment extends Fragment {
                 final Cursor cursor = (Cursor) mSimpleCursorAdapter.getItem(i);
                 final String selectStr = cursor.getString(0);
                 final String selectID = cursor.getString(1);
-                Log.d(TAG,"Selected admin   "+selectStr+" ID = "+selectID);
+                GIS_Log.d(TAG,"Selected admin   "+selectStr+" ID = "+selectID);
                 if (getActivity()!=null){
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create(); //Read Update
                     alertDialog.setTitle(R.string.action_change_password);
@@ -179,7 +180,7 @@ public class adminFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.d(TAG,"onCreateOptionMenu");
+        GIS_Log.d(TAG,"onCreateOptionMenu");
         inflater.inflate(R.menu.fake_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -192,7 +193,7 @@ public class adminFragment extends Fragment {
                     .setPositiveButton(R.string.alert_message_exit_ok, (dialog, which) -> {
                         int deletePriID = loginDatabaseAdapter.deleteEntry(deleteID);
                         //sendSelfMsg(INT_USER_MANAGER_SELF_MSG_ID_SHOW_FROM_DELETE);
-                        Log.d(TAG,"The user "+deletePriID+"  had been deleted.");
+                        GIS_Log.d(TAG,"The user "+deletePriID+"  had been deleted.");
                         updateAdminCursor();
                         // initial listview and adapter for refresh.
                         mSimpleCursorAdapter = new SimpleCursorAdapter(getActivity(),
@@ -301,7 +302,7 @@ public class adminFragment extends Fragment {
                         }else if(!newPass.getText().toString().equals(confirmPass.getText().toString())){
                             showErrorDialog(getString(R.string.msg_confirm_pw_error));
                         }else{
-                            Log.d(TAG,"Old password: "+oldPass.getText().toString()+"   , new password:  "+newPass.getText().toString());
+                            GIS_Log.d(TAG,"Old password: "+oldPass.getText().toString()+"   , new password:  "+newPass.getText().toString());
                             loginDatabaseAdapter.updateEntry(MainActivity.currentAdminID,newPass.getText().toString());
                             showErrorDialog(getString(R.string.msg_change_pw_successfully));
                         }
@@ -387,7 +388,6 @@ public class adminFragment extends Fragment {
 
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-            //Log.d(TAG,"newView................");
             View view = LayoutInflater.from(context).inflate(R.layout.listitem_user, viewGroup, false);
             return view;
         }
@@ -408,7 +408,6 @@ public class adminFragment extends Fragment {
             //String strSelected = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_CURRENT_USER));
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
             int currentUserID_primary = sharedPref.getInt(IwuSQLHelper.KEY_CURRENT_USER,1);
-            Log.d(TAG,"currentUserID_primary="+currentUserID_primary);
             if (currentUserID_primary==cursor.getInt(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_PRIMARY))){
                 currentUserIV.setImageDrawable(getResources().getDrawable(R.drawable.checkbox_checked));
             }else{

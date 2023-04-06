@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 
 import org.w3c.dom.Text;
@@ -38,6 +39,7 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 public class myPrivacyPolicyDialog {
+    private static final String TAG = "myPrivacyPolicyDialog";
     AppCompatActivity context;
     private int backgroundColor;
     private int titleTextColor;
@@ -207,7 +209,7 @@ public class myPrivacyPolicyDialog {
         this.adapter = new myPrivacyPoliciesAdapter(this.termsOfServiceTextColor);
         mPoliciesRecyclerView.setAdapter(this.adapter);
         if (this.adapter!=null){
-            Log.d("ppdialog","we have "+this.lines.size()+" lines");
+            GIS_Log.d(TAG,"we have "+this.lines.size()+" lines");
             this.adapter.updateDataSet(this.lines);
         }
         return layout;

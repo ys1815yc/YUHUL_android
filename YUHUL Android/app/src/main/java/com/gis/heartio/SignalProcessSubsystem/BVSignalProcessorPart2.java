@@ -2,6 +2,7 @@ package com.gis.heartio.SignalProcessSubsystem;
 
 import android.util.Log;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
@@ -14,7 +15,7 @@ import java.util.Arrays;
  * Created by 780797 on 2016/6/20.
  */
 public class BVSignalProcessorPart2 {
-
+    private static final String TAG = "BVSignalProcessorPart2";
     public int[] mIntArrayHRPeakBottomStates;
 
     public int mIntGroupIdx;
@@ -389,7 +390,6 @@ public class BVSignalProcessorPart2 {
             mVTIStartFeature.prepareStart();
             mVTIEndFeature.prepareStart();
         }catch(Exception ex1){
-            //Log.i("BloodVelSignalProcessor", "prepareStart: ");
             ex1.printStackTrace();
         }
     }
@@ -602,11 +602,9 @@ public class BVSignalProcessorPart2 {
                 iTmp=MainActivity.mBVSignalProcessorPart1.mIntArrayVPKPeakPosition[mIntHRResultNextIdx];
                 mIntArrayHRResult[mIntHRResultNextIdx][SystemConfig.INT_HR_RESULT_VPK_IDX]
                         = iTmp;
-//                Log.d("BVSPP2","VPK index = "+ iTmp);   // index 1750
                 iTmp = MainActivity.mBVSignalProcessorPart1.mIntArrayMaxIdx[iTmp];
                 mIntArrayHRResult[mIntHRResultNextIdx][SystemConfig.INT_HR_RESULT_VPK_VALUE_IDX]
                         = iTmp;
-//                Log.d("BVSPP2","VPK value = "+ iTmp);   // freq 129
                 //*與繪圖有關
                 setPeakBottomStatesForVpkPeakS2(mIntArrayHRResult[mIntHRResultNextIdx][SystemConfig.INT_HR_RESULT_VPK_IDX]);
                 setPeakBottomStatesForVTIStartS2(mIntArrayHRResult[mIntHRResultNextIdx][SystemConfig.INT_HR_RESULT_VTI_START_IDX]);
@@ -711,7 +709,6 @@ public class BVSignalProcessorPart2 {
         //if(SystemConfig.mBoolDebugMode == true){
         //    for (iDebug = 0 ; iDebug < 64 ; iDebug++){
         //        doubleDebug = SystemConfig.mSystemConfig.mBVSignalProcessorPart1.mDoubleBloodVelocityAmpValues[0][iDebug];
-        //        Log.i("mDoubleData-STFT" , String.valueOf(iDebug) + " = " + String.format("%.10f", doubleDebug));
         //    }
         //}
 
@@ -741,7 +738,6 @@ public class BVSignalProcessorPart2 {
             processResultCardiacOutput();
 
         } catch (Exception ex1) {
-            Log.i("Application Error", "in processBloodSignal function");
         }
     }
 //*/
@@ -798,7 +794,7 @@ public class BVSignalProcessorPart2 {
             // Process for HR Result
             //------------------------
         } catch (Exception ex1) {
-            Log.i("Application Error", "in processBloodSignal function");
+            GIS_Log.e(TAG,"Application Error: in processBloodSignal function");
         }
     }
 //*/
@@ -807,7 +803,6 @@ public class BVSignalProcessorPart2 {
          //if(SystemConfig.mBoolDebugMode == true){
         //    for (iDebug = 0 ; iDebug < 64 ; iDebug++){
         //        doubleDebug = SystemConfig.mSystemConfig.mBVSignalProcessorPart1.mDoubleBloodVelocityAmpValues[0][iDebug];
-        //        Log.i("mDoubleData-STFT" , String.valueOf(iDebug) + " = " + String.format("%.10f", doubleDebug));
         //    }
         //}
 
@@ -837,7 +832,7 @@ public class BVSignalProcessorPart2 {
             processResultCardiacOutput();
 
         } catch (Exception ex1) {
-            Log.i("Application Error", "in processBloodSignal function");
+            GIS_Log.e(TAG ,"Application Error: in processBloodSignal function");
         }
     }
 

@@ -2,6 +2,7 @@ package com.gis.heartio.SignalProcessSubsysII.processor;
 
 import android.util.Log;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsysII.parameters.BloodVelocityConfig;
 import com.gis.heartio.SignalProcessSubsysII.parameters.BloodVelocityResults;
 import com.gis.heartio.SignalProcessSubsysII.transformer.EasyFilter;
@@ -17,6 +18,7 @@ import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 import java.util.Arrays;
 
 public class BloodVelocityProcessorIIPwr {
+    private static final String TAG = "BloodVelocityProcessorIIPwr";
     private Methodoligies ma;
     private BloodVelocityConfig sys;
     private EasyFilter fil;
@@ -467,20 +469,7 @@ public class BloodVelocityProcessorIIPwr {
         // Cavin Test Start
         //bv.mDblTmpValue = 125 / SystemConfig.mDopplerInfo.HRLength * 60;
         bv.mDblTmpValue = Doppler.getMax(SystemConfig.mDopplerVFOutput[0]);
-//        Log.d("BVPP","Wu HR="+bv.mDblTmpValue);
-        Log.d("BVPP","Wu max freq="+bv.mDblTmpValue);
-//        Log.d("BVPP","Wu interval length ="+SystemConfig.mDopplerInfo.HRLength);
-
-//        for (int j=0;j<SystemConfig.mDopplerInfo.segList.size();j++){
-//            Log.d("BVPP","["+j+"]Start pt = "+SystemConfig.mDopplerInfo.segList.get(j).StartPt);
-//            Log.d("BVPP","["+j+"]End pt = "+SystemConfig.mDopplerInfo.segList.get(j).EndPt);
-//            Log.d("BVPP","["+j+"]Vpk = "+SystemConfig.mDopplerInfo.segList.get(j).segVpk);
-//            Log.d("BVPP","["+j+"]Vti = "+SystemConfig.mDopplerInfo.segList.get(j).segVTI);
-//            Log.d("BVPP","["+j+"] segVTIStartPt = "+SystemConfig.mDopplerInfo.segList.get(j).segVTIStartPt);
-//            Log.d("BVPP","["+j+"] segVTIEndPt = "+SystemConfig.mDopplerInfo.segList.get(j).segVTIEndPt);
-//        }
-        // Cavin Test End
-
+        GIS_Log.d(TAG,"Wu max freq="+bv.mDblTmpValue);
         mDblImgBVSpectrumFFTForHeartRate = mDblImgBVSpectrumFFT;
 
         //        mDblImgBVSpectrumFFTForHeartRate = get_mDblImgBVSpectrumFFT(sys, this.mDblArrayUltrasoundFilter);
@@ -580,7 +569,7 @@ public class BloodVelocityProcessorIIPwr {
                     }
                     bv.mDblHeartRateStability = (double) iCnt / (double) mIntArrHeartBeatPeriod.length;
                     int iTimeScale = s.mIntUltrasoundSamplerate / s.mIntSTFTWindowShiftSize;
-                    Log.d("BVPP","iTimeScale = "+ iTimeScale + "  bv.mDblPeriod = "+bv.mDblPeriod);
+                    GIS_Log.d(TAG,"iTimeScale = "+ iTimeScale + "  bv.mDblPeriod = "+bv.mDblPeriod);
                     bv.mDblHR = (iTimeScale / bv.mDblPeriod) * 60.0;
                 }
             }
@@ -654,22 +643,21 @@ public class BloodVelocityProcessorIIPwr {
                     }else if (mDblArrVelocityProfile[i] == 96){
                         count96++;
                     }
-//                    Log.d("BVPPwr","mDblArrVelocityProfile["+i+"]="+mDblArrVelocityProfile[i]);
                 }
                 if (maxContiCount >= 2){
-                    Log.d("BVPPwr","maxVelocity="+maxVelocity);
-                    Log.d("BVPPwr","maxCount="+maxCount);
-                    Log.d("BVPPwr","maxContiCount="+maxContiCount);
-                    Log.d("BVPPwr","count32="+count32);
-                    Log.d("BVPPwr","count64="+count64);
-                    Log.d("BVPPwr","count96="+count96);
+                    GIS_Log.d(TAG,"maxVelocity="+maxVelocity);
+                    GIS_Log.d(TAG,"maxCount="+maxCount);
+                    GIS_Log.d(TAG,"maxContiCount="+maxContiCount);
+                    GIS_Log.d(TAG,"count32="+count32);
+                    GIS_Log.d(TAG,"count64="+count64);
+                    GIS_Log.d(TAG,"count96="+count96);
                 }
 
                 // Cavin test start 210819
                 double[] tmpVelocityProfile = new double[BloodVelocityConfig.INTEGER_CALCULATE_LENGTH_PTS];
                 System.arraycopy(SystemConfig.mDopplerVFOutput[0],mIntBVSpectrumCalculateStartPts
                         ,tmpVelocityProfile,0,BloodVelocityConfig.INTEGER_CALCULATE_LENGTH_PTS);
-                Log.d("BVPII", "SystemConfig.mDopplerVFOutput[0].length = "+SystemConfig.mDopplerVFOutput[0].length
+                GIS_Log.d(TAG, "SystemConfig.mDopplerVFOutput[0].length = "+SystemConfig.mDopplerVFOutput[0].length
                         +", mDblArrVelocityProfile.length = "+ mDblArrVelocityProfile.length);
                 this.mDblArrsVTIRange = get_VTIsStartEnd((int)bv.mDblPeriod,
                         tmpVelocityProfile,tmpVelocityProfile);
@@ -781,7 +769,7 @@ public class BloodVelocityProcessorIIPwr {
                     bv.mDblCO = 0;
                     bv.mDblHR = 0;
                     bv.mDblVTI = 0;
-                    Log.d("BVPPwr","error");
+                    GIS_Log.d(TAG,"error");
                     MainActivity.mBVSignalProcessorPart1.mIntHRErrCode |= BVSignalProcessorPart1.BINARY_ERR_CODE_ELECTRICAL_INTEFFERENCE;
                 }
 
@@ -1229,20 +1217,14 @@ public class BloodVelocityProcessorIIPwr {
                     dTrigger);
 
             for (int i = 0; i < mDblArrVelocityProfileGM.length; i++) {
-                // Cavin Test
-                //Log.d("BVProcessorIIPwr","mDblArrVelocityProfile["+i+"] = " + mDblArrVelocityProfile[i]);
-                // Cavin Test end
-
                 double[] gmVector = dImgIn[i];
                 double fVpk = this.mDblArrSpectrumSignalNoiseRatio[i];
                 if (fVpk > 32) {
                     mDblArrVelocityProfileGM[i] = ma.getArrStrengthGM(gmVector, 2, 128)[Tag.mIntX];
-//                    Log.d("for_VelocityProfile","mDblArrVelocityProfileGM["+i+"] = "+mDblArrVelocityProfileGM[i]);
                     if (mDblArrVelocityProfileGM[i] > 10 && mDblArrVelocityProfileGM[i] < 104) {
                         mDblArrVelocityProfileGM[i] = ma.getArrStrengthGM(gmVector, (int) mDblArrVelocityProfileGM[i] - 2,
 //                                (int) (mDblArrVelocityProfileGM[i] + 24))[Tag.mIntX];
                               128)[Tag.mIntX];
-//                        Log.d("for_VelocityProfile","after mDblArrVelocityProfileGM["+i+"] = "+mDblArrVelocityProfileGM[i]);
                     }
                 }
             }

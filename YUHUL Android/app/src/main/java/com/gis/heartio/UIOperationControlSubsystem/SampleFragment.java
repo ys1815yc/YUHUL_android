@@ -26,6 +26,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
@@ -273,7 +274,7 @@ abstract public class SampleFragment extends Fragment {
         try {
             return (DecoView) getView().findViewById(R.id.hrDynamicArcView);
         } catch (NullPointerException npe) {
-            Log.e(TAG, "Unable to resolve view " + npe.getMessage());
+            GIS_Log.e(TAG, "Unable to resolve view " + npe.getMessage());
         }
         return null;
     }
@@ -285,7 +286,7 @@ abstract public class SampleFragment extends Fragment {
         try {
             return (DecoView) getView().findViewById(R.id.vpkDynamicArcView);
         } catch (NullPointerException npe) {
-            Log.e(TAG, "Unable to resolve view " + npe.getMessage());
+            GIS_Log.e(TAG, "Unable to resolve view " + npe.getMessage());
         }
         return null;
     }
@@ -297,7 +298,7 @@ abstract public class SampleFragment extends Fragment {
         try {
             return (DecoView) getView().findViewById(R.id.vtiDynamicArcView);
         } catch (NullPointerException npe) {
-            Log.e(TAG, "Unable to resolve view " + npe.getMessage());
+            GIS_Log.e(TAG, "Unable to resolve view " + npe.getMessage());
         }
         return null;
     }
@@ -310,7 +311,7 @@ abstract public class SampleFragment extends Fragment {
         try {
             return (DecoView) getView().findViewById(R.id.svDynamicArcView);
         }catch (NullPointerException npe) {
-            Log.e(TAG, "Unable to resolve view " + npe.getMessage());
+            GIS_Log.e(TAG, "Unable to resolve view " + npe.getMessage());
         }
         return null;
     }
@@ -323,7 +324,7 @@ abstract public class SampleFragment extends Fragment {
         try {
             return (DecoView) getView().findViewById(R.id.coDynamicArcView);
         }catch (NullPointerException npe) {
-            Log.e(TAG, "Unable to resolve view " + npe.getMessage());
+            GIS_Log.e(TAG, "Unable to resolve view " + npe.getMessage());
         }
         return null;
     }

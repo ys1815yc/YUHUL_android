@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.gis.heartio.GIS_Algorithm;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsysII.parameters.BloodVelocityConfig;
 import com.gis.heartio.SignalProcessSubsysII.transformer.FastDctLee;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
@@ -461,7 +462,6 @@ public class Doppler {
 			// Cavin Test 20210507
 			if (cavinTest){
 				if ((Tpower[ii]<M_power*cavinMultiple2)){
-//				  Log.d("Doppler","mtRatio = "+mtRadio +",   ii = "+ii);
 					imvf[ii]=0;
 //	      	  ang[ii]=0;
 					result[0][ii]=0;
@@ -642,7 +642,7 @@ public class Doppler {
 							multiplicandX[jj] = dividendX / divisorX[jj];
 							test_in[jj][ii] = multiplicandX[jj]*(nnInput[jj][ii]-xinmin[jj])+xoutmin;
 							if(ii>100&&ii<120){
-								Log.d("Doppler","nnInput["+jj+"]["+ii+"]="+nnInput[jj][ii]);
+								GIS_Log.d(TAG,"nnInput["+jj+"]["+ii+"]="+nnInput[jj][ii]);
 							}
 						}
 
@@ -663,7 +663,7 @@ public class Doppler {
 					for (int ii=0;ii<width;ii++){
 						imvfg[ii] = (129/2)*yout1[ii];
 						imvf2[ii] = yout1[ii];
-						Log.d("Doppler","imvf2["+ii+"]="+imvf2[ii]
+						GIS_Log.d(TAG,"imvf2["+ii+"]="+imvf2[ii]
 //								+" ,yout["+ii+"]="+yout[ii]
 						);
 					}
@@ -765,7 +765,7 @@ public class Doppler {
 				}
 				csvWriter.close();
 			}else{
-				Log.d("Doppler","file "+filename+" existed.");
+				GIS_Log.d(TAG,"file "+filename+" existed.");
 			}
 		}catch(Exception sqlEx){
 			sqlEx.printStackTrace();
@@ -804,7 +804,7 @@ public class Doppler {
 
 			cavinMultiple = Mpower / ((mean_power+Mpower)/2);
 			cavinMultiple2 = meanMinPower/Mpower;
-			Log.d("Doppler","mean_power="+mean_power+", min_power="+min_power
+			GIS_Log.d(TAG,"mean_power="+mean_power+", min_power="+min_power
 					+", cavinMultiple="+cavinMultiple+", cavinMultiple2="+cavinMultiple2);
 		}
 
@@ -902,7 +902,7 @@ public class Doppler {
 			xx= Mapping(XXI,YYI,(GMx-Fsx));
 		}
 		Msn=xx*Ms+(1-xx)*Mn;
-//		Log.d("Doppler","xx="+xx);
+
 //    System.out.println( "  Msn="+Msn+"  Ms="+Ms+"  Mn="+Mn+"  Fsx="+Fsx+"  Fsy="+Fsy+"  GMx="+GMx+"  GMy="+GMy+"  Nsx="+Nsx+"  Nsy="+Nsy);
 		int kk=(int)Nsx;
 		if (Nsx>0){
@@ -1323,7 +1323,7 @@ public class Doppler {
 			cx_data2[i-PS2] = i;
 		}
 //		WeightedObservedPoints points = new WeightedObservedPoints();
-////		Log.d("Doppler","cy_data2Len ="+cy_data2Len);
+
 //		for (int i=0;i<cy_data2Len;i++){
 //			points.add(cx_data2[i],cy_data2[i]);
 //		}
@@ -1583,7 +1583,7 @@ public class Doppler {
 			  // Cavin Test 20210318
 			  if (cavinTest){
 				  if ((Tpower[ii]<M_power*cavinMultiple2)){
-				  	Log.d("Doppler","mtRatio = "+mtRadio +",   ii = "+ii);
+					  GIS_Log.d(TAG,"mtRatio = "+mtRadio +",   ii = "+ii);
 					  imvf[ii]=0;
 					  result[0][ii]=0;
 				  }
@@ -1811,7 +1811,7 @@ public class Doppler {
 			  vftp=arr[ii];
 			  vf_out[ii]=pn2*vftp*vftp+pn1*vftp+pn0;
 			  if (vf_out[ii]<0){
-//			  	Log.d("Doppler","vf_out["+ii+"]= "+vf_out[ii]);
+
 			  	vf_out[ii] = 0;
 			  }
 		   }
@@ -2520,7 +2520,7 @@ public class Doppler {
 					peak_id[kk]=1;
 				}
 			}
-//			Log.d("HR3","peak_id["+kk+"]="+peak_id[kk]);
+
 		}
 		maxvote_r=maxvote(peak_id,3);
 		result[0][12]=maxvote_r[1];
@@ -2792,7 +2792,7 @@ public class Doppler {
 		int st,se,NPK_s;
 		int pkn = (int)pk_tr[0][0];//pk_tr.length;
 
-		Log.d("Doppler","th1 = "+th1+" ,HR_int="+HR_int+" ,pkn="+pkn);
+		GIS_Log.d(TAG,"th1 = "+th1+" ,HR_int="+HR_int+" ,pkn="+pkn);
 
 		double[] tmpTp = new double[vf_s.length-20];
 		System.arraycopy(vf_s,20,tmpTp,0,vf_s.length-21);
@@ -2815,7 +2815,7 @@ public class Doppler {
 //			th5 = (int)(HR_int*3 / 4);  // 50
 //		}
 
-//		Log.d("Doppler","th4 = "+th4+" ,HR_int="+HR_int);
+
 		if (HR_int>0){
 			for (int i=1;i<pkn;i++){
 				st=(int)pk_tr[i][0];
@@ -2828,7 +2828,7 @@ public class Doppler {
 				if ((NPK_s>th1))
 				//if ((MPS>th2)&&(NPK_s>th1))
 				{
-					Log.d("Doppler","i="+i+",th3 = "+th3+" ,vf_s["+st+"]="+vf_s[st]+" ,NPK_s="+NPK_s);
+					GIS_Log.d(TAG,"i="+i+",th3 = "+th3+" ,vf_s["+st+"]="+vf_s[st]+" ,NPK_s="+NPK_s);
 					boolean skip = false;
 					int tmpSe = 0;
 					for (int j=st;j<se;j++){
@@ -2837,7 +2837,7 @@ public class Doppler {
 								j-st<=(NPK_s/2+3)&&j-st>=(NPK_s/2-3)
 						){
 							if (j-st<13) {
-								Log.d("Doppler","vf["+j+"]="+vf[j]+", j-st="+(j-st));
+								GIS_Log.d(TAG,"vf["+j+"]="+vf[j]+", j-st="+(j-st));
 								skip = true;
 								break;
 							}
@@ -2845,7 +2845,7 @@ public class Doppler {
 						if (vf_s[j]<=th4){
 							if(j-st<=(NPK_s/2+3)&&j-st>=(NPK_s/2-3)){  // middle 7 line
 								if (j-st<13){
-									Log.d("Doppler","th4 = "+th4+" ,vf_s["+j+"]="+vf_s[j]+", j-st="+(j-st));
+									GIS_Log.d(TAG,"th4 = "+th4+" ,vf_s["+j+"]="+vf_s[j]+", j-st="+(j-st));
 									skip = true;
 									break;
 								}
@@ -2857,10 +2857,9 @@ public class Doppler {
 				 	//cavin test 20210831 end
 					//cavin test 20210901
 					int vtiLen = se - st +1;
-					Log.d("Doppler","VTI length = "+vtiLen);
+					GIS_Log.d(TAG,"VTI length = "+vtiLen);
 					if (seg_no < SEG_s.length-1){
 							if (seg_no>=1){
-//								Log.d("Doppler","SEG_e["+(seg_no-1)+"]="+SEG_e[seg_no-1]+", st="+st);
 								if(SEG_e[seg_no-1]==st){
 									continue;
 								}
@@ -2870,9 +2869,7 @@ public class Doppler {
 							double[] pwrMultiple = new double[se-st+1];
 							int pCount = 0;
 							for (int k=st;k<=se;k++){
-								//Log.d("Doppler","vf_s["+k+"]="+vf_s[k]);
 								pwrMultiple[pCount] = vf_s[k]/midPwr;
-//								Log.d("Doppler","pwrMultiple["+pCount+"]="+pwrMultiple[pCount]);
 								pCount++;
 
 							}
@@ -2883,7 +2880,6 @@ public class Doppler {
 							double multiplePwrThreshold = (maxMultiple*0.3 > 10) ? (maxMultiple*0.3):10;
 
 //							if (maxMultiple > 4000){
-//								Log.d("Doppler","skip this maxMultiple = "+maxMultiple);
 //								continue;
 //							}
 
@@ -2906,23 +2902,21 @@ public class Doppler {
 									maxVF = vf[k];
 								}
 							}
-							Log.d("Doppler","minVF1="+minVF1+", minVF2="+minVF2);
+							GIS_Log.d(TAG,"minVF1="+minVF1+", minVF2="+minVF2);
 							// skip large power
 							pCount = 0;
 							int reduceIndex = -1;
-//								Log.d("Doppler","multiplePwrThreshold = "+multiplePwrThreshold+" ,mid="+mid);
 							for (int k=st;k<=se;k++) {
-//								Log.d("Doppler","pwrMultiple["+pCount+"]="+pwrMultiple[pCount]+" ,k="+k);
 								if (pwrMultiple[pCount]> multiplePwrThreshold&&(se-st)>(0.3*HR_int)&&pwrMultiple[pCount]<maxMultiple){
-								Log.d("Doppler","meanPwrMultiple="+meanPwrMultiple+"  ,maxMultiple="+maxMultiple+
+									GIS_Log.d(TAG,"meanPwrMultiple="+meanPwrMultiple+"  ,maxMultiple="+maxMultiple+
 										" ,multiplePwrThreshold="+multiplePwrThreshold);
 								if (k<=mid){
 
-									Log.d("Doppler","pwrMultiple["+pCount+"]="+pwrMultiple[pCount]);
+									GIS_Log.d(TAG,"pwrMultiple["+pCount+"]="+pwrMultiple[pCount]);
 									st+=1;
-									Log.d("Doppler","Too large power st++ , st="+st);
+									GIS_Log.d(TAG,"Too large power st++ , st="+st);
 								}else{
-									Log.d("Doppler","Too large power end reduce to "+ (k-1));
+									GIS_Log.d(TAG,"Too large power end reduce to "+ (k-1));
 //										se = k-1;
 									if ((k-1-st)>13){
 										reduceIndex = k-1;
@@ -2939,12 +2933,12 @@ public class Doppler {
 						for (int k=st;k<=se;k++){
 							if (k<(mid-3)){
 								if (vf[k] == minVF1 && minVF1<0.5){
-									Log.d("Doppler","segment start set to "+ k);
+									GIS_Log.d(TAG,"segment start set to "+ k);
 									st = k;
 								}
 							}else if(k>(mid+3)){
 								if (vf[k] == minVF2 && minVF2<0.5){
-									Log.d("Doppler","segment end set to "+ k);
+									GIS_Log.d(TAG,"segment end set to "+ k);
 									se = k;
 								}
 							}
@@ -2953,26 +2947,26 @@ public class Doppler {
 							int vtiWidth = se - st + 1;
 
 							if (vtiWidth>th1 && vtiWidth<th5){
-								Log.d("Doppler","vtiWidth = "+vtiWidth);
+								GIS_Log.d(TAG,"vtiWidth = "+vtiWidth);
 								if(vtiWidth>th5/2){
-									Log.d("Doppler","injection time more the half heart beat time!");
+									GIS_Log.d(TAG,"injection time more the half heart beat time!");
 								}
 								SEG_s[seg_no]=st;
 								SEG_e[seg_no]=se;
 								seg_no=seg_no+1;
 							}else{
-								Log.d("Doppler","vtiWidth = "+vtiWidth+" ,th5="+th5);
+								GIS_Log.d(TAG,"vtiWidth = "+vtiWidth+" ,th5="+th5);
 							}
 					}else{
 						break;
 					}
 					//cavin test 20210901 end
 				}else{
-					Log.d("Doppler","i="+i+",th3 = "+th3+" ,vf_s["+st+"]="+vf_s[st]+" ,NPK_s="+NPK_s);
-					Log.d("Doppler","something wrong??????");
+					GIS_Log.d(TAG,"i="+i+",th3 = "+th3+" ,vf_s["+st+"]="+vf_s[st]+" ,NPK_s="+NPK_s);
+					GIS_Log.d(TAG,"something wrong??????");
 				}
 			}
-			Log.d("Doppler","seg_no = "+seg_no);
+			GIS_Log.d(TAG,"seg_no = "+seg_no);
 		}
 
 		int[][] result;
@@ -3315,7 +3309,7 @@ public class Doppler {
 				System.arraycopy(TP_in,mID-6,tmpSeg,0,tmpSeg.length);
 //				TPM[ii] = mean(tmpSeg);
 				TPM[ii] = SEG_sel(tmpSeg,0,tmpSeg.length-1);
-				Log.d("Doppler","TPM["+ii+"]="+TPM[ii]+" ,VF["+ii+"]="+VF[ii]+" ,VTI width["+ii+"]="+vtiWidth[ii]);
+				GIS_Log.d(TAG,"TPM["+ii+"]="+TPM[ii]+" ,VF["+ii+"]="+VF[ii]+" ,VTI width["+ii+"]="+vtiWidth[ii]);
 //			}
 		}
 		sn = ii;
@@ -3364,23 +3358,23 @@ public class Doppler {
 			double VTIWidthSD = Methodoligies.getArraySD(tmpSortedWidth);
 //			double VTIWidthSD = Methodoligies.getArraySD(sortedWidth);
 			double TPMSD = Methodoligies.getArraySD(tmpTPM);
-			Log.d("Doppler","medianVTI="+medianVTI);
-			Log.d("Doppler","meanTPM="+meanTPM+" ,TPMSD="+TPMSD);
-			Log.d("Doppler","meanWidth="+meanWidth+" ,VTIWidthSD="+VTIWidthSD);
+			GIS_Log.d(TAG,"medianVTI="+medianVTI);
+			GIS_Log.d(TAG,"meanTPM="+meanTPM+" ,TPMSD="+TPMSD);
+			GIS_Log.d(TAG,"meanWidth="+meanWidth+" ,VTIWidthSD="+VTIWidthSD);
 			for (int i=0;i<sn;i++){
 				if (TPM[i]==sortedTPM[0]||TPM[i]==sortedTPM[sn-1]){
-					Log.d("Doppler","max or min TPM["+i+"]="+TPM[i]+" ,VF["+i+"]="+VF[i]);
+					GIS_Log.d(TAG,"max or min TPM["+i+"]="+TPM[i]+" ,VF["+i+"]="+VF[i]);
 					vtiWidth[i]=0;
 					VF[i] = 0;
 					TPM[i] = 0;
 					tmpSn -= 1;
 					continue;
 				}
-//				Log.d("Doppler","sortedVF["+i+"]="+sortedVF[i]);
+
 				if (VTIWidthSD>0){
 					if (vtiWidth[i]<(meanWidth-2*VTIWidthSD)||vtiWidth[i]>(meanWidth+2*VTIWidthSD)){
-						Log.d("Doppler","vtiWidth["+i+"]="+vtiWidth[i]+">"+(meanWidth+2*VTIWidthSD)+" or < "+(meanWidth-2*VTIWidthSD));
-//						Log.d("Doppler","TPM["+i+"]="+TPM[i]+" ,VF["+i+"]="+VF[i]);
+						GIS_Log.d(TAG,"vtiWidth["+i+"]="+vtiWidth[i]+">"+(meanWidth+2*VTIWidthSD)+" or < "+(meanWidth-2*VTIWidthSD));
+
 						vtiWidth[i] = 0;
 						VF[i] = 0;
 						TPM[i] = 0;
@@ -3390,7 +3384,6 @@ public class Doppler {
 				}
 //				if (TPMSD>0){
 //					if (TPM[i]<(meanTPM-2*TPMSD)||TPM[i]>(meanTPM+2*TPMSD)){
-//						Log.d("Doppler","TPM["+i+"]="+TPM[i]+" ,VF["+i+"]="+VF[i]);
 //						vtiWidth[i] = 0;
 //						VF[i] = 0;
 //						TPM[i] = 0;
@@ -3403,7 +3396,6 @@ public class Doppler {
 //						||TPM[i]<(meanTPM-2*TPMSD)||TPM[i]>(meanTPM+2*TPMSD)
 ////						||TPM[i]<0.2*meanTPM||TPM[i]>4*meanTPM
 //				){
-//					Log.d("Doppler","TPM["+i+"]="+TPM[i]+" ,VF["+i+"]="+VF[i]);
 //					vtiWidth[i] = 0;
 //					VF[i] = 0;
 //					TPM[i] = 0;
@@ -3414,7 +3406,7 @@ public class Doppler {
 		}
 		int outputN = 3;
 		int[][] result1=new int[outputN][2];
-		Log.d("Doppler","tmpSn="+tmpSn);
+		GIS_Log.d(TAG,"tmpSn="+tmpSn);
 //		if (sn>=3){
 		if (tmpSn >=3) {
 //			TopId=topn_id(VF,3);
@@ -3433,11 +3425,10 @@ public class Doppler {
 //			meanId = topn_id(TPM, sn);
 
 			double target = HR_int*0.3;
-			Log.d("Doppler","target VTI length="+target);
+			GIS_Log.d(TAG,"target VTI length="+target);
 			meanId = closest_ids(vtiWidth,outputN,target);
 			for (int i=0;i<outputN;i++){
 				//			for (int i=0;i<sn;i++){
-//				Log.d("Doppler","meanId["+i+"]="+meanId[i]+" ,vti width="+vtiWidth[meanId[i]]);
 				result1[i][0] = result[meanId[i]][0];
 				result1[i][1] = result[meanId[i]][1];
 			}
@@ -3615,7 +3606,7 @@ public static int[] closest_ids(int[] arr, int n, double target){
 		int mid;
 		while (cn<n){
 			mid=closest_id(tmpArr,target);
-			Log.d("closest_ids","tmpArr["+mid+"]="+tmpArr[mid]+" ,maxDistance="+maxDistance);
+			GIS_Log.d(TAG,"closest_ids: tmpArr["+mid+"]="+tmpArr[mid]+" ,maxDistance="+maxDistance);
 			tmpArr[mid]=(int)maxDistance+(int)target;
 			result[cn]=mid;
 			cn++;

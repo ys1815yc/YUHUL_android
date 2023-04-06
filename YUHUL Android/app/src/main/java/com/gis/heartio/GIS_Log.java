@@ -178,6 +178,12 @@ public class GIS_Log {
         }
     }
 
+    public static void i(String tag, String msg){
+        if(GIS_SystemConfig.logEnable){
+            Log.i(tag,msg);
+        }
+    }
+
     public static void e(String tag, String msg){
         if(GIS_SystemConfig.logEnable){
             Log.e(tag,msg);

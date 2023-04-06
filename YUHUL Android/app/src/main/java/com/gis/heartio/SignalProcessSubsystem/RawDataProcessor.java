@@ -345,35 +345,29 @@ public class RawDataProcessor {
         try {
 
             if (byteArray.length != SystemConfig.INT_ULTRASOUND_1PACKET_PAYLOAD_BYTES_ITRI && !SystemConfig.isHeartIO2) {
-                Log.d(TAG,"byteArray.length != SystemConfig.ULTRASOUND_1PACKET_PAYLOAD_BYTES_ITRI");
+                GIS_Log.d(TAG,"byteArray.length != SystemConfig.ULTRASOUND_1PACKET_PAYLOAD_BYTES_ITRI");
                 return false;
             } else if(byteArray.length != SystemConfig.INT_HEARTIO2_1PACKET_PAYLOAD_BYTES && SystemConfig.isHeartIO2){
                 return false;
             }
 
             if (SystemConfig.isHeartIO2){
-//                Log.d(TAG,"isHeartIO2");
                 boolReturn = processUltrasoundAndEcgBySegOnline(byteArray);
             }else{
-//                 Log.d(TAG,"isYUHUL");
                 boolReturn = processUltrasoundDataBySegmentOnLine(byteArray);
             }
 
             if (!boolReturn) {
-                //Log.d(TAG,"!boolReturn");
                 return false;
             }
 
             if (mEnumUltrasoundAttributeReceiveState == ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_START) {
-//                Log.d(TAG,"mEnumUltrasoundAttributeReceiveState = ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_START");
                 mIntCurPacketIdx = 0;
                 /*SystemConfig.mLongDataStartMillis = SystemClock.elapsedRealtime();*/
                 mEnumUltrasoundAttributeReceiveState = ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_CONTINUOUS;
             } else if(SystemConfig.mEnumTryState != SystemConfig.ENUM_TRY_STATE.STATE_TRY){
                 mIntCurPacketIdx++;
                 if (mIntCurPacketIdx == (SystemConfig.mIntRawPacketCntsOnLineForRun - 1)) {
-//                    Log.d(TAG,"mEnumUltrasoundAttributeReceiveState = ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END");
-//                    Log.d(TAG,"mIntCurPacketIdx="+mIntCurPacketIdx);
                     mEnumUltrasoundAttributeReceiveState = ENUM_RAW_DATA_RX_STATE.RECEIVE_STATE_END;
                     /*SystemConfig.mLongDataEndMills = SystemClock.elapsedRealtime();*/
                 }
@@ -524,7 +518,6 @@ public class RawDataProcessor {
 
                     newValue[3] = ECG_1;
                     newValue[4] = ECG_2;
-                    //Log.d(TAG,"ECG = "+ECG_2);
                     // add to data array
                     for (int j=5;j<newValue.length;j++){
                         newValue[j] = ADCInt[j-5];
@@ -555,7 +548,7 @@ public class RawDataProcessor {
                         mBoolRxError = true;
                         int oneLostCount = Math.abs(mIntCurSeqNum - mIntNextSeqNum);
                         mIntLostCount += oneLostCount;
-                        Log.d(TAG,"Lost 40 * "+oneLostCount+"   bytes");
+                        GIS_Log.d(TAG,"Lost 40 * "+oneLostCount+"   bytes");
                     }
                     mIntPreSeqNum = mIntCurSeqNum;
                     mIntNextSeqNum = mIntCurSeqNum + 1;
@@ -587,7 +580,7 @@ public class RawDataProcessor {
             byteData = new byte[SystemConfig.mInt1DataBytes];
             byteSeq = new byte[SystemConfig.INT_ULTRASOUND_DATA_SEQ_BYTES_ITRI];
             byteGainPower = new byte[SystemConfig.INT_ULTRASOUND_DATA_GAIN_BYTES_ITRI];
-            //Log.d(TAG,"byteArray.length="+byteArray.length);
+
             /*for (iVar = 0; iVar < SystemConfig.INT_ULTRASOUND_1PACKET_PAYLOAD_BYTES_ITRI; iVar++) {
                 mByteCurPacket[iVar] = byteArray[iVar];
             }*/
@@ -613,10 +606,10 @@ public class RawDataProcessor {
                     Date date = new Date();
                     SystemConfig.mMyEventLogger.appendPowerLevelEvent(date, " PowerStart = ", SystemConfig.mIntPowerLevel);
                 }*/
-                    //Log.d(TAG,"Power Level : "+SystemConfig.mIntPowerLevel);
+
             } else if((mIntDataNextIndex % INT_POWER_SHOW_BETWEEN_CNT) == 0){
                 SystemConfig.mIntPowerLevel = Utilitys.getPowerFrombyteArray(byteGainPower);
-//                Log.d(TAG,"mIntPowerLevelPre="+mIntPowerLevelPre+" ,SystemConfig.mIntPowerLevel="+SystemConfig.mIntPowerLevel);
+
                 if(mIntPowerLevelPre != SystemConfig.mIntPowerLevel
                         || SystemConfig.mIntPowerLevel <= 2) {
                     if (MainActivity.oFrag != null){
@@ -808,12 +801,11 @@ public class RawDataProcessor {
         }
         /* 驗證 mShortUltrasoundDataBeforeFilter 的 index 長度及寫入的 value 2023/03/02 by Doris */
 //        if (mIntDataNextIndex == 0 || mIntDataNextIndex == 8000 || mIntDataNextIndex == 16000|| mIntDataNextIndex == 104000) {
-//            Log.d("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
-//            Log.d("mIntDataNextIndex", String.valueOf(iValue));
+
+
 //        }
         // Cavin Test DC OFFSET 20211222 end
 
-//        GIS_Log.d("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
 
         mShortUltrasoundData[mIntDataNextIndex] = (short) iValue;
         mIntUltrasoundDataGainLevel[mIntDataNextIndex] = SystemConfig.mIntGainLevel;
@@ -825,7 +817,7 @@ public class RawDataProcessor {
 
         /* 驗證 mShortUltrasoundDataBeforeFilter的value 2023/03/03 by Doris*/
 //        for(int i=0; i< mShortUltrasoundDataBeforeFilter.length; i+=8000){
-//            Log.d("mShortUltrasoundDataBeforeFilter "+i, String.valueOf(mShortUltrasoundDataBeforeFilter[i]));
+
 //        }
 //        if (mIntDataNextIndex == 0 ||
 //                mIntDataNextIndex == 8000 ||
@@ -841,7 +833,6 @@ public class RawDataProcessor {
 //                mIntDataNextIndex == 88000 ||
 //                mIntDataNextIndex == 96000 ||
 //                mIntDataNextIndex == 104000){
-//            Log.d("Array "+mIntDataNextIndex, String.valueOf(mShortUltrasoundDataBeforeFilter[mIntDataNextIndex]));
 //        }
 //        iByteIndex = mIntDataNextIndex * SystemConfig.mInt1DataBytes;
 
@@ -850,7 +841,6 @@ public class RawDataProcessor {
 //                mByteArrayUltrasoundDataOnLineSave[iByteIndex + iVar2] = byteArray[iVar2];
 //            }
 //        }
-//        Log.d("mIntUltrasoundSamplesMaxSizeForRun "+mIntDataNextIndex, String.valueOf(SystemConfig.mIntUltrasoundSamplesMaxSizeForRun));
 
         if(SystemConfig.mEnumStartState == SystemConfig.ENUM_START_STATE.STATE_START) {
             if (mIntDataNextIndex < SystemConfig.mIntUltrasoundSamplesMaxSizeForRun) {
@@ -880,8 +870,6 @@ public class RawDataProcessor {
                         storeByteDataToWavFile();
 //                        resampleCutTest(tensorAudio, audioClassifier, mShortUltrasoundDataBeforeFilter);
                     }
-//                    GIS_Log.Leslie_LogCat("Leslie","STATE_END");
-
                     mEnumUltrasoundOneDataReceiveState = ENUM_RAW_DATA_ONE_DATA_RX_STATE.RECEIVE_STATE_END;
                     //SystemConfig.mMyEventLogger.appendDebugStr("storeByteDataToWavFile", "");
                 }
@@ -1074,16 +1062,15 @@ public class RawDataProcessor {
         //String fileName = dateFormat.format(calendar.getTime());
         //File data_file = new File(ctx_handle.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), fileName + ".txt");
         File data_file = new File(strFile);
-        Log.i(TAG, data_file.getAbsolutePath());
+        GIS_Log.d(TAG, data_file.getAbsolutePath());
 
 //        if (!data_file.mkdirs()) {
-//            Log.e(ITRI_TAG, "Directory not created");
 //        }
 
         File dirPath = new File(ctx_handle.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath());
-        Log.i(TAG, dirPath.getAbsolutePath());
+        GIS_Log.d(TAG, dirPath.getAbsolutePath());
         if (!dirPath.mkdirs()) {
-            Log.e(TAG, "Directory not created");
+            GIS_Log.e(TAG, "Directory not created");
         }
 
         dirPath = new File(mStrBaseFolder);
@@ -1098,7 +1085,7 @@ public class RawDataProcessor {
         try {
             data_os = new FileOutputStream(data_file);
 
-            Log.i(TAG, "FileOutputStream create successful!!");
+            GIS_Log.d(TAG, "FileOutputStream create successful!!");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -1108,7 +1095,7 @@ public class RawDataProcessor {
     public int closeDataFile(){
         if (null != data_os) {
             try {
-                Log.i(TAG, "close file output stream !");
+                GIS_Log.d(TAG, "close file output stream !");
                 data_os.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -1147,7 +1134,7 @@ public class RawDataProcessor {
 
             String strFile=mStrBaseFolder + File.separator + mStrCurFileName;
             //SystemConfig.mMyEventLogger.appendDebugStr("File =" +  strFile);
-            Log.d(TAG,"strFile="+strFile);
+            GIS_Log.d(TAG,"strFile="+strFile);
 
             File file= new File(strFile);
             Objects.requireNonNull(file.getParentFile()).mkdirs();
@@ -1160,7 +1147,7 @@ public class RawDataProcessor {
             /* length = 224000 (8K*14s) */
             int length = SystemConfig.mIntUltrasoundSamplesMaxSizeForRun * SystemConfig.mInt1DataBytes;
             byte[] temp = new byte[length];
-            GIS_Log.d("length: ", String.valueOf(length));
+            GIS_Log.d(TAG,"length: " + String.valueOf(length));
             for(int i = 0 ; i < length/2 ; i++){ //分兩個byte來存
                 temp[i * 2] = (byte)(mShortUltrasoundDataBeforeFilter[i] & 0xFF);
                 temp[i * 2 + 1] = (byte)((mShortUltrasoundDataBeforeFilter[i] >> 8) & 0xFF);
@@ -1247,13 +1234,13 @@ public class RawDataProcessor {
 
             strFileFormat = "C";
             strFileName = "UD" + strFileFormat + strDate + "_";
-            Log.d(TAG,"mBoolRxError="+mBoolRxError);
+            GIS_Log.d(TAG,"mBoolRxError="+mBoolRxError);
             if (mBoolRxError) {
                 strFileName = strFileName + "err"+mIntLostCount + "_";
             }
             MainActivity.mDoublePER = (double) mIntLostCount / (double) (mIntTotalPacketCount + mIntLostCount);
             double perRate = MainActivity.mDoublePER * 100;
-            Log.d(TAG,"Total packet = "+ mIntTotalPacketCount + ", PER = "+ perRate + "%");
+            GIS_Log.d(TAG,"Total packet = "+ mIntTotalPacketCount + ", PER = "+ perRate + "%");
 
             strFileName = strFileName
                  //   + UserManagerCommon.mUserInfoCur.mStrUserIDNumber    // Skip user info now.
@@ -1297,13 +1284,13 @@ public class RawDataProcessor {
 
             strFileFormat = "C";
             strFileName = "UD" + strFileFormat + strDate + "_";
-            Log.d(TAG,"mBoolRxError="+mBoolRxError);
+            GIS_Log.d(TAG,"mBoolRxError="+mBoolRxError);
             if (mBoolRxError) {
                 strFileName = strFileName + "err"+mIntLostCount + "_";
             }
             MainActivity.mDoublePER = (double) mIntLostCount / (double) (mIntTotalPacketCount + mIntLostCount);
             double perRate = MainActivity.mDoublePER * 100;
-            Log.d(TAG,"Total packet = "+ mIntTotalPacketCount + ", PER = "+ perRate + "%");
+            GIS_Log.d(TAG,"Total packet = "+ mIntTotalPacketCount + ", PER = "+ perRate + "%");
 
             strFileName = strFileName
                     //   + UserManagerCommon.mUserInfoCur.mStrUserIDNumber    // Skip user info now.
@@ -1483,7 +1470,6 @@ public class RawDataProcessor {
 
                 String[] split = line.split("\\s+");
 //                for (int i = 0; i < split.length; i++){
-//                    Log.d(TAG,"split["+i+"]= "+ split[i]);
 //                }
                 mShortEcgData[iVar / 16] = Short.parseShort(split[4],16);
                 for (int i = 5; i< split.length;i++){
@@ -1612,7 +1598,6 @@ public class RawDataProcessor {
             buffer2Byte[1]=mByteArrayWavHeader[23];
             //iNumChannels=RawDataProcessor.byteArrayToIntForWAVParamBigEndian(buffer2Byte);
             iNumChannels=Utilitys.byteArrayToIntForWAVDataBigEndian(buffer2Byte);
-//            Log.d(TAG, "iNumChannels="+iNumChannels);
             if ( iNumChannels > 2){
                 return false;
             }
@@ -1636,7 +1621,6 @@ public class RawDataProcessor {
             buffer2Byte[1]=mByteArrayWavHeader[33];
             //iBlockAlign=RawDataProcessor.byteArrayToIntForWAVParamBigEndian(buffer2Byte);
             iBlockAlign=Utilitys.byteArrayToIntForWAVDataBigEndian(buffer2Byte);
-//            Log.d("offline", "iBlockAlign="+iBlockAlign);
 
             buffer2Byte[0]=mByteArrayWavHeader[34];
             buffer2Byte[1]=mByteArrayWavHeader[35];
@@ -1669,7 +1653,6 @@ public class RawDataProcessor {
             buffer4Byte[3]=mByteArrayWavHeader[43];
             //iSubChunkSize2=RawDataProcessor.byteArrayToIntForWAVParamBigEndian(buffer4Byte);
             iSubChunkSize2=Utilitys.byteArrayToIntForWAVDataBigEndian(buffer4Byte);
-            //Log.d("offline","iSubChunkSize2 = "+iSubChunkSize2);
 
             SystemConfig.mIntUltrasoundSamplesMaxSizeForRun = SystemConfig.mIntUltrasoundSamplesMaxSize;
             iUltrasoundSamplesMaxSize =  ((iSubChunkSize2*8) / iBitsPerSample)/iNumChannels;
@@ -2010,7 +1993,7 @@ public class RawDataProcessor {
         }
 
         try {
-            Log.d(TAG,"iGainLevelCmd = "+ iGainLevelCmd);
+            GIS_Log.d(TAG,"iGainLevelCmd = "+ iGainLevelCmd);
             mByteArrayGainCommand[0] = (byte) iGainLevelCmd;
             bluetoothGattCharacteristic = mApplication.getBluetoothgattGaincharacteristic();
             bluetoothGattCharacteristic.setValue(mByteArrayGainCommand);
@@ -2042,7 +2025,7 @@ public class RawDataProcessor {
                 }
             }
             mByteArrayGainCommand[0] = (byte)iNewCmd;
-            Log.d(TAG,"iNewCmd = "+iNewCmd);
+            GIS_Log.d(TAG,"iNewCmd = "+iNewCmd);
 
             bluetoothGattCharacteristic = mApplication.getBluetoothgattGaincharacteristic();
             bluetoothGattCharacteristic.setValue(mByteArrayGainCommand);

@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.gis.heartio.GIS_Log;
+
 import java.sql.SQLException;
 
 public class LoginDatabaseAdapter {
@@ -80,7 +82,7 @@ public class LoginDatabaseAdapter {
     public int deleteEntry(String userID){
         String where = IwuSQLHelper.KEY_ADMIN_ID+"=?";
         int numberOfEntriesDeleted = db.delete(IwuSQLHelper.STR_TABLE_ADMIN,where,new String[]{userID});
-        Log.d(TAG,"Delete user:"+userID+" , primary ID:"+numberOfEntriesDeleted);
+        GIS_Log.d(TAG,"Delete user:"+userID+" , primary ID:"+numberOfEntriesDeleted);
         return numberOfEntriesDeleted;
     }
 
