@@ -634,6 +634,7 @@ public class BVSignalProcessorPart1 {
                 if (MainActivity.currentFragmentTag.equals(Constants.ITRI_ULTRASOUND_FRAGMENT_TAG)){
                     int samples=125*6;
                     int updateSamples=125;
+//                    Log.i("BVSP1", "mIntSTFFTNextSubSegIdx : "+mIntSTFFTNextSubSegIdx);
                     if (mIntSTFFTNextSubSegIdx>samples && mIntSTFFTNextSubSegIdx%updateSamples==0){
                         int tmpHR = getOnlineHR(samples);
                         if (lastHR!=-1){

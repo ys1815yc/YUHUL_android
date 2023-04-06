@@ -260,10 +260,12 @@ public class onlineFragment extends Fragment {
                     greenLightImg.setVisibility(View.INVISIBLE);
                     mTBtnRec.setTextColor(Color.BLACK);
                     mTBtnRec.setVisibility(View.VISIBLE);
+//                    mTBtnRec.setEnabled(false);
                     mBtnCalculate.setEnabled(false);
                     mBtnSave.setEnabled(false);
 
                     if (!SystemConfig.mTestMode) {
+                        mTBtnRec.setVisibility(View.INVISIBLE);
                         // 5 mins 1 min per tick
                         mCountdownTimer = new CountDownTimer(300 * 1000L, 60 * 1000L) {
                             @Override
@@ -291,6 +293,9 @@ public class onlineFragment extends Fragment {
                         mCountdownTimer.start();
                     }
                 } else {
+                    if (!SystemConfig.mTestMode){
+                        mTBtnRec.setVisibility(View.INVISIBLE);
+                    }
                     MainActivity.mIsNotifyEnabled = false;
                     tryStopAction();
                     /* 將接收raw data的陣列清空 2023/02/23 by Doris */
@@ -1041,13 +1046,18 @@ public class onlineFragment extends Fragment {
                 if (isStable) {
 //                    mHRValueTextView.setTextColor(Color.BLACK);
                     if (!mTBtnRec.isChecked()) {
+                        mTBtnRec.setVisibility(View.VISIBLE);
                         mTBtnRec.setTextColor(Color.argb(255, 0, 117, 0));
                         greenLightImg.setVisibility(View.VISIBLE);
                     }
                 } else {
-//                    mHRValueTextView.setTextColor(Color.GRAY);
-                    mTBtnRec.setTextColor(Color.BLACK);
                     greenLightImg.setVisibility(View.INVISIBLE);
+                    mTBtnRec.setTextColor(Color.BLACK);
+                    if(!SystemConfig.mTestMode && !mTBtnRec.isChecked()){
+                        mTBtnRec.setVisibility(View.INVISIBLE);
+                    }
+//                    mTBtnRec.setVisibility(View.INVISIBLE);
+//                    mHRValueTextView.setTextColor(Color.GRAY);
                 }
 //                mHRValueTextView.setText(String.format(Locale.US, "%d", HR));
             });
