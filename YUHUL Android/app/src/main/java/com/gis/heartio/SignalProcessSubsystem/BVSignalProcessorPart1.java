@@ -651,7 +651,7 @@ public class BVSignalProcessorPart1 {
                                 Log.d("BVSP1","HR stable!!!!!!!!!!!");
                             }
                         }
-                        MainActivity.oFrag.updateHRValue(tmpHR,(isHRStableCount>=3 && isPA()));
+                        MainActivity.oFrag.updateHRValue(tmpHR,isPA());
                         lastHR = tmpHR;
                     }
                 }

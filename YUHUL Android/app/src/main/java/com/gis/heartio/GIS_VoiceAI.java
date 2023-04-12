@@ -88,7 +88,7 @@ public class GIS_VoiceAI {
         if (times >= 8){
             PA = true;
         }
-        GIS_Log.d(TAG, "PA "+PA);
+//        GIS_Log.d(TAG, "PA "+PA);
         return PA;
     }
 }
