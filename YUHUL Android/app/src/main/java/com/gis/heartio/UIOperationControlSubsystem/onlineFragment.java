@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -25,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -52,6 +55,8 @@ import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.MyThreadQMsg;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.dataInfo;
 import com.gis.heartio.heartioApplication;
+
+import org.apache.commons.beanutils.ConvertUtils;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -140,6 +145,9 @@ public class onlineFragment extends Fragment {
     private ImageView greenLightImg;
 
     private boolean findFirstTime = true;
+    private EditText mStableStayTimeEditText;
+    private TextView mRecordStableTimeTextView;
+    private TextView mRecordHintTextView;
 
     public onlineFragment() {
         //SystemConfig.mEnumUltrasoundUIState = SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE;
@@ -169,6 +177,7 @@ public class onlineFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item_online, container, false);
 
+
         resultVti = rootView.findViewById(R.id.resultVTILinearLayout);
         resultVpk = rootView.findViewById(R.id.resultVpkLinearLayout);
 
@@ -186,6 +195,15 @@ public class onlineFragment extends Fragment {
             mActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
             setHasOptionsMenu(true);
         }
+
+        mStableStayTimeEditText = rootView.findViewById(R.id.stableStayTime);
+        mRecordStableTimeTextView = rootView.findViewById(R.id.recordStableTime);
+        if(!SystemConfig.mTestMode){
+            mStableStayTimeEditText.setVisibility(View.GONE);
+            mRecordStableTimeTextView.setVisibility(View.GONE);
+        }
+        mRecordHintTextView = rootView.findViewById(R.id.recordHint);
+        mRecordHintTextView.setVisibility(View.GONE);
 
         mProgressBar = rootView.findViewById(R.id.recordProgressBar);
         mProgressBar.setVisibility(View.GONE);
@@ -220,16 +238,20 @@ public class onlineFragment extends Fragment {
 
             @Override
             public void onCheckedChanged(final CompoundButton compoundButton, boolean b) {
-                Log.d(TAG, "onCheckedChanged b=" + b);
+                GIS_Log.d(TAG, "onCheckedChanged b=" + b);
                 final boolean tb = b;
                 if (b) {
-                    if(!findFirstTime){
-                        for (int iVar = 0; iVar < SystemConfig.INT_SURFACE_VIEWS_ON_LINE_USE_SIZE; iVar++) {
-                            SurfaceHolder surfaceHolder = mSurfaceViewsOnline[iVar].getHolder();
-                            Canvas canvas = surfaceHolder.lockCanvas();
-                            canvas.drawColor(Color.WHITE);
-                            surfaceHolder.unlockCanvasAndPost(canvas);
+                    try{
+                        if(!findFirstTime){
+                            for (int iVar = 0; iVar < SystemConfig.INT_SURFACE_VIEWS_ON_LINE_USE_SIZE; iVar++) {
+                                SurfaceHolder surfaceHolder = mSurfaceViewsOnline[iVar].getHolder();
+                                Canvas canvas = surfaceHolder.lockCanvas();
+                                canvas.drawColor(Color.WHITE);
+                                surfaceHolder.unlockCanvasAndPost(canvas);
+                            }
                         }
+                    }catch (Exception ignored){
+
                     }
                     findFirstTime = false;
 
@@ -272,7 +294,7 @@ public class onlineFragment extends Fragment {
                             public void onTick(long l) {
                                 int iProgress = (5 - (int) (l / 60000));
                                 //mProgressBar.setProgress(14-(int)(l/1000));
-                                Log.d(TAG, "progress:" + iProgress);
+                                GIS_Log.d(TAG, "progress:" + iProgress);
                                 //mRecordSecondsCount.setText(""+l/1000);
 //                            if (iProgress > 1){
 //                                reTry();
@@ -281,7 +303,7 @@ public class onlineFragment extends Fragment {
 
                             @Override
                             public void onFinish() {
-                                Log.d(TAG, "Counter timer onFinish");
+                                GIS_Log.d(TAG, "Counter timer onFinish");
 //                                mTBtnTryNotify.setChecked(false);
 //                                if (mActivity != null) {
 //                                    showMessageDialog(getString(R.string.msg_click_try_to_countinu_testing), mActivity);
@@ -320,7 +342,6 @@ public class onlineFragment extends Fragment {
 
                     //    mTextViewDataLostState.setVisibility(View.GONE);
                     if (!mTBtnTryNotify.isChecked()) {
-                        Log.d(TAG, "Did not try!!!!");
                         if (mBtnSave.isEnabled()) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
                             builder.setTitle(getString(R.string.msg_save_data));
@@ -395,11 +416,15 @@ public class onlineFragment extends Fragment {
                     //strDebug = "**** New Measure: " + SystemConfig.mMyEventLogger.getDateStr() + " ***";
                     // SystemConfig.mMyEventLogger.appendDebugStr(strDebug, "");
                     startRecord();
+                    ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                    toneG.startTone(ToneGenerator.TONE_CDMA_CALLDROP_LITE, 100);
                     requireActivity().runOnUiThread(() -> {
                         mProgressBar.setVisibility(View.VISIBLE);
                         mProgressBar.setMax(14);
                         mProgressBar.setProgress(0);
                         mRecordSecondsCount.setVisibility(View.VISIBLE);
+                        mRecordHintTextView.setText(R.string.record_hint);
+                        mRecordHintTextView.setVisibility(View.VISIBLE);
                         if (!SystemConfig.mTestMode && mCountdownTimer != null) {
                             mCountdownTimer.cancel();
                         }
@@ -407,7 +432,6 @@ public class onlineFragment extends Fragment {
                             @Override
                             public void onTick(long l) {
                                 mProgressBar.setProgress(14 - (int) (l / 1000));
-                                //Log.d(TAG,"progress:"+(14-(int)(l/1000)));
                                 mRecordSecondsCount.setText("" + l / 1000);
                             }
 
@@ -416,6 +440,16 @@ public class onlineFragment extends Fragment {
                                 mProgressBar.setProgress(0);
                                 mProgressBar.setVisibility(View.GONE);
                                 mRecordSecondsCount.setVisibility(View.GONE);
+                                findFirstTime = false;
+
+                                ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                                toneG.startTone(ToneGenerator.TONE_CDMA_CALLDROP_LITE, 100);
+                                try{
+                                    Thread.sleep(250);
+                                } catch(InterruptedException e){
+                                    e.printStackTrace();
+                                }
+                                toneG.startTone(ToneGenerator.TONE_CDMA_CALLDROP_LITE, 100);
                             }
                         };
                         mCountdownTimer.start();
@@ -429,6 +463,9 @@ public class onlineFragment extends Fragment {
                     stopRecord();
                     mTBtnTryNotify.setEnabled(true);
                     mTBtnTryNotify.setChecked(false);
+                    mRecordHintTextView.setText(R.string.record_finish);
+                    mRecordHintTextView.setVisibility(View.VISIBLE);
+                    new Handler().postDelayed(() -> mRecordHintTextView.setVisibility(View.GONE), 5000);
                 }
             }
         });
@@ -672,7 +709,6 @@ public class onlineFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.d(TAG, "onCreateOptionMenu");
         inflater.inflate(R.menu.fake_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -794,7 +830,7 @@ public class onlineFragment extends Fragment {
                     if (SystemConfig.mIntPowerLevel != -1 && SystemConfig.mIntPowerLevel <= 2) {
                         lowPowerCount++;
                         if (lowPowerCount > 3) {
-                            Log.d(TAG, "Low power count > 3 !!!!!!");
+                            GIS_Log.d(TAG, "Low power count > 3 !!!!!!");
                             showMessageDialog(getString(R.string.alert_msg_low_power_charge), mActivity);
                             stopAndDisableMeasurement();
                             lowPowerCount = 0;
@@ -829,12 +865,12 @@ public class onlineFragment extends Fragment {
                 } else if (iMsgId == MainActivity.UI_MSG_ID_SHOW_BV_SV_AFTER_ONLINE_START) {
                     mBloodVelocityPlotter.DrawBySubSegOffLine(SystemConfig.mIntSVDrawStartBloodVelocity, SystemConfig.mIntSVDrawSizeBloodVelocity);
                 } else if (iMsgId == MainActivity.UI_MSG_ID_BLE_CONNECTED) {
-                    Log.d(TAG, "iMsgId == MainActivity.UI_MSG_ID_BLE_CONNECTED");
+                    GIS_Log.d(TAG, "iMsgId == MainActivity.UI_MSG_ID_BLE_CONNECTED");
                     bleStateImageView.setImageResource(R.drawable.ic_bluetooth_connected_black_24dp);
                     mTBtnTryNotify.setEnabled(true);
                     updateWithServiceDiscoveryFragment();
                 } else if (iMsgId == MainActivity.UI_MSG_ID_BLE_DISCONNECTED) {
-                    Log.d(TAG, "iMsgId == MainActivity.UI_MSG_ID_BLE_DISCONNECTED");
+                    GIS_Log.d(TAG, "iMsgId == MainActivity.UI_MSG_ID_BLE_DISCONNECTED");
                     bleStateImageView.setImageResource(R.drawable.ic_bluetooth_black_24dp);
                     mTBtnTryNotify.setEnabled(false);
                 }
@@ -1005,7 +1041,6 @@ public class onlineFragment extends Fragment {
     public void updateSViewBySegmentOnLine(int iRxState) {
 
         try {
-            //Log.d("onlineFragment","updateSViewBySegmentOnLine iRxState="+iRxState);
             if ((SystemConfig.mEnumUltrasoundSubUIState == SystemConfig.ENUM_SUB_UI_STATE.BLOOD_FLOW_VELOCITY)
                     || (SystemConfig.mEnumUltrasoundSubUIState == SystemConfig.ENUM_SUB_UI_STATE.AUX_INFO)) {
                 // mOnLineBloodVelocityUiManager.updateSViewBySegmentOnLine();
@@ -1039,6 +1074,15 @@ public class onlineFragment extends Fragment {
             });
         }
     }
+    int countTime;
+
+    Runnable mstableStayCountdownRunnable = new Runnable(){
+        @Override
+        public void run() {
+            mTBtnRec.performClick();
+        }};
+
+    Handler mStableStayCountdownHandle;
 
     public void updateHRValue(final int HR, final boolean isStable) {
         if (getActivity() != null) {
@@ -1049,8 +1093,17 @@ public class onlineFragment extends Fragment {
                         mTBtnRec.setVisibility(View.VISIBLE);
                         mTBtnRec.setTextColor(Color.argb(255, 0, 117, 0));
                         greenLightImg.setVisibility(View.VISIBLE);
+                        if(mStableStayCountdownHandle == null){
+                            mStableStayCountdownHandle = new Handler();
+                            countTime = Integer.parseInt(mStableStayTimeEditText.getText().toString());
+                            mStableStayCountdownHandle.postDelayed(mstableStayCountdownRunnable,countTime * 1000L);
+                        }
                     }
                 } else {
+                    if(mStableStayCountdownHandle != null){
+                        mStableStayCountdownHandle.removeCallbacks(mstableStayCountdownRunnable);
+                        mStableStayCountdownHandle = null;
+                    }
                     greenLightImg.setVisibility(View.INVISIBLE);
                     mTBtnRec.setTextColor(Color.BLACK);
                     if(!SystemConfig.mTestMode && !mTBtnRec.isChecked()){
@@ -1162,7 +1215,6 @@ public class onlineFragment extends Fragment {
             //-----------------------------------------------------------------------------------
             //if (MainActivity.mBVSignalProcessorPart2Selected.getPeakVelocityAverage() <= 0) {
             if (inputData.Vpk <= 0) {
-                //Log.d(TAG,"VPK : "+mStrFailed );
                 mVpkValueTextView.setText("--");
             } else {
                 //doubleVpkAfterAngleAfterCali = MainActivity.mBVSignalProcessorPart2Selected.mDoubleVpkMeterAverageAfterAngleAfterCali;
@@ -1180,7 +1232,7 @@ public class onlineFragment extends Fragment {
             //---------------------------------------------------------------
             //if(MainActivity.mBVSignalProcessorPart2Selected.getVTIAverage() <= 0) {
             if (inputData.VTI <= 0) {
-                Log.d(TAG, "VTI : " + mStrFailed);
+                GIS_Log.d(TAG, "VTI : " + mStrFailed);
             } else {
                 //doubleVtiAfterAngleAfterCali = MainActivity.mBVSignalProcessorPart2Selected.mDoubleVtiCmAverageAfterAngleAfterCali;
                 doubleVtiAfterAngleAfterCali = inputData.VTI;
@@ -1298,7 +1350,10 @@ public class onlineFragment extends Fragment {
         if (MainActivity.mIsNotifyEnabled) {
             tryEndAction(true);
         }
-
+        if(mStableStayCountdownHandle != null){
+            mStableStayCountdownHandle.removeCallbacks(mstableStayCountdownRunnable);
+            mStableStayCountdownHandle = null;
+        }
         super.onDestroy();
     }
 
@@ -1342,14 +1397,11 @@ public class onlineFragment extends Fragment {
      */
     void stopBroadcastDataNotify(BluetoothGattCharacteristic gattCharacteristic) {
         if (gattCharacteristic != null) {
-//            GIS_Log.e("Leslie", String.valueOf(gattCharacteristic));
             if ((gattCharacteristic.getProperties() | BluetoothGattCharacteristic.PROPERTY_NOTIFY) > 0) {
                 BluetoothLeService.setCharacteristicNotification(
                         gattCharacteristic, false);
-//                GIS_Log.d("Leslie", "setCharacteristicNotification");
             }
         }else {
-//            GIS_Log.e("Leslie", "gattCharacteristic = null");
         }
     }
 
@@ -1357,7 +1409,7 @@ public class onlineFragment extends Fragment {
     private void enableTryAction() {
         //    try {
         if (BluetoothLeService.getConnectionState() != BluetoothLeService.STATE_CONNECTED) {
-            Log.d(TAG, "connection state!=BluetoothLeService.STATE_CONNECTED");
+            GIS_Log.d(TAG, "connection state!=BluetoothLeService.STATE_CONNECTED");
             return;
         }
 
@@ -1442,7 +1494,7 @@ public class onlineFragment extends Fragment {
             MainActivity.mAudioPlayerController.putMsgForAudioClose();
         }
         if (MainActivity.mRawDataProcessor.mBoolRxError) {
-            Log.d(TAG, "Lost Count = " + MainActivity.mRawDataProcessor.mIntLostCount);
+            GIS_Log.d(TAG, "Lost Count = " + MainActivity.mRawDataProcessor.mIntLostCount);
         }
     }
 
@@ -1602,7 +1654,6 @@ public class onlineFragment extends Fragment {
     public View.OnTouchListener mSvUltrasoundOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            //Log.d(TAG,"onTouch event.getX:"+event.getX()+"  event.getY: "+event.getY());
             int iEventAction, iCurSubSeg, iSubSegIdx;
             float fCurVpkPosY, fDiffY;
             float fSvHeight;
@@ -1617,7 +1668,6 @@ public class onlineFragment extends Fragment {
                     return true;
                 }
 
-                //Log.d(TAG,"onTouch event.getAction="+event.getAction());
                 iEventAction = event.getAction();
                 switch (iEventAction) {
                     case MotionEvent.ACTION_DOWN:
@@ -1726,7 +1776,6 @@ public class onlineFragment extends Fragment {
 
             } catch (Exception e) {
                 //String strMsg = e.toString();
-                //Log.d("ITRI", strMsg);
                 e.printStackTrace();
             }
         }

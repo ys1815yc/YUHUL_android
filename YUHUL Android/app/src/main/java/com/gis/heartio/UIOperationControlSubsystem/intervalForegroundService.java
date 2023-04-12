@@ -28,6 +28,7 @@ import com.gis.BLEConnectionServices.BluetoothLeService;
 import com.gis.CommonUtils.Constants;
 import com.gis.CommonUtils.UUIDDatabase;
 import com.gis.CommonUtils.Utils;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.dataInfo;
@@ -44,7 +45,7 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 public class intervalForegroundService extends Service {
-    private static final String TAG = "INTERVAL_FG_SERVICE";
+    private static final String TAG = "intervalForegroundService";
 
     public static final String ACTION_START_FOREGROUND_SERVICE = "ACTION_START_FOREGROUND_SERVICE";
 
@@ -138,12 +139,11 @@ public class intervalForegroundService extends Service {
     private class MessengerHandler extends Handler{
         @Override
         public void handleMessage(Message msg){
-            Log.d(TAG,"msg="+msg.toString());
+            GIS_Log.d(TAG,"msg="+msg.toString());
             if (msg.replyTo != null){
                 fragmentMessenger = msg.replyTo;
                 //notifyFragment(ACTION_MESSAGE_ID_ACK);
                 sendMsgToFragment(ACTION_MESSAGE_ID_ACK);
-                //Log.d(TAG,"Interval = "+msg.arg1+" , Duration= "+msg.arg2);
 
             }
             if(msg.what == ACTION_MESSAGE_ID_START){
@@ -284,7 +284,7 @@ public class intervalForegroundService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.d(TAG,"onBind.");
+        GIS_Log.d(TAG,"onBind.");
         // TODO: Return the communication channel to the service.
         //throw new UnsupportedOperationException("Not yet implemented");
         return new Messenger(messengerHandler).getBinder();
@@ -292,7 +292,7 @@ public class intervalForegroundService extends Service {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        Log.d(TAG,"onUnbind.");
+        GIS_Log.d(TAG,"onUnbind.");
         isRunning = false;
         releaseWakeLock();
 
@@ -362,7 +362,7 @@ public class intervalForegroundService extends Service {
     }
 
     private void startForegroundService(){
-        Log.d(TAG,"Start interval foreground service.");
+        GIS_Log.d(TAG,"Start interval foreground service.");
         registerReceiver(mServiceDiscoveryListner, Utils.makeGattUpdateIntentFilter());
         // Create notification default intent.
         Intent intent = new Intent(this, MainActivity.class);
@@ -418,8 +418,8 @@ public class intervalForegroundService extends Service {
     }
 
     private void stopForegroundService(){
-        Log.d(TAG,"Stop interval foreground service.");
-        Log.d(TAG,"SystemConfig.mEnumStartState = "+SystemConfig.mEnumStartState);
+        GIS_Log.d(TAG,"Stop interval foreground service.");
+        GIS_Log.d(TAG,"SystemConfig.mEnumStartState = "+SystemConfig.mEnumStartState);
         try{
             unregisterReceiver(mServiceDiscoveryListner);
         }catch (IllegalArgumentException e){
@@ -506,17 +506,17 @@ public class intervalForegroundService extends Service {
                         gattCharacteristic, false);
             }
         }else{
-            Log.d(TAG,"gattCharacteristic is null.");
+            GIS_Log.d(TAG,"gattCharacteristic is null.");
         }
     }
 
     private void startTimerTask(){
         timer = new Timer();
         mIntervalTT = new intervalTimerTask();
-        Log.d(TAG,"intervalMins = "+intervalMins+" , durationMins= "+durationMins);
+        GIS_Log.d(TAG,"intervalMins = "+intervalMins+" , durationMins= "+durationMins);
         long intervalMS = intervalMins*MINUTE_TO_MILLISECONDS;
         final long startTime = System.currentTimeMillis();
-        Log.d(TAG,"intervalMS= "+intervalMS+" ,startTime="+startTime);
+        GIS_Log.d(TAG,"intervalMS= "+intervalMS+" ,startTime="+startTime);
         wakeLock.acquire(durationMins*MINUTE_TO_MILLISECONDS+10000);
         timer.schedule(mIntervalTT,1000,intervalMS);
          isRunning = true;
@@ -526,7 +526,6 @@ public class intervalForegroundService extends Service {
                 while(isRunning){
                     try {
                         Thread.sleep(1000);
-                        //Log.d(TAG,"oldPowerLevel="+oldPowerLevel+" ,SystemConfig.mIntPowerLevel="+SystemConfig.mIntPowerLevel);
                         if (SystemConfig.mIntPowerLevel != oldPowerLevel){
                             oldPowerLevel = SystemConfig.mIntPowerLevel;
                             sendMsgToFragment(ACTION_MESSAGE_ID_UPDATE_POWER_LEVEL);
@@ -536,7 +535,6 @@ public class intervalForegroundService extends Service {
                         }
                         long nowTime = System.currentTimeMillis();
                         long diffTime = nowTime-startTime;
-                        //Log.d(TAG,"diffTime= "+diffTime);
                         if (diffTime >(durationMins*MINUTE_TO_MILLISECONDS+1000)||
                                 SystemConfig.mIntPowerLevel==2 ){
                             isRunning = false;
@@ -558,7 +556,7 @@ public class intervalForegroundService extends Service {
         @Override
         public void run() {
             scheduleCount++;
-            Log.d(TAG,"Run interval measurement "+scheduleCount+" times.");
+            GIS_Log.d(TAG,"Run interval measurement "+scheduleCount+" times.");
             intervalMeasurementTrigger();
         }
     }
@@ -730,7 +728,7 @@ public class intervalForegroundService extends Service {
 
         for (int i = 0; i < mGattServiceData.size(); i++) {
             strUuid = mGattServiceData.get(i).get("UUID").getUuid().toString();
-            Log.d("findService",strUuid);
+            GIS_Log.d(TAG,strUuid);
             if (mGattServiceData.get(i).get("UUID").getUuid().equals(UUIDDatabase.UUID_ULTRASOUND_DATA_SERVICE)||
                 mGattServiceData.get(i).get("UUID").getUuid().equals(UUIDDatabase.UUID_HEARTIO_DATA_SERVICE)) {
                 boolDataServiceFound = true;

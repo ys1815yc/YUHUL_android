@@ -57,6 +57,7 @@ import com.gis.CommonUtils.Constants;
 import com.gis.CommonUtils.Utils;
 import com.gis.heartio.BLEStatusReceiver;
 import com.gis.heartio.GIS_Algorithm;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.AudioSubsystem.MyAudioPlayerController;
 import com.gis.heartio.SignalProcessSubsystem.BVSignalProcessController;
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     .getService();
             // Initializing the service
             if (!mBluetoothLeService.initialize()) {
-                Log.d(TAG,"Service not initialized");
+                GIS_Log.d(TAG,"Service not initialized");
             }
         }
 
@@ -184,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             final String action = intent.getAction();
             //Received when the bond state is changed
 
-            Log.i("Test in", "onReceive: ");
+            GIS_Log.d(TAG,"onReceive: test in");
             if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
                 final int state = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.ERROR);
                 final int bondState = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, -1);
@@ -196,10 +197,9 @@ public class MainActivity extends AppCompatActivity {
                    //         + "[" + ProfileScanningFragment.mDeviceName + "|"
                    //         + ProfileScanningFragment.mDeviceAddress + "] " +
                     //        getResources().getString(R.string.dl_connection_pairing_request);
-                    //Log.d(TAG,dataLog2);
                     Utils.bondingProgressDialog(MainActivity.this, mpdia, true);
                 } else if (state == BluetoothDevice.BOND_BONDED) {
-                    Log.e(TAG,"MainActivity--->Bonded");
+                    GIS_Log.d(TAG,"MainActivity--->Bonded");
                     Utils.stopDialogTimer();
                     // Bonded...
                     if (ProfileScanningFragment.mPairButton != null) {
@@ -212,12 +212,12 @@ public class MainActivity extends AppCompatActivity {
                      //       + "[" + ProfileScanningFragment.mDeviceName + "|"
                      //       + ProfileScanningFragment.mDeviceAddress + "] " +
                      //       getResources().getString(R.string.dl_connection_paired);
-                    //Log.d(TAG,dataLog);
+
                     Utils.bondingProgressDialog(MainActivity.this, mpdia, false);
 
                 } else if (state == BluetoothDevice.BOND_NONE) {
                     // Not bonded...
-                    Log.e(TAG,"MainActivity--->Not Bonded");
+                    GIS_Log.d(TAG,"MainActivity--->Not Bonded");
                     Utils.stopDialogTimer();
                     if (ProfileScanningFragment.mPairButton != null) {
                         ProfileScanningFragment.mPairButton.setText(Unpaired);
@@ -236,20 +236,20 @@ public class MainActivity extends AppCompatActivity {
                     //Logger.datalog(dataLog);
                     Utils.bondingProgressDialog(MainActivity.this, mpdia, false);
                 } else {
-                    Log.e(TAG,"Error received in pair-->" + state);
+                    GIS_Log.e(TAG,"Error received in pair-->" + state);
                 }
             } else if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                Log.i(TAG,"BluetoothAdapter.ACTION_STATE_CHANGED.");
+                GIS_Log.d(TAG,"BluetoothAdapter.ACTION_STATE_CHANGED.");
                 if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) ==
                         BluetoothAdapter.STATE_OFF) {
-                    Log.i(TAG,"BluetoothAdapter.STATE_OFF");
+                    GIS_Log.d(TAG,"BluetoothAdapter.STATE_OFF");
                     if (BLUETOOTH_STATUS_FLAG) {
                         connectionLostBluetoothalertbox(true);
                     }
 
                 } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) ==
                         BluetoothAdapter.STATE_ON) {
-                    Log.i(TAG,"BluetoothAdapter.STATE_ON");
+                    GIS_Log.d(TAG,"BluetoothAdapter.STATE_ON");
                     if (BLUETOOTH_STATUS_FLAG) {
                         connectionLostBluetoothalertbox(false);
                     }
@@ -257,11 +257,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             } else if (action.equals(BluetoothLeService.ACTION_PAIR_REQUEST)) {
-                Log.e(TAG,"Pair request received");
-                Log.e(TAG,"HomepageActivity--->Pair Request");
+                GIS_Log.d(TAG,"Pair request received");
+                GIS_Log.d(TAG,"HomepageActivity--->Pair Request");
                 Utils.stopDialogTimer();
             }
-            Log.i("Test out", "onReceive: ");
+            GIS_Log.d(TAG, "onReceive: Test out");
 
         }
     };
@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
                     newNavigationIndex = 1;
                     //mTextMessage.setText(R.string.title_home);
                     //selectedFragment = onlineFragment.newInstance();
-                    Log.d(TAG,"BluetoothLeService.getConnectionState() = "+BluetoothLeService.getConnectionState());
+                    GIS_Log.d(TAG,"BluetoothLeService.getConnectionState() = "+BluetoothLeService.getConnectionState());
                     if (BluetoothLeService.getConnectionState() == BluetoothLeService.STATE_CONNECTED){
                         //SystemConfig.mEnumUltrasoundUIState = SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE;
                         newState = SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE;
@@ -365,7 +365,6 @@ public class MainActivity extends AppCompatActivity {
 
             if (SystemConfig.mEnumUltrasoundUIState == SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE &&
                     currentFragmentTag.equals(Constants.ITRI_ULTRASOUND_FRAGMENT_TAG) ){
-                //Log.d(TAG,"online change to what????");
                 if(oFrag!=null && oFrag.mBtnSave!=null){
                     if (oFrag.mBtnSave.isEnabled()){
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -455,12 +454,12 @@ public class MainActivity extends AppCompatActivity {
             if (getIntent().getExtras()!=null){
                 currentAdminID = getIntent().getExtras().getString("adminID","");
                 currentAdminPW = getIntent().getExtras().getString("adminPW", "");
-                Log.d(TAG,"currentAdminID = "+currentAdminID + "  from getExtras()");
+                GIS_Log.d(TAG,"currentAdminID = "+currentAdminID + "  from getExtras()");
             }
         }else{
             currentAdminID = (String)savedInstanceState.getSerializable("adminID");
             currentAdminPW = (String)savedInstanceState.getSerializable("adminPW");
-            Log.d(TAG,"currentAdminID = "+currentAdminID +"  from savedInstanceState");
+            GIS_Log.d(TAG,"currentAdminID = "+currentAdminID +"  from savedInstanceState");
         }
 
         // Getting the characteristics from the application class
@@ -489,7 +488,7 @@ public class MainActivity extends AppCompatActivity {
             String pkg=getPackageName();
             PowerManager pm=getSystemService(PowerManager.class);
             if (pm!=null&&!pm.isIgnoringBatteryOptimizations(pkg)){
-                Log.d(TAG,"Try to get permission : ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS  ");
+                GIS_Log.d(TAG,"Try to get permission : ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS  ");
                 Intent pIntent= new Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
                                 .setData(Uri.parse("package:"+pkg));
                 pIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -546,14 +545,13 @@ public class MainActivity extends AppCompatActivity {
         if (IwuSQLHelper.getTableCount(mIwuSQLHelper.mDBWrite,IwuSQLHelper.STR_TABLE_USER)>0){
             SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
             int currentUserID_primary = sharedPref.getInt(IwuSQLHelper.KEY_CURRENT_USER,1);
-            //Log.d(TAG,"String.valueOf(currentUserID_primary) = "+String.valueOf(currentUserID_primary));
             userInfo tmpUser = IwuSQLHelper.getUserInfoFromPrimaryID(String.valueOf(currentUserID_primary),mIwuSQLHelper);
             if (tmpUser!=null){
                 UserManagerCommon.initUserUltrasoundParameter(tmpUser);
             }else{
                 ArrayList<userInfo> userList = IwuSQLHelper.getAllUserInfo(mIwuSQLHelper);
                 if (userList.size() > 0){
-                    Log.d(TAG,"Total user : "+ userList.size());
+                    GIS_Log.d(TAG,"Total user : "+ userList.size());
                     UserManagerCommon.initUserUltrasoundParameter(userList.get(0));
 
                     SharedPreferences.Editor editor = sharedPref.edit();
@@ -677,8 +675,8 @@ public class MainActivity extends AppCompatActivity {
         //LongStartSettingCommon.initLongStartSettingCommon();
         //mIwuSQLHelper.tryAddTestUser();
 
-        Log.d(TAG,"onResume-->activity");
-        Log.d(TAG,"registerReceiver");
+        GIS_Log.d(TAG,"onResume-->activity");
+        GIS_Log.d(TAG,"registerReceiver");
         registerReceiver(mGattUpdateReceiver,
                 Utils.makeGattUpdateIntentFilter());
 
@@ -730,14 +728,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         try {
-            Log.d(TAG,"unregister GattUpdateReceiver");
+            GIS_Log.d(TAG,"unregister GattUpdateReceiver");
             unregisterReceiver(mGattUpdateReceiver);
         }catch (IllegalArgumentException e){
             e.printStackTrace();
         }
 
         try{
-            Log.d(TAG,"unregister BLEStatusReceiver");
+            GIS_Log.d(TAG,"unregister BLEStatusReceiver");
             unregisterReceiver(mBLEStatusReceiver);
         }catch (IllegalArgumentException e){
             e.printStackTrace();
@@ -764,7 +762,7 @@ public class MainActivity extends AppCompatActivity {
                 || currentFragment instanceof intervalFragment
                 || currentFragment instanceof ServiceDiscoveryFragment) {
             if (currentFragmentTag.equals(Constants.ITRI_ULTRASOUND_FRAGMENT_TAG)){
-                Log.d(TAG,"onlineFragment backPress.");
+                GIS_Log.d(TAG,"onlineFragment backPress.");
                 if (oFrag!=null && oFrag.mBtnSave!=null){
                     if (oFrag.mBtnSave.isEnabled()){
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -829,7 +827,7 @@ public class MainActivity extends AppCompatActivity {
             cancelBtn.setScaleY(0.60f);
             cancelBtn.setPadding(100,5,100,5);
         } else{
-            Log.d(TAG," onBackPress.");
+            GIS_Log.d(TAG," onBackPress.");
             super.onBackPressed();
         }
 
@@ -997,22 +995,21 @@ public class MainActivity extends AppCompatActivity {
                                             -1);
                         }
                         if (extras.containsKey(Constants.EXTRA_FRS_VALUE)) {
-                            //Log.d("MainActivity","FW version: "+ intent.getStringExtra(Constants.EXTRA_FRS_VALUE).trim());
                             MainActivity.fwVersion = intent.getStringExtra(Constants.EXTRA_FRS_VALUE).trim();
                         }
                         if (extras.containsKey(Constants.EXTRA_SRS_VALUE)){
-                            Log.d(TAG, "Latency: "+ diffTimeMS);
-                            Log.d("MainActivity","MAC address:"+ intent.getStringExtra(Constants.EXTRA_SRS_VALUE).trim());
+                            GIS_Log.d(TAG, "Latency: "+ diffTimeMS);
+                            GIS_Log.d(TAG,"MAC address:"+ intent.getStringExtra(Constants.EXTRA_SRS_VALUE).trim());
                         }
                         if (extras.containsKey(Constants.EXTRA_UDI_VALUE)){
                             String tmpString = intent.getStringExtra(Constants.EXTRA_UDI_VALUE).trim();
-                            Log.d(TAG, "tmp string = "+ tmpString);
+                            GIS_Log.d(TAG, "tmp string = "+ tmpString);
                             if (tmpString.length() != 0 && tmpString.length() == 56){
                                 String udiStr = tmpString.substring(0,40);
                                 String paraStr = tmpString.substring(40,56);
-                                Log.d(TAG, "UDI ="+udiStr);
+                                GIS_Log.d(TAG, "UDI ="+udiStr);
                                 MainActivity.UDIStr = udiStr;
-                                Log.d(TAG,"param ="+paraStr);
+                                GIS_Log.d(TAG,"param ="+paraStr);
                             }
 
                         }
@@ -1025,10 +1022,8 @@ public class MainActivity extends AppCompatActivity {
                             MyThreadQMsg myMsgForSignalProcess = new MyThreadQMsg();
                             myMsgForSignalProcess.mIntMsgId = MyThreadQMsg.INT_MY_MSG_EVT_SPROCESS_DATA_IN;
                             myMsgForSignalProcess.mByteArray = Arrays.copyOf(array,array.length);
-//                            Log.d(TAG,"byteArray.length="+myMsgForSignalProcess.mByteArray.length);
                             MainActivity.mSignalProcessController.putMsg(myMsgForSignalProcess);
 
-                            //Log.d(TAG,Utils.ByteArraytoHex(array));
                             //displayHexValue(array);
                             //displayASCIIValue(mHexValue.getText().
                             //       toString());
@@ -1203,7 +1198,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public static void updatePowerLevel(int inputLevel, TextView inputTextView, Context ctx){
-        Log.d(TAG,"updatePowerLevel inputLevel = "+inputLevel);
+        GIS_Log.d(TAG,"updatePowerLevel inputLevel = "+inputLevel);
         if (intPrePowerLevel!= inputLevel){
             if (inputLevel == 2 && intPrePowerLevel <= 3){
                 showMessageDialog(ctx.getString(R.string.alert_msg_low_power_charge), ctx);

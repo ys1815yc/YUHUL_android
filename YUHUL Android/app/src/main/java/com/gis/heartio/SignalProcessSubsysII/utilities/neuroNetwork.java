@@ -3,6 +3,7 @@ package com.gis.heartio.SignalProcessSubsysII.utilities;
 import android.content.Context;
 import android.util.Log;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 //import us.hebi.matlab.mat.format.Mat5;
 
 public class neuroNetwork {
+    private static final String TAG = "neuroNetwork";
 //    private Context context;
     public neuroNetwork(){
 
@@ -34,7 +36,7 @@ public class neuroNetwork {
 //        double[] ym = net_6L(testIn);
         double[] ym = net_8L(testIn);
         for (int i=0;i<ym.length;i++){
-            Log.d("Doppler","ym["+i+"]="+ym[i]);
+            GIS_Log.d(TAG,"ym["+i+"]="+ym[i]);
         }
 
 
@@ -108,7 +110,7 @@ public class neuroNetwork {
         int n = m_in[0].length;
         double[] d_out = new double[m];
         double[][] d_out2 = new double[m][1];
-        Log.d("NN","m="+m+",n="+n+", Lbin="+Lbin);
+        GIS_Log.d(TAG,"m="+m+",n="+n+", Lbin="+Lbin);
         if (n==Ldin && m==Lbin){
 //			d_out2=m_in*din
             RealMatrix m_inR = new Array2DRowRealMatrix(m_in);

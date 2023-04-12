@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.DataBaseUserInfo;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.userInfo;
@@ -160,8 +161,8 @@ public class UserManagerCommon{
             userInfo.heightToCSA = STR_USER_HEIGHT_TO_CSA_NO;
         }
 
-        Log.d(TAG,"userInfo.firstName="+userInfo.firstName);
-        Log.d(TAG,"userInfo.heightToCSA="+userInfo.heightToCSA);
+        GIS_Log.d(TAG,"userInfo.firstName="+userInfo.firstName);
+        GIS_Log.d(TAG,"userInfo.heightToCSA="+userInfo.heightToCSA);
         UserManagerCommon.mUserInfoCur = userInfo;
         UserManagerCommon.mDoubleUserAngleRadius = ((double) UserManagerCommon.mUserInfoCur.angle / (double) 180) * Math.PI;
         UserManagerCommon.mDoubleCosineUserAngle = Math.cos(UserManagerCommon.mDoubleUserAngleRadius);
@@ -172,7 +173,7 @@ public class UserManagerCommon{
 //        } else {
 //            UserManagerCommon.mDoubleUserPulmDiameterCm = getPulmDiameterFromHeight(UserManagerCommon.mUserInfoCur.height);
 //        }
-        Log.d(TAG,"UserManagerCommon.mDoubleUserPulmDiameterCm="+UserManagerCommon.mDoubleUserPulmDiameterCm);
+        GIS_Log.d(TAG,"UserManagerCommon.mDoubleUserPulmDiameterCm="+UserManagerCommon.mDoubleUserPulmDiameterCm);
     }
 
     public static void getUserUltrasoundParameterFromObject() {

@@ -1024,11 +1024,19 @@
         android:visibility="invisible"
         app:srcCompat="@drawable/stable_hit_ball" />
 
+    <TextView
+        android:id="@+id/recordHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/greenlight"
+        android:layout_below="@id/snrTextViews"
+        android:visibility="gone"/>
+
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/inverseSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/snrTextViews"
+        android:layout_below="@id/recordHint"
         android:layout_toEndOf="@id/greenlight"
         android:text="Inverse" />
 
@@ -1048,5 +1056,27 @@
         android:layout_below="@id/fourthLevelOnline"
         android:layout_toEndOf="@id/greenlight"
         />
+
+    <TextView
+        android:id="@+id/recordStableTime"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/onlineAngleTest"
+        android:layout_toEndOf="@id/greenlight"
+        android:text="n秒後開始記錄 : "
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/stableStayTime"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:text="3"
+        android:textSize="12sp"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        android:layout_alignBaseline="@+id/recordStableTime"
+        android:layout_below="@id/onlineAngleTest"
+        android:layout_toEndOf="@id/recordStableTime"/>
 
 </RelativeLayout>

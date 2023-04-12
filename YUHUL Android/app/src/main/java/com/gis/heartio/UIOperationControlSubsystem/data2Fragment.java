@@ -34,6 +34,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.gis.CommonUtils.Constants;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
@@ -171,9 +172,7 @@ public class data2Fragment extends SampleFragment {
         if (dataList.size()==0){
             queryUserDataToList(UserManagerCommon.mUserInfoCur.userID);
             if (dataList.size()>0){
-                /*Log.d(TAG, "data _id :"+ dataList.get(0).Id+" date: "+dataList.get(0).createdDate + " Vpk = " + dataList.get(0).Vpk
-                        +"  ,VTI= "+dataList.get(0).VTI + " ,SV="+dataList.get(0).SV
-                        +" ,HR= "+dataList.get(0).HR +" ,Path= "+dataList.get(0).fileName);*/
+
             }
 
         }
@@ -198,12 +197,7 @@ public class data2Fragment extends SampleFragment {
                 }else{
                     getPeriodData(selectDateStr,currentSegmentDays,"yyyy/MM/dd");
                 }
-//                        for (int j = 0;j<dataListInPeriod.size();j++){
-//                            Log.d(TAG, "dataListInPeriod  data _id :"+ dataListInPeriod.get(j).Id
-//                                    +" date: " + dataListInPeriod.get(j).createdDate + " Vpk = " + dataListInPeriod.get(j).Vpk
-//                                    +"  ,VTI= "+dataListInPeriod.get(j).VTI + " ,SV="+dataListInPeriod.get(j).SV
-//                                    +" ,HR= "+dataListInPeriod.get(j).HR +" ,Path= "+dataListInPeriod.get(j).fileName);
-//                        }
+
                 setData(currentDataType);
                 currentDataIndex = 0;
                 setupEvents();
@@ -249,7 +243,6 @@ public class data2Fragment extends SampleFragment {
                 if (e==null){
                     return;
                 }
-                //Log.d(TAG,e.toString() + "\nh:"+h.toString());
                 currentDataIndex = (int)e.getX()-1;
                 setupEvents();
             }
@@ -274,17 +267,15 @@ public class data2Fragment extends SampleFragment {
             @Override
             public void onChartLongPressed(MotionEvent me) {
                 if (me==null){
-                    Log.d(TAG,"me == null");
+                    GIS_Log.d(TAG,"me == null");
                     return;
                 }
                 //final int idx = (int)me.getX()-1;
                 //final float rightX = mChart.getHighestVisibleX();
 
                 //final int idx = (int)me.getAxisValue((int)me.getX());
-                Log.d(TAG,"currentDataIndex = "+currentDataIndex+"  dataListInPeriod.size="+dataListInPeriod.size());
-                    /*Log.d(TAG, "data _id :"+ dataList.get(idx).Id+" date: "+dataList.get(idx).createdDate + " Vpk = " + dataList.get(idx).Vpk
-                            +"  ,VTI= "+dataList.get(idx).VTI + " ,SV="+dataList.get(idx).SV
-                            +" ,HR= "+dataList.get(idx).HR +" ,Path= "+dataList.get(idx).fileName);*/
+                GIS_Log.d(TAG,"currentDataIndex = "+currentDataIndex+"  dataListInPeriod.size="+dataListInPeriod.size());
+
                 AlertDialog alertDialog = new AlertDialog.Builder(mActivity,R.style.MyDialogTheme).create(); //Read Update
                 alertDialog.setTitle(dataListInPeriod.get(currentDataIndex).createdDate);
                 alertDialog.setMessage("Vpk :  " + String.format("%.2f",dataListInPeriod.get(currentDataIndex).Vpk)
@@ -377,7 +368,7 @@ public class data2Fragment extends SampleFragment {
                 selectDateStr = String.valueOf(year) + "/"
                         + String.valueOf(month + 1) + "/"
                         + String.valueOf(day);
-                Log.d(TAG,selectDateStr);
+                GIS_Log.d(TAG,selectDateStr);
                 updateActionBarTitle(selectDateStr);
                 updateDataAndViews();
             }, mYear,mMonth, mDay).show();
@@ -431,7 +422,6 @@ public class data2Fragment extends SampleFragment {
         switch (item.getItemId()){
             case R.id.action_export:
                 // TODO: export data to csv file.
-                Log.d(TAG,"Oh~do that to me one more time~~");
                 exportDB();
                 return true;
             default:
@@ -456,7 +446,7 @@ public class data2Fragment extends SampleFragment {
         File exportFile = new File(exportDir,filename);
         try {
             if (exportFile.createNewFile()){
-                Log.d(TAG,"Create file "+filename+" successfully.");
+                GIS_Log.d(TAG,"Create file "+filename+" successfully.");
                 CSVWriter csvWriter = new CSVWriter(new FileWriter(exportFile));
                 SQLiteDatabase db = mHelper.getReadableDatabase();
                 Cursor curCSV = db.rawQuery("select *  from "+IwuSQLHelper.STR_TABLE_DATA+" where userID = ?",new String[] {UserManagerCommon.mUserInfoCur.userID});
@@ -481,7 +471,7 @@ public class data2Fragment extends SampleFragment {
                         getString(R.string.alert_msg_save_csv_to)+exportFile.getAbsolutePath());
 
             }else{
-                Log.d(TAG,"file "+filename+" existed.");
+                GIS_Log.d(TAG,"file "+filename+" existed.");
                 showAlertDialog(getString(R.string.alert_title_failure),null);
             }
 
@@ -724,7 +714,6 @@ public class data2Fragment extends SampleFragment {
         final float lineWidth = 20f;
 
         hrDecoView.setOnClickListener(view1 -> {
-            //Log.d(TAG,"You touch HR???? You really touch HR???????");
             if (currentDataType!=HR){
                 currentDataType = HR;
                 setData(HR);
@@ -761,7 +750,6 @@ public class data2Fragment extends SampleFragment {
             addProgressListener(seriesItem1, textHR, "HR\n%.0f bpm");
         }
         vpkDecoView.setOnClickListener(view12 -> {
-            //Log.d(TAG,"You touch Vpk???? You really touch Vpk???????");
             if (currentDataType!=VPK){
                 currentDataType = VPK;
                 setData(VPK);
@@ -799,7 +787,6 @@ public class data2Fragment extends SampleFragment {
 
         // Vti
         vtiDecoView.setOnClickListener(view13 -> {
-            //Log.d(TAG,"You touch Vti???? You really touch Vti???????");
             if (currentDataType!=VTI){
                 currentDataType = VTI;
                 setData(VTI);
@@ -838,7 +825,6 @@ public class data2Fragment extends SampleFragment {
 
         // SV
         svDecoView.setOnClickListener(view14 -> {
-            //Log.d(TAG,"You touch SV???? You really touch SV???????");
             if (currentDataType!=SV){
                 currentDataType = SV;
                 setData(SV);
@@ -877,7 +863,6 @@ public class data2Fragment extends SampleFragment {
 
         // CO
         coDecoView.setOnClickListener(view15 -> {
-            //Log.d(TAG,"You touch CO???? You really touch CO???????");
             if (currentDataType!=CO){
                 currentDataType = CO;
                 setData(CO);
@@ -923,11 +908,9 @@ public class data2Fragment extends SampleFragment {
         if (dataList.size()==0){
             queryUserDataToList(UserManagerCommon.mUserInfoCur.userID);
             if (dataList.size()>0){
-                /*Log.d(TAG, "data _id :"+ dataList.get(0).Id+" date: "+dataList.get(0).createdDate + " Vpk = " + dataList.get(0).Vpk
-                        +"  ,VTI= "+dataList.get(0).VTI + " ,SV="+dataList.get(0).SV
-                        +" ,HR= "+dataList.get(0).HR +" ,Path= "+dataList.get(0).fileName);*/
+
             }else{
-                Log.d(TAG,"This user has no data.");
+                GIS_Log.d(TAG,"This user has no data.");
                 return;
             }
         }
@@ -935,11 +918,7 @@ public class data2Fragment extends SampleFragment {
         for (int i = 0;i<dataList.size();i++){
             int retDays = (int)dayBetween(dataList.get(i).createdDate,inputDate,inputPattern);
             if (retDays<inputDays && retDays>=0){
-                //Log.d(TAG,"retDays = "+retDays);
                 dataListInPeriod.add(dataList.get(i));
-                /*Log.d(TAG, "data _id :"+ dataList.get(i).Id+" date: "+dataList.get(i).createdDate + " Vpk = " + dataList.get(i).Vpk
-                        +"  ,VTI= "+dataList.get(i).VTI + " ,SV="+dataList.get(i).SV
-                        +" ,HR= "+dataList.get(i).HR +" ,Path= "+dataList.get(i).fileName);*/
             }
         }
     }
@@ -980,7 +959,7 @@ public class data2Fragment extends SampleFragment {
     }
 
     private void setData(int dataType){
-        Log.d(TAG,"dataType = "+dataType+"  ,dataListInPeriod.size()="+dataListInPeriod.size());
+        GIS_Log.d(TAG,"dataType = "+dataType+"  ,dataListInPeriod.size()="+dataListInPeriod.size());
         //if (dataListInPeriod.size()>0){
             ArrayList<Entry> yVals = new ArrayList<>();
             for (int i=0;i<dataListInPeriod.size();i++){
@@ -1163,7 +1142,7 @@ public class data2Fragment extends SampleFragment {
         //strWhere = "_id=" + UserManagerCommon.mUserInfoCur.mIntUserID;
         strWhere = IwuSQLHelper.KEY_DATA_TABLE_PRIMARY+" = '"+deleteID+"'";
         mHelper.mDBWrite.beginTransaction();
-        Log.d(TAG,"strWhere="+strWhere);
+        GIS_Log.d(TAG,"strWhere="+strWhere);
         try {
             lnReturn =mHelper.mDBWrite.delete(IwuSQLHelper.STR_TABLE_DATA, strWhere, null);
             mHelper.mDBWrite.setTransactionSuccessful();
@@ -1178,9 +1157,9 @@ public class data2Fragment extends SampleFragment {
         File deleteFile = new File(deleteFilePath);
         if (deleteFile.exists()){
             if (deleteFile.delete()){
-                Log.d(TAG,deleteFilePath+" had been deleted.");
+                GIS_Log.d(TAG,deleteFilePath+" had been deleted.");
             }else{
-                Log.d(TAG,deleteFilePath+"  delete file fail.");
+                GIS_Log.d(TAG,deleteFilePath+"  delete file fail.");
             }
         }
 

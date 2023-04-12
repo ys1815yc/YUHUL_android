@@ -7,7 +7,6 @@ import com.gis.heartio.UIOperationControlSubsystem.UserManagerCommon;
 
 public class GIS_DataController {
     private final String TAG = getClass().getSimpleName();
-
     public dataInfo getMeasureResult() {
         dataInfo mDataInfo = new dataInfo();
 
@@ -23,10 +22,10 @@ public class GIS_DataController {
 
         mDataInfo.ErrCode = MainActivity.mBVSignalProcessorPart1.mIntHRErrCode;
         GIS_Log.e(TAG, "error code = " + mDataInfo.ErrCode);
-        GIS_Log.e(TAG,"HR:" + mDataInfo.HR + ", VPK:" + mDataInfo.Vpk +
+        GIS_Log.d(TAG,"HR:" + mDataInfo.HR + ", VPK:" + mDataInfo.Vpk +
                            ", VTI:" + mDataInfo.VTI + ", SV:" + mDataInfo.SV +
                            ", CO:" + mDataInfo.CO);
-        GIS_Log.e(TAG,"HR:" + SystemConfig.mDopplerInfo.HR);
+        GIS_Log.d(TAG,"HR:" + SystemConfig.mDopplerInfo.HR);
         return mDataInfo;
     }
 

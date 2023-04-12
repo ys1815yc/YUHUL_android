@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.ContentValues;
 import android.util.Log;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.UIOperationControlSubsystem.UserManagerCommon;
 
 import java.io.File;
@@ -470,7 +471,7 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
             addDefaultAdminToDatabase();
             cursor = mDBWrite.rawQuery("select " + KEY_ADMIN_PRIMARY + " FROM " + STR_TABLE_ADMIN, null);
             iCnt = cursor.getCount();
-            Log.d(TAG,"admin count = "+iCnt);
+            GIS_Log.d(TAG,"admin count = "+iCnt);
         }
         cursor.moveToFirst();
         cursor.close();
@@ -587,7 +588,7 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
     public static long getTableCount(SQLiteDatabase db, String tableName){
         long count = 0;
         count =  DatabaseUtils.queryNumEntries(db,tableName);
-        Log.d(TAG,"user table count = "+count);
+        GIS_Log.d(TAG,"user table count = "+count);
         return count;
     }
 
@@ -652,7 +653,6 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
                     null
             );
             mCursor.moveToFirst();
-            //Log.d(TAG,"mCursor getCount(): "+mCursor.getColumnName(0));
             // Find selected user info.
             for (int i = 0; i<mCursor.getCount(); i++){
                 if (mCursor.getInt(mCursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_PRIMARY))==mUserInfo.userCount){
@@ -712,7 +712,6 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
                     null
             );
             mCursor.moveToFirst();
-            //Log.d(TAG,"mCursor getCount(): "+mCursor.getColumnName(0));
             // Find selected user info.
             for (int i = 0; i<mCursor.getCount(); i++){
                 mUserInfo.userCount = mCursor.getInt(mCursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_PRIMARY));

@@ -17,7 +17,8 @@ public class GIS_Algorithm {
     public final static int LOC_ARRAY = 1;
     private final static int PKS_AND_LOC_ARRAY_NUM = LOC_ARRAY + 1;
 
-    private final static int LOW_FREQUENCY_SEG_OFFSET = 13;
+    private final static int LOW_FREQUENCY_SEG_OFFSET_390HZ = 13;
+    private final static int LOW_FREQUENCY_SEG_OFFSET_210HZ = 7;
 
     private final static int HUMAN_C = 1540;
 
@@ -121,11 +122,11 @@ public class GIS_Algorithm {
         //ax+by+c=0,a=1,b=-116,c=-13 => distance = (ax'+by'+c) / (a^2+b^2)^0.5
         double a = 1;
         double b = -116;
-        double c = -LOW_FREQUENCY_SEG_OFFSET;
+        double c = -LOW_FREQUENCY_SEG_OFFSET_390HZ;
 
-        for(int i = 0 ; i < (nipc.length - LOW_FREQUENCY_SEG_OFFSET) ; i++){
-            double x0 = LOW_FREQUENCY_SEG_OFFSET + (i + 1);
-            double y0 = nipc[LOW_FREQUENCY_SEG_OFFSET + i];
+        for(int i = 0 ; i < (nipc.length - LOW_FREQUENCY_SEG_OFFSET_390HZ) ; i++){
+            double x0 = LOW_FREQUENCY_SEG_OFFSET_390HZ + (i + 1);
+            double y0 = nipc[LOW_FREQUENCY_SEG_OFFSET_390HZ + i];
             result[i] = (Math.abs(x0 + b * y0 +c) / Math.pow((a*a + b*b),0.5));
         }
 
@@ -975,8 +976,8 @@ public class GIS_Algorithm {
             startMsg.append(MainActivity.mVtiBoundaryResultByGIS.startLocationsOffline[i]).append(", ");
             endMsg.append(MainActivity.mVtiBoundaryResultByGIS.endLocationsOffline[i]).append(", ");
         }
-        GIS_Log.e(TAG,"start = [" + startMsg + "]");
-        GIS_Log.e(TAG,"end = [" + endMsg + "]");
+        GIS_Log.d(TAG,"start = [" + startMsg + "]");
+        GIS_Log.d(TAG,"end = [" + endMsg + "]");
     }
 
     public static double findDopplerAngle(){
@@ -993,172 +994,158 @@ public class GIS_Algorithm {
     private static vtiBoundaryResult Doppler_VTI_Offline(double[][] STFT){
         boolean vtiRegionFlag = false;
         double vtiRegionEndCount = 0;
-        double vtiRegionNoSignalCount = 0;
-
-
         boolean vtiStartFlag = false;
         double vtiStartRegister = 0;
         double vtiStartCount = 0;
-
         boolean vtiEndFlag = false;
         double vtiEndRegister = 0;
-        double vtiEndCount = 1;
-
-        double vtiFirstEndSoundCount = 0;
-        double vtiSecondEndSoundCount = 0;
         boolean firstEndSoundStartFlag = false;
-        boolean firstEndSoundEndFlag = false;
-        boolean secondEndSoundStartFlag = false;
-        boolean secondEndSoundEndFlag = false;
-
         vtiBoundaryResult result = new vtiBoundaryResult();
         List<Double> startLocationsList = new ArrayList<>();
         List<Double> endLocationsList = new ArrayList<>();
 
-        int column = STFT[0].length;
-        int row = STFT.length;
+
+        boolean LowFrequencyPowerDataRecordStart = false;
+        double[] LowFrequencyPowerDataArray = new double[10];
+        Arrays.fill(LowFrequencyPowerDataArray, 0);
+        int LowFrequencyPowerDataCount = 0;
+        double averageLowFrequencyPowerData = 0;
+
+        int column = STFT[0].length;  //1747
+        int row = STFT.length;  //129
+        double[][] HighPassFilterSTFT_390Hz = new double[column][row];
+        double[][] HighPassFilterSTFT_210Hz = new double[column][row];
 
         for(int countColumn = 0 ; countColumn < column ; countColumn++) {
-            for (int i = 0 ; i < LOW_FREQUENCY_SEG_OFFSET ; i++) {
-                STFT[i][countColumn] = 0;
-            }
-        }
-
-        for (int countColumn = 0 ; countColumn < column ; countColumn++) {
             double maxDistanceLocation;
-            int noisePoint;
-            double noiseSlope;
-            double[] temp = new double[STFT.length];
+            double maxPower;
+            double averageLowFrequencySlope;
+            double maxLowFrequencyPower_210Hz;
+            double[] temp;
 
             for (int countRow = 0; countRow < row; countRow++) {
-                temp[countRow] = STFT[countRow][countColumn];
+                if (countRow < LOW_FREQUENCY_SEG_OFFSET_390HZ) {
+                    HighPassFilterSTFT_390Hz[countColumn][countRow] = 0;
+                } else {
+                    HighPassFilterSTFT_390Hz[countColumn][countRow] = STFT[countRow][countColumn];
+                }
+                if (countRow < LOW_FREQUENCY_SEG_OFFSET_210HZ) {
+                    HighPassFilterSTFT_210Hz[countColumn][countRow] = 0;
+                } else {
+                    HighPassFilterSTFT_210Hz[countColumn][countRow] = STFT[countRow][countColumn];
+                }
             }
-            double[] nipc = IpcSingle(temp);
-            maxDistanceLocation = findIpcToLineMaxDistanceIndex(nipc);
 
-            noisePoint = (int)(2 * (maxDistanceLocation + 1) + LOW_FREQUENCY_SEG_OFFSET);
-            if(noisePoint < ALL_SET_IN_SEG){
+            double[] nipc = IpcSingle(HighPassFilterSTFT_390Hz[countColumn]);
+            double[] nipc_210Hz = IpcSingle(HighPassFilterSTFT_210Hz[countColumn]);
+            int noisePoint;
+            double noiseSlope;
+            maxDistanceLocation = findIpcToLineMaxDistanceIndex(nipc);
+            maxPower = maxFrom1DArray(HighPassFilterSTFT_390Hz[countColumn]);
+
+            temp = new double[3]; //LowFrequencySlope
+            for (int j = 0; j < temp.length; j++) {
+                temp[j] = (nipc_210Hz[j + 7] - nipc_210Hz[j + 6]) * 1000;
+            }
+            averageLowFrequencySlope = mean(temp);
+            temp = new double[4]; //HighPassFilterSTFT_210Hz(7:10)
+            System.arraycopy(HighPassFilterSTFT_210Hz[countColumn], 6, temp, 0, 4);
+            maxLowFrequencyPower_210Hz = maxFrom1DArray(temp);
+
+            noisePoint = (int) (2 * (maxDistanceLocation + 1) + LOW_FREQUENCY_SEG_OFFSET_390HZ);
+            if (noisePoint <= ALL_SET_IN_SEG) {
                 noiseSlope = 10000 * ((1 - nipc[noisePoint - 1]) / (ALL_SET_IN_SEG - noisePoint));
-                if(!vtiEndFlag){
-                    if(!vtiRegionFlag){
-                        if (!vtiStartFlag){
-                            if (noiseSlope < 1){
+
+                if (LowFrequencyPowerDataRecordStart) {
+                    if (sum(LowFrequencyPowerDataArray) == 0) {
+                        LowFrequencyPowerDataCount = 0;
+                    }
+                    if (LowFrequencyPowerDataCount < 10) {
+                        System.arraycopy(HighPassFilterSTFT_210Hz[countColumn - 1], 6, temp, 0, 4);
+                        LowFrequencyPowerDataArray[LowFrequencyPowerDataCount] = maxFrom1DArray(temp);
+                        if (LowFrequencyPowerDataCount >= 1) {
+                            double[] LowFrequencyPowerDataRegister = new double[LowFrequencyPowerDataCount+1];
+                            System.arraycopy(LowFrequencyPowerDataArray, 0, LowFrequencyPowerDataRegister, 0, LowFrequencyPowerDataCount+1);
+                            double sumMinPower = 0;
+                            if (LowFrequencyPowerDataCount > 4) {
+                                Arrays.sort(LowFrequencyPowerDataRegister);
+                                for (int n = 0; n < 5; n++) {
+                                    sumMinPower = sumMinPower + LowFrequencyPowerDataRegister[n];
+                                }
+                                averageLowFrequencyPowerData = sumMinPower / 5;
+                            } else {
+                                averageLowFrequencyPowerData = mean(LowFrequencyPowerDataRegister);
+                            }
+                        } else {
+                            averageLowFrequencyPowerData = LowFrequencyPowerDataArray[0];
+                        }
+                        LowFrequencyPowerDataCount++;
+                    }
+                }
+
+                if (!vtiEndFlag) {
+                    if (!vtiRegionFlag) {
+                        if (!vtiStartFlag) {
+                            if (noiseSlope < 1.5 && maxPower > 5) {
+                                vtiStartFlag = true;
+                            } else if (noiseSlope < 2 && maxPower > 20) {
                                 vtiStartFlag = true;
                             }
-                        }
-
-                        if(vtiStartFlag){
-                            if(noiseSlope > 20) {
+                        } else {
+                            if (noiseSlope > 25) {
                                 vtiStartFlag = false;
                                 vtiStartCount = 0;
-                            } else if(noiseSlope < 1) {
-                                vtiStartCount = 0;
-                            } else if(noiseSlope > 2) {
+                            } else {
                                 vtiStartCount++;
-                                if(vtiStartCount == 10){
+                                if (noiseSlope < 1 && averageLowFrequencySlope > 2) {
+                                    vtiStartCount = 0;
+                                } else {
+                                    if (noiseSlope < 1) {
+                                        vtiStartCount = 0;
+                                    } else {
+                                        if (maxPower > 1 && noiseSlope < 2 && averageLowFrequencySlope > 5) {
+                                            vtiStartCount = 0;
+                                        } else {
+                                            if (maxPower > 5 && averageLowFrequencySlope > 5) {
+                                                vtiStartCount = 0;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (vtiStartCount == 10) {
                                     vtiStartRegister = (countColumn) - 10;
                                     vtiStartCount = 0;
                                     vtiRegionFlag = true;
                                     vtiStartFlag = false;
+                                    Arrays.fill(LowFrequencyPowerDataArray, 0);
+                                    LowFrequencyPowerDataRecordStart = true;
                                 }
                             }
                         }
-                    }
-
-                    if(vtiRegionFlag){
-                        if (noiseSlope < 25) {
-                            if (noiseSlope > 10) {
-                                vtiRegionEndCount = vtiRegionEndCount + 1;
-                                if (vtiRegionEndCount == 1) {
-                                    vtiEndFlag = true;
-                                    vtiRegionFlag = false;
-                                    vtiRegionEndCount = 0;
-                                    vtiRegionNoSignalCount = 0;
-                                }
-                            }else {
-                                vtiRegionEndCount = 0;
-                                vtiRegionNoSignalCount = 0;
-                                if (noiseSlope < 2) {
-                                    vtiEndFlag = true;
-                                    vtiRegionFlag = false;
-                                    firstEndSoundStartFlag = true;
-                                    vtiEndRegister = countColumn;
-                                }
-                            }
-                        }else{
-                            vtiRegionNoSignalCount = vtiRegionNoSignalCount + 1;
-                            if (vtiRegionNoSignalCount == 10) {
-                                vtiRegionFlag = false;
-                                vtiStartFlag = false;
-                                vtiRegionEndCount = 0;
-                                vtiRegionNoSignalCount = 0;
-                            }
-                        }
-                    }
-                } else if (!firstEndSoundStartFlag) {
-                    if (noiseSlope < 2) {
-                        firstEndSoundStartFlag = true;
-                        vtiFirstEndSoundCount = 0;
-                        vtiEndRegister = countColumn;
                     } else {
-                        if (noiseSlope > 20) {
-                            vtiFirstEndSoundCount = vtiFirstEndSoundCount + 1;
-                            if (vtiFirstEndSoundCount == 2) {
-                                firstEndSoundStartFlag = true;
-                                vtiFirstEndSoundCount = 0;
-                                firstEndSoundEndFlag = true;
-                                vtiEndRegister = countColumn;
-                            }
-                        } else {
-                            vtiFirstEndSoundCount = 0;
+                        if (noiseSlope > 10) {
+                            vtiEndFlag = true;
+                            vtiRegionFlag = false;
+                            vtiRegionEndCount = 0;
                         }
                     }
                 } else {
-                    if (!firstEndSoundEndFlag) {
-                        if (noiseSlope > 15) {
-                            firstEndSoundEndFlag = true;
+                    if (!firstEndSoundStartFlag) {
+                        if (maxLowFrequencyPower_210Hz > 8 * averageLowFrequencyPowerData) {
+                            vtiRegionEndCount++;
+                            if (vtiRegionEndCount >= 2) {
+                                vtiRegionEndCount = 0;
+                                vtiEndRegister = countColumn - 1;
+                                LowFrequencyPowerDataRecordStart = false;
+                                firstEndSoundStartFlag = true;
+                            }
                         }
                     } else {
-                        if (!secondEndSoundStartFlag) {
-                            if (noiseSlope < 20) {
-                                secondEndSoundStartFlag = true;
-                                vtiEndRegister = countColumn;
-                            } else {
-                                if (noiseSlope > 20) {
-                                    vtiEndCount = vtiEndCount + 1;
-                                    if (vtiEndCount > 10) {
-                                        startLocationsList.add(vtiStartRegister);
-                                        endLocationsList.add(vtiEndRegister);
-                                        vtiEndFlag = false;
-                                        firstEndSoundStartFlag = false;
-                                        firstEndSoundEndFlag = false;
-                                        secondEndSoundStartFlag = false;
-                                        vtiEndCount = 1;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (secondEndSoundStartFlag) {
-                            if (!secondEndSoundEndFlag) {
-                                if (noiseSlope > 20) {
-                                    vtiSecondEndSoundCount = vtiSecondEndSoundCount + 1;
-                                    if (vtiSecondEndSoundCount > 10) {
-                                        secondEndSoundEndFlag = true;
-                                    }
-                                }
-                            } else {
-                                startLocationsList.add(vtiStartRegister);
-                                endLocationsList.add(vtiEndRegister);
-                                vtiEndFlag = false;
-                                firstEndSoundStartFlag = false;
-                                firstEndSoundEndFlag = false;
-                                secondEndSoundStartFlag = false;
-                                vtiEndCount = 1;
-                                secondEndSoundEndFlag = false;
-                                vtiSecondEndSoundCount = 0;
-                            }
-                        }
+                        startLocationsList.add(vtiStartRegister);
+                        endLocationsList.add(vtiEndRegister);
+                        vtiEndFlag = false;
+                        firstEndSoundStartFlag = false;
                     }
                 }
             }
@@ -1167,7 +1154,6 @@ public class GIS_Algorithm {
             startLocationsList.add(0.0);
             endLocationsList.add(0.0);
         }
-
         result.startLocationsOffline = startLocationsList.stream().mapToDouble(i -> i).toArray();
         result.endLocationsOffline = endLocationsList.stream().mapToDouble(i -> i).toArray();
         return result;

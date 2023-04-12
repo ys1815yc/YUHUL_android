@@ -20,13 +20,12 @@ public class BLEStatusReceiver extends BroadcastReceiver {
         final String action = intent.getAction();
         GIS_Log.d(TAG,"action = "+action);
         if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-            Log.d(TAG,"action = "+BluetoothLeService.ACTION_GATT_DISCONNECTED);
+            GIS_Log.d(TAG,"action = "+BluetoothLeService.ACTION_GATT_DISCONNECTED);
             //Logger.e("onReceive--" + HomePageActivity.mApplicationInBackground);
             if (!heartioApplication.mApplicationInBackground
            //         || !OTAFilesListingActivity.mApplicationInBackground
             //        || !DataLoggerHistoryList.mApplicationInBackground
                     ) {
-                //Log.d("BLEStatusReceiver","ACTION_GATT_DISCONNECTED");
 
                 if (MainActivity.currentFragmentTag.equals(Constants.ITRI_ULTRASOUND_FRAGMENT_TAG)){
                     Toast.makeText(context,
@@ -70,8 +69,8 @@ public class BLEStatusReceiver extends BroadcastReceiver {
            //     }
             }
         }else if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)){
-            Log.d(TAG,"action = "+BluetoothLeService.ACTION_GATT_CONNECTED);
-            Log.d(TAG,"MainActivity.currrentFragmentTag = "+MainActivity.currentFragmentTag);
+            GIS_Log.d(TAG,"action = "+BluetoothLeService.ACTION_GATT_CONNECTED);
+            GIS_Log.d(TAG,"MainActivity.currrentFragmentTag = "+MainActivity.currentFragmentTag);
             if (MainActivity.currentFragmentTag.equals(Constants.ITRI_ULTRASOUND_FRAGMENT_TAG)){
                 MainActivity.oFrag.putUiMsg(MainActivity.UI_MSG_ID_BLE_CONNECTED);
             }else if (MainActivity.currentFragmentTag.equals(Constants.INTERVAL_FRAGMENT_TAG)){

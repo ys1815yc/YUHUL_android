@@ -36,6 +36,7 @@ import com.gis.BLEConnectionServices.BluetoothLeService;
 import com.gis.CommonFragments.ProfileScanningFragment;
 import com.gis.CommonUtils.Constants;
 import com.gis.CommonUtils.Utils;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
@@ -120,12 +121,7 @@ public class intervalFragment extends Fragment {
                 if (msg.arg2>runCount){
                     runCount = msg.arg2;
                     queryIntervalDataToList(UserManagerCommon.mUserInfoCur.userID,runCount);
-                    /*for (int i=0;i<dataList.size();i++){
-                        Log.d(TAG," Vpk = " + String.format("%.2f",dataList.get(i).Vpk)
-                                +"  ,VTI= "+String.format("%.2f",dataList.get(i).VTI)
-                                + " \nSV="+String.format("%.2f",dataList.get(i).SV)
-                                +" ,HR= "+dataList.get(i).HR);
-                    }*/
+
                     showListDataToListView();
                 }
             }else if (msg.what == intervalForegroundService.ACTION_MESSAGE_ID_UPDATE_POWER_LEVEL){
@@ -134,12 +130,7 @@ public class intervalFragment extends Fragment {
                 if (msg.arg2>runCount){
                     runCount = msg.arg2;
                     queryIntervalDataToList(UserManagerCommon.mUserInfoCur.userID,runCount);
-                    /*for (int i=0;i<dataList.size();i++){
-                        Log.d(TAG," Vpk = " + String.format("%.2f",dataList.get(i).Vpk)
-                                +"  ,VTI= "+String.format("%.2f",dataList.get(i).VTI)
-                                + " \nSV="+String.format("%.2f",dataList.get(i).SV)
-                                +" ,HR= "+dataList.get(i).HR);
-                    }*/
+
                     showListDataToListView();
                 }
             }else if (msg.what == intervalForegroundService.ACTION_MESSAGE_ID_DISCONNECT){
@@ -160,56 +151,52 @@ public class intervalFragment extends Fragment {
         //------------------------------------------------------------------
         iHR = (int) MainActivity.mBVSignalProcessorPart2Selected.getHRAverage();
         if (iHR <= 0) {
-            Log.d(TAG,"HR fail.");
         } else {
-            Log.d(TAG,"HR = "+iHR);
         }
 
         //----------------------------------------------------------------------------------
         // for Vpk
         //-----------------------------------------------------------------------------------
         if (MainActivity.mBVSignalProcessorPart2Selected.getPeakVelocityAverage() <= 0) {
-            Log.d(TAG,"Vpk fail.");
+
         } else {
             doubleVpkAfterAngleAfterCali = MainActivity.mBVSignalProcessorPart2Selected.mDoubleVpkMeterAverageAfterAngleAfterCali;
-            Log.d(TAG,"Vpk = "+doubleVpkAfterAngleAfterCali*2.0);
+
         }
 
         //---------------------------------------------------------------
         // for VTI
         //---------------------------------------------------------------
         if(MainActivity.mBVSignalProcessorPart2Selected.getVTIAverage() <= 0) {
-            Log.d(TAG,"VTI  fail");
+
         }else {
             doubleVtiAfterAngleAfterCali = MainActivity.mBVSignalProcessorPart2Selected.mDoubleVtiCmAverageAfterAngleAfterCali;
-            Log.d(TAG,"VTI = "+doubleVtiAfterAngleAfterCali*2.0);
+
         }
 
         //-------------------------------------------------
         // for Stroke Volume
         //--------------------------------------------------
         if(MainActivity.mBVSignalProcessorPart2Selected.mDoubleStrokeVolumeAverage <= 0) {
-            Log.d(TAG,"SV  fail");
+
         }else {
             //doubleSVAngle = MainActivity.mBVSignalProcessorPart2Selected.mDoubleStrokeVolumeAverageAfterUserAngle;
             doubleSVAfterAngleAfterCali = MainActivity.mBVSignalProcessorPart2Selected.mDoubleStrokeVolumeAverageAfterAngleAfterCali;
             //doubleSVOri = MainActivity.mBVSignalProcessorPart2Selected.mDoubleStrokeVolumeAverageOri;
 
-            Log.d(TAG,"SV = "+doubleSVAfterAngleAfterCali*2.0);
         }
 
         //-------------------------------------------------
         // for Cardiac Output
         //--------------------------------------------------
         if(MainActivity.mBVSignalProcessorPart2Selected.getHRAverage() <= 0) {
-            Log.d(TAG,"CO  fail");
+
         }else {
             //doubleCOAngle = MainActivity.mBVSignalProcessorPart2Selected.mDoubleCOAverageAfterUserAngle;
             doubleCOAfterAngleAfterCali = MainActivity.mBVSignalProcessorPart2Selected.mDoubleCOAverageAfterAngleAfterCali;
             //doubleCOOri = MainActivity.mBVSignalProcessorPart2Selected.mDoubleCOAverageOri;
 
             //strCardiacOutput = String.format("%.2f", doubleCOAngle);
-            Log.d(TAG,"CO = "+doubleCOAfterAngleAfterCali*2.0);
         }
     }*/
 
@@ -303,7 +290,6 @@ public class intervalFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.d(TAG,"onCreateOptionMenu");
         inflater.inflate(R.menu.fake_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -343,7 +329,7 @@ public class intervalFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG,"onDestroy()");
+        GIS_Log.d(TAG,"onDestroy()");
         if (intervalForegroundService.isRunning){
             mActivity.unbindService(MainActivity.messengerServiceConnection);
         }
@@ -426,7 +412,6 @@ public class intervalFragment extends Fragment {
                         double tmpPerRate = 0.0;//MainActivity.mDoublePER * 100;
                         if (tmpData.fileName.contains("err")){
                             String errStr = tmpData.fileName.substring(tmpData.fileName.indexOf("err")+3,tmpData.fileName.indexOf("_."));
-                            //Log.d(TAG,"errStr = " + errStr);
                             double errPacketNum = Double.parseDouble(errStr);
                             tmpPerRate =  errPacketNum / (461 + errPacketNum) * 100;
                         }

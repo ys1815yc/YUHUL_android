@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.gis.heartio.BuildConfig;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.LoginDatabaseAdapter;
@@ -161,7 +162,7 @@ public class loginActivity extends AppCompatActivity {
         inputID = mAccountEditText.getText().toString().trim();
         inputPassword = mPWEditText.getText().toString().trim();
 
-        Log.d(TAG,"input ID: "+inputID+"  , input password: "+inputPassword);
+        GIS_Log.d(TAG,"input ID: "+inputID+"  , input password: "+inputPassword);
 
         try {
             loginDatabaseAdapter = loginDatabaseAdapter.open();
@@ -244,7 +245,7 @@ public class loginActivity extends AppCompatActivity {
                 (dialog, id) -> {
                     if (!pwEditText.getText().toString().equals(loginDatabaseAdapter.getSingleEntry("admin"))){
                         //showErrorDialog(getString(R.string.msg_original_pw_error));
-                        Log.d(TAG,"admin password error");
+                        GIS_Log.d(TAG,"admin password error");
                         Toast.makeText(loginActivity.this,
                                 getString(R.string.admin_pw_error),
                                 Toast.LENGTH_SHORT).show();
@@ -291,7 +292,7 @@ public class loginActivity extends AppCompatActivity {
         dialog.setOnClickListener(new myPrivacyPolicyDialog.OnClickListener() {
             @Override
             public void onAccept(Boolean isFirstTime) {
-                Log.e("MainActivity", "Policies accepted");
+                GIS_Log.d(TAG, "Policies accepted");
                 if (inputID.equals("admin")){
                     goToMainActivity(inputID);
                     loginActivity.this.setAdminPoliciesAccepted(true);
@@ -305,7 +306,7 @@ public class loginActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                Log.e("MainActivity", "Policies not accepted");
+                GIS_Log.d(TAG, "Policies not accepted");
                 if (inputID.equals("admin")){
                     loginActivity.this.setAdminPoliciesAccepted(false);
                 }

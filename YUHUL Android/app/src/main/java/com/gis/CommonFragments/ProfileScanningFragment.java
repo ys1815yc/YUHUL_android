@@ -80,6 +80,7 @@ import android.widget.Toast;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
 import com.gis.CommonUtils.UUIDDatabase;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 import com.gis.CommonUtils.Constants;
@@ -157,7 +158,6 @@ public class ProfileScanningFragment extends Fragment {
         @Override
         public void onScanResult(int callbackType, final ScanResult result) {
             /* Connect to device found */
-            //Log.i("callbackType", String.valueOf(callbackType));
             final BluetoothDevice btDevice = result.getDevice();
             //connectToDevice(btDevice);
             MainActivity mActivity = (MainActivity) getActivity();
@@ -181,7 +181,6 @@ public class ProfileScanningFragment extends Fragment {
                             if (btDevice.getName() != null &&
                                     (btDevice.getName().contains("HeartIO") || btDevice.getName().contains("ITRI") ||
                                             btDevice.getName().contains("AD8232") || btDevice.getName().toLowerCase(Locale.ROOT).contains("yuhul"))) {
-                                //Log.d("scanResult","device name= " + btDevice.getName());
                                 mLeDeviceListAdapter.addDevice(btDevice, result.getRssi());
                             }
 
@@ -201,7 +200,7 @@ public class ProfileScanningFragment extends Fragment {
         public void onBatchScanResults(List<ScanResult> results) {
             //Process a batch scan results
             for (ScanResult sr : results) {
-                Log.i("Scan Item: ", sr.toString());
+                GIS_Log.d(TAG, "Scan Item: " + sr.toString());
             }
         }
 
@@ -296,7 +295,7 @@ public class ProfileScanningFragment extends Fragment {
                 final int bleState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,BluetoothAdapter.ERROR);
                 switch (bleState){
                     case BluetoothAdapter.STATE_ON:
-                        Log.d(TAG,"Trun on bluetooth!!!!!!!!!");
+                        GIS_Log.d(TAG,"Trun on bluetooth!!!!!!!!!");
                         mLEScanner = mBluetoothAdapter.getBluetoothLeScanner();
                         break;
                 }

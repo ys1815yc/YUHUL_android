@@ -2,6 +2,7 @@ package com.gis.heartio.SignalProcessSubsystem;
 
 import android.util.Log;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 
 /**
@@ -9,7 +10,7 @@ import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
  */
 
 public class BVSignalFeatureBottom extends BVSignalIntegrator {
-
+    private static final String TAG = "BVSignalFeatureBottom";
     protected int mIntFeatureWindowSize;
     protected int mIntCurSelIdxInWindow;
     protected int mIntFeatureNextIdx;
@@ -109,7 +110,7 @@ public class BVSignalFeatureBottom extends BVSignalIntegrator {
             }
             return boolFound;
         }catch(Exception ex1){
-            Log.i("BVSignalIntegralFeature", "processBottom: ");
+            GIS_Log.e(TAG, "processBottom: " + ex1);
             return boolFound;
         }
     }

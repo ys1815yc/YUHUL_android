@@ -71,6 +71,8 @@
     <string name="image_splash_logo">Splash logo</string>
     <string name="hr_unit">beats/min</string>
     <string name="try_off">找位置</string>
+    <string name="record_hint">纪录中，请维持目前状态，并等待纪录完成</string>
+    <string name="record_finish">纪录完成</string>
     <string name="bluetooth_pair_unpair_failed">Pair/Unpair failed</string>
     <string name="navigation_drawer_child_home">Home</string>
     <string name="image_navigation_drawer_logo">navigation logo</string>

@@ -33,6 +33,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.gis.BLEConnectionServices.BluetoothLeService;
 import com.gis.CommonUtils.Constants;
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.R;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.LoginDatabaseAdapter;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
@@ -177,7 +178,7 @@ public class MoreFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.d(TAG,"onCreateOptionMenu");
+        GIS_Log.d(TAG,"onCreateOptionMenu");
         inflater.inflate(R.menu.fake_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -193,7 +194,6 @@ public class MoreFragment extends Fragment {
                 try{
                     // delay 0.02 second
                     Thread.sleep(80);
-                    //Log.d("More","Firmware Version: "+ MainActivity.fwVersion);
                     msg.append("Firmware Version: "+MainActivity.fwVersion+"\n");
                     getMACAddress();
                     Thread.sleep(80);
@@ -322,7 +322,7 @@ public class MoreFragment extends Fragment {
                         }else if(!newPass.getText().toString().equals(confirmPass.getText().toString())){
                             showErrorDialog(getString(R.string.msg_confirm_pw_error));
                         }else{
-                            Log.d(TAG,"Old passowrd: "+oldPass.getText().toString()+"   , new passowrd:  "+newPass.getText().toString());
+                            GIS_Log.d(TAG,"Old passowrd: "+oldPass.getText().toString()+"   , new passowrd:  "+newPass.getText().toString());
                             loginDatabaseAdapter.updateEntry(MainActivity.currentAdminID,newPass.getText().toString());
                             showErrorDialog(getString(R.string.msg_change_pw_successfully));
                         }
@@ -404,7 +404,6 @@ public class MoreFragment extends Fragment {
         if (BluetoothLeService.getConnectionState()==BluetoothLeService.STATE_CONNECTED){
             BluetoothGattCharacteristic macCharacteristic = mApplication.getBluetoothgattMacAddrcharacteristic();
             if (macCharacteristic !=null){
-                //Log.d("More","read MAC address.");
                 BluetoothLeService.readCharacteristic(macCharacteristic);
             }
         }
@@ -414,7 +413,7 @@ public class MoreFragment extends Fragment {
         if (BluetoothLeService.getConnectionState()==BluetoothLeService.STATE_CONNECTED){
             BluetoothGattCharacteristic udiCharacteristic = mApplication.getBluetoothgattUdiParacharacteristic();
             if (udiCharacteristic !=null){
-                Log.d("More","read UDI.");
+                GIS_Log.d(TAG,"read UDI.");
                 BluetoothLeService.readCharacteristic(udiCharacteristic);
             }
         }

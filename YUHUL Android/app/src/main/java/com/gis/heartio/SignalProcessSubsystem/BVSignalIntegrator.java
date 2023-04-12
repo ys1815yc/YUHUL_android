@@ -2,6 +2,7 @@ package com.gis.heartio.SignalProcessSubsystem;
 
 import android.util.Log;
 
+import com.gis.heartio.GIS_Log;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
 
@@ -10,6 +11,7 @@ import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
  */
 
 public abstract class BVSignalIntegrator {
+    private static final String TAG = "BVSignalIntegrator";
 
     public static enum ENUM_INTEGRAL_TYPE {INTEGRAL_TYPE_MAXIDX, INTEGRAL_TYPE_FREQ_AMP_MUL};
     ENUM_INTEGRAL_TYPE mEnumIntgralType = ENUM_INTEGRAL_TYPE.INTEGRAL_TYPE_MAXIDX;
@@ -67,7 +69,7 @@ public abstract class BVSignalIntegrator {
             mIntIntegralNextIdx = SystemConfig.mIntEndIdxNoiseLearn;
 
         }catch(Exception ex1){
-            Log.i("BCSignalIntegrator", "prepareStartIntegral: ");
+            GIS_Log.e(TAG, "prepareStartIntegral: " + ex1);
         }
     }
 
