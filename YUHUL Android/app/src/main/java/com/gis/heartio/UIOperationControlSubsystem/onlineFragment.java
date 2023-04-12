@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -25,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -52,6 +55,8 @@ import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.MyThreadQMsg;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.dataInfo;
 import com.gis.heartio.heartioApplication;
+
+import org.apache.commons.beanutils.ConvertUtils;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -140,6 +145,9 @@ public class onlineFragment extends Fragment {
     private ImageView greenLightImg;
 
     private boolean findFirstTime = true;
+    private EditText mStableStayTimeEditText;
+    private TextView mRecordStableTimeTextView;
+    private TextView mRecordHintTextView;
 
     public onlineFragment() {
         //SystemConfig.mEnumUltrasoundUIState = SystemConfig.ENUM_UI_STATE.ULTRASOUND_UI_STATE_ONLINE;
@@ -169,6 +177,7 @@ public class onlineFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item_online, container, false);
 
+
         resultVti = rootView.findViewById(R.id.resultVTILinearLayout);
         resultVpk = rootView.findViewById(R.id.resultVpkLinearLayout);
 
@@ -186,6 +195,15 @@ public class onlineFragment extends Fragment {
             mActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
             setHasOptionsMenu(true);
         }
+
+        mStableStayTimeEditText = rootView.findViewById(R.id.stableStayTime);
+        mRecordStableTimeTextView = rootView.findViewById(R.id.recordStableTime);
+        if(!SystemConfig.mTestMode){
+            mStableStayTimeEditText.setVisibility(View.GONE);
+            mRecordStableTimeTextView.setVisibility(View.GONE);
+        }
+        mRecordHintTextView = rootView.findViewById(R.id.recordHint);
+        mRecordHintTextView.setVisibility(View.GONE);
 
         mProgressBar = rootView.findViewById(R.id.recordProgressBar);
         mProgressBar.setVisibility(View.GONE);
@@ -223,13 +241,17 @@ public class onlineFragment extends Fragment {
                 GIS_Log.d(TAG, "onCheckedChanged b=" + b);
                 final boolean tb = b;
                 if (b) {
-                    if(!findFirstTime){
-                        for (int iVar = 0; iVar < SystemConfig.INT_SURFACE_VIEWS_ON_LINE_USE_SIZE; iVar++) {
-                            SurfaceHolder surfaceHolder = mSurfaceViewsOnline[iVar].getHolder();
-                            Canvas canvas = surfaceHolder.lockCanvas();
-                            canvas.drawColor(Color.WHITE);
-                            surfaceHolder.unlockCanvasAndPost(canvas);
+                    try{
+                        if(!findFirstTime){
+                            for (int iVar = 0; iVar < SystemConfig.INT_SURFACE_VIEWS_ON_LINE_USE_SIZE; iVar++) {
+                                SurfaceHolder surfaceHolder = mSurfaceViewsOnline[iVar].getHolder();
+                                Canvas canvas = surfaceHolder.lockCanvas();
+                                canvas.drawColor(Color.WHITE);
+                                surfaceHolder.unlockCanvasAndPost(canvas);
+                            }
                         }
+                    }catch (Exception ignored){
+
                     }
                     findFirstTime = false;
 
@@ -394,11 +416,15 @@ public class onlineFragment extends Fragment {
                     //strDebug = "**** New Measure: " + SystemConfig.mMyEventLogger.getDateStr() + " ***";
                     // SystemConfig.mMyEventLogger.appendDebugStr(strDebug, "");
                     startRecord();
+                    ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                    toneG.startTone(ToneGenerator.TONE_CDMA_CALLDROP_LITE, 100);
                     requireActivity().runOnUiThread(() -> {
                         mProgressBar.setVisibility(View.VISIBLE);
                         mProgressBar.setMax(14);
                         mProgressBar.setProgress(0);
                         mRecordSecondsCount.setVisibility(View.VISIBLE);
+                        mRecordHintTextView.setText(R.string.record_hint);
+                        mRecordHintTextView.setVisibility(View.VISIBLE);
                         if (!SystemConfig.mTestMode && mCountdownTimer != null) {
                             mCountdownTimer.cancel();
                         }
@@ -414,6 +440,16 @@ public class onlineFragment extends Fragment {
                                 mProgressBar.setProgress(0);
                                 mProgressBar.setVisibility(View.GONE);
                                 mRecordSecondsCount.setVisibility(View.GONE);
+                                findFirstTime = false;
+
+                                ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                                toneG.startTone(ToneGenerator.TONE_CDMA_CALLDROP_LITE, 100);
+                                try{
+                                    Thread.sleep(250);
+                                } catch(InterruptedException e){
+                                    e.printStackTrace();
+                                }
+                                toneG.startTone(ToneGenerator.TONE_CDMA_CALLDROP_LITE, 100);
                             }
                         };
                         mCountdownTimer.start();
@@ -427,6 +463,9 @@ public class onlineFragment extends Fragment {
                     stopRecord();
                     mTBtnTryNotify.setEnabled(true);
                     mTBtnTryNotify.setChecked(false);
+                    mRecordHintTextView.setText(R.string.record_finish);
+                    mRecordHintTextView.setVisibility(View.VISIBLE);
+                    new Handler().postDelayed(() -> mRecordHintTextView.setVisibility(View.GONE), 5000);
                 }
             }
         });
@@ -1035,6 +1074,15 @@ public class onlineFragment extends Fragment {
             });
         }
     }
+    int countTime;
+
+    Runnable mstableStayCountdownRunnable = new Runnable(){
+        @Override
+        public void run() {
+            mTBtnRec.performClick();
+        }};
+
+    Handler mStableStayCountdownHandle;
 
     public void updateHRValue(final int HR, final boolean isStable) {
         if (getActivity() != null) {
@@ -1045,8 +1093,17 @@ public class onlineFragment extends Fragment {
                         mTBtnRec.setVisibility(View.VISIBLE);
                         mTBtnRec.setTextColor(Color.argb(255, 0, 117, 0));
                         greenLightImg.setVisibility(View.VISIBLE);
+                        if(mStableStayCountdownHandle == null){
+                            mStableStayCountdownHandle = new Handler();
+                            countTime = Integer.parseInt(mStableStayTimeEditText.getText().toString());
+                            mStableStayCountdownHandle.postDelayed(mstableStayCountdownRunnable,countTime * 1000L);
+                        }
                     }
                 } else {
+                    if(mStableStayCountdownHandle != null){
+                        mStableStayCountdownHandle.removeCallbacks(mstableStayCountdownRunnable);
+                        mStableStayCountdownHandle = null;
+                    }
                     greenLightImg.setVisibility(View.INVISIBLE);
                     mTBtnRec.setTextColor(Color.BLACK);
                     if(!SystemConfig.mTestMode && !mTBtnRec.isChecked()){
@@ -1293,7 +1350,10 @@ public class onlineFragment extends Fragment {
         if (MainActivity.mIsNotifyEnabled) {
             tryEndAction(true);
         }
-
+        if(mStableStayCountdownHandle != null){
+            mStableStayCountdownHandle.removeCallbacks(mstableStayCountdownRunnable);
+            mStableStayCountdownHandle = null;
+        }
         super.onDestroy();
     }
 

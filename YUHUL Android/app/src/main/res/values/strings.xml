@@ -649,4 +649,6 @@
     <string name="ble_scan">BLE scan</string>
     <string name="ble_connect">BLE connect</string>
 
+    <string name="record_hint">Recording,Wait to finish</string>
+    <string name="record_finish">Finished Recording</string>
 </resources>
