@@ -4,6 +4,8 @@ package com.gis.heartio.SignalProcessSubsystem;
  * Created by Cavin on 2018/1/2.
  */
 
+import static com.gis.heartio.GIS_codeVerification.storeByteToRawData8K;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
@@ -142,7 +144,7 @@ public class RawDataProcessor {
     // Audio Classifier
     private AudioClassifier audioClassifier = null;
     private  TensorAudio tensorAudio = null;
-    private int classificationIntervalPts = 8000; //原本4000
+    private int classificationIntervalPts = 4000; //原本4000
 
     private final String MODEL_FILE = "03_3.tflite";  //"soundclassifier_with_metadata.tflite";
      //"USPA_model_14.tflite";
@@ -813,27 +815,9 @@ public class RawDataProcessor {
             mShortUltrasoundDataBeforeFilter[mIntDataNextIndex] = (short) iValue;
             mShortUltrasoundData[mIntDataNextIndex] = (short) MainActivity.mBVSignalProcessorPart1.butterworthUSHigh.filter(mShortUltrasoundData[mIntDataNextIndex]);
 //            mMyDataFilter.filterProcessForData(mIntDataNextIndex);
+//            GIS_Log.d("iValue", String.valueOf(iValue));
         }
 
-        /* 驗證 mShortUltrasoundDataBeforeFilter的value 2023/03/03 by Doris*/
-//        for(int i=0; i< mShortUltrasoundDataBeforeFilter.length; i+=8000){
-
-//        }
-//        if (mIntDataNextIndex == 0 ||
-//                mIntDataNextIndex == 8000 ||
-//                mIntDataNextIndex == 16000 ||
-//                mIntDataNextIndex == 24000||
-//                mIntDataNextIndex == 32000||
-//                mIntDataNextIndex == 40000 ||
-//                mIntDataNextIndex == 48000 ||
-//                mIntDataNextIndex == 56000 ||
-//                mIntDataNextIndex == 64000 ||
-//                mIntDataNextIndex == 72000 ||
-//                mIntDataNextIndex == 80000 ||
-//                mIntDataNextIndex == 88000 ||
-//                mIntDataNextIndex == 96000 ||
-//                mIntDataNextIndex == 104000){
-//        }
 //        iByteIndex = mIntDataNextIndex * SystemConfig.mInt1DataBytes;
 
 //        if(mIntDataNextIndex < (mByteArrayUltrasoundDataOnLineSave.length / 2)) {
@@ -884,11 +868,15 @@ public class RawDataProcessor {
             mIntTryDataNextIndex++;
             mIntDataNextIndex++;
 
-            if (mIntDataNextIndex == SystemConfig.mIntUltrasoundSamplesMaxSizeForRun) {
+            if(mIntDataNextIndex % classificationIntervalPts == 0){ // 1秒呼叫一次
+                GIS_VoiceAI.judgeVoice(tensorAudio, audioClassifier, mShortUltrasoundDataBeforeFilter, mIntDataNextIndex);
+                GIS_VoiceAI.isPA();
+                GIS_Log.e("mIntDataNextIndex", String.valueOf(mIntDataNextIndex));
+            }
+
+            // 長度mIntUltrasoundSamplesMaxSizeForRun=112000，算到這裡index歸零
+            if (mIntDataNextIndex >= SystemConfig.mIntUltrasoundSamplesMaxSizeForRun) {
                 mIntDataNextIndex=0;
-//            }else if((mIntDataNextIndex % classificationIntervalPts == 0) && isHRStableCount>=3){ //加上HR穩定條件 2023/02/13 by Doris
-            }else if((mIntDataNextIndex+1) % classificationIntervalPts == 0){ // 1秒呼叫一次
-                GIS_VoiceAI.judgeVoice(tensorAudio, audioClassifier, mShortUltrasoundDataBeforeFilter, mIntDataNextIndex+1);
             }
         }
     }

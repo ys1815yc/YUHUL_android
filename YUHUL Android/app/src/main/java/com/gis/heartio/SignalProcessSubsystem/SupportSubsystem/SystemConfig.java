@@ -1,6 +1,9 @@
 package com.gis.heartio.SignalProcessSubsystem.SupportSubsystem;
 
 import com.gis.heartio.SignalProcessSubsysII.utilities.wuDopplerInfo;
+import com.gis.heartio.UIOperationControlSubsystem.MainActivity;
+
+import java.util.Arrays;
 
 /**
  * Created by Cavin on 2017/12/29.
@@ -471,9 +474,10 @@ public class SystemConfig {
     public static final int mIntEcgSegCnt = 4;  // 500 / 125
 
     /* 聲音AI參數 2022/12/14 by Doris */
-//    public static int isPAvoice = 0;
+    public static int continuePA = 0;
+    public static int continueNotPA = 0;
     public static short voiceIndex = 0;
-    public static String[] voiceCategory = new String[10];
+    public static String[] voiceCategory = new String[]{"BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG"};
 
     public static void initItriDeviceCommon(){
         //

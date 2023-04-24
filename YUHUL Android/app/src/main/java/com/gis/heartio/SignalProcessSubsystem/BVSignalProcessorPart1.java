@@ -639,7 +639,9 @@ public class BVSignalProcessorPart1 {
                                 GIS_Log.d(TAG,"HR stable!!!!!!!!!!!");
                             }
                         }
-                        MainActivity.oFrag.updateHRValue(tmpHR,isPA());
+                        /*判斷聲音類別是否為PA超過8個 2023/03/16 by Doris*/
+//                        MainActivity.oFrag.updateHRValue(tmpHR,
+//                                (SystemConfig.continuePA >= 4 && SystemConfig.continueNotPA < 3 && isPA()));
                         lastHR = tmpHR;
                     }
                 }
@@ -729,7 +731,7 @@ public class BVSignalProcessorPart1 {
                 } else {
                     if(SystemConfig.mIntVpkAlgorithm == SystemConfig.INT_VPK_ALGORITHM_0_SNSI_GM){
                         processNoiseAndSignalByWu();    //--- for Algorithm SNSI_GM
-                        GIS_Log.e(TAG, "processNoiseAndSignalByWu");
+//                        GIS_Log.e(TAG, "processNoiseAndSignalByWu");
                         //*j+,0524  SNR
                         processNoiseAndSignalBaseAndMaxIdxLevel();    //--- for Algorithm SNR_AMP & SNR_PSD
                         //*j+,0524  SNR */

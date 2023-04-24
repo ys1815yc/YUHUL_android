@@ -81,7 +81,7 @@ public class GIS_codeVerification {
     /* 將原始raw data以8K儲存下來 2023/02/04 by Doris */
     public static void storeByteToRawData8K(short[] rawArray){
         try{
-            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/Doris";
+            String exportDirPath = "/storage/emulated/0/Android/data/com.gis.heartio/files/Documents/001";
             SimpleDateFormat df;
             df = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String strDate = df.format(new Date());

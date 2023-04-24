@@ -1084,9 +1084,11 @@ public class onlineFragment extends Fragment {
 
     Handler mStableStayCountdownHandle;
 
+    //舊版顯示勾勾機制(AI+HR穩定)
     public void updateHRValue(final int HR, final boolean isStable) {
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
+//                GIS_Log.e("GIS_VoiceAI", String.valueOf(isStable));
                 if (isStable) {
 //                    mHRValueTextView.setTextColor(Color.BLACK);
                     if (!mTBtnRec.isChecked()) {
@@ -1113,6 +1115,37 @@ public class onlineFragment extends Fragment {
 //                    mHRValueTextView.setTextColor(Color.GRAY);
                 }
 //                mHRValueTextView.setText(String.format(Locale.US, "%d", HR));
+            });
+        }
+    }
+
+    /* 判斷聲音穩定&顯示勾勾圖片(更新版) 2023/04/13 by Doris */
+    public void updateHRValue(final boolean isStable) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+//                GIS_Log.e("GIS_VoiceAI", String.valueOf(isStable));
+                if (isStable) {
+                    if (!mTBtnRec.isChecked()) {
+                        mTBtnRec.setVisibility(View.VISIBLE);
+                        mTBtnRec.setTextColor(Color.argb(255, 0, 117, 0));
+                        greenLightImg.setVisibility(View.VISIBLE);
+                        if(mStableStayCountdownHandle == null){
+                            mStableStayCountdownHandle = new Handler();
+                            countTime = Integer.parseInt(mStableStayTimeEditText.getText().toString());
+                            mStableStayCountdownHandle.postDelayed(mstableStayCountdownRunnable,countTime * 1000L);
+                        }
+                    }
+                } else {
+                    if(mStableStayCountdownHandle != null){
+                        mStableStayCountdownHandle.removeCallbacks(mstableStayCountdownRunnable);
+                        mStableStayCountdownHandle = null;
+                    }
+                    greenLightImg.setVisibility(View.INVISIBLE);
+                    mTBtnRec.setTextColor(Color.BLACK);
+                    if(!SystemConfig.mTestMode && !mTBtnRec.isChecked()){
+                        mTBtnRec.setVisibility(View.INVISIBLE);
+                    }
+                }
             });
         }
     }
