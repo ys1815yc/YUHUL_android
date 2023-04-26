@@ -20,6 +20,8 @@ public class GIS_Algorithm {
     private final static int LOW_FREQUENCY_SEG_OFFSET_390HZ = 13;
     private final static int LOW_FREQUENCY_SEG_OFFSET_210HZ = 7;
 
+    private final static int HIGH_FREQUENCY_SEG_OFFSET_3752HZ = 120;
+
     private final static int HUMAN_C = 1540;
 
     private enum WaveCondition{
@@ -1023,12 +1025,17 @@ public class GIS_Algorithm {
             double maxLowFrequencyPower_210Hz;
             double[] temp;
 
-            for (int countRow = 0; countRow < row; countRow++) {
+            for (int countRow = 0 ; countRow < row ; countRow++) {
+                if(countRow >= HIGH_FREQUENCY_SEG_OFFSET_3752HZ){
+                    STFT[countRow][countColumn] = 0;
+                }
+
                 if (countRow < LOW_FREQUENCY_SEG_OFFSET_390HZ) {
                     HighPassFilterSTFT_390Hz[countColumn][countRow] = 0;
                 } else {
                     HighPassFilterSTFT_390Hz[countColumn][countRow] = STFT[countRow][countColumn];
                 }
+
                 if (countRow < LOW_FREQUENCY_SEG_OFFSET_210HZ) {
                     HighPassFilterSTFT_210Hz[countColumn][countRow] = 0;
                 } else {
@@ -1044,7 +1051,7 @@ public class GIS_Algorithm {
             maxPower = maxFrom1DArray(HighPassFilterSTFT_390Hz[countColumn]);
 
             temp = new double[3]; //LowFrequencySlope
-            for (int j = 0; j < temp.length; j++) {
+            for (int j = 0 ; j < temp.length ; j++) {
                 temp[j] = (nipc_210Hz[j + 7] - nipc_210Hz[j + 6]) * 1000;
             }
             averageLowFrequencySlope = mean(temp);
@@ -1069,7 +1076,7 @@ public class GIS_Algorithm {
                             double sumMinPower = 0;
                             if (LowFrequencyPowerDataCount > 4) {
                                 Arrays.sort(LowFrequencyPowerDataRegister);
-                                for (int n = 0; n < 5; n++) {
+                                for (int n = 0 ; n < 5 ; n++) {
                                     sumMinPower = sumMinPower + LowFrequencyPowerDataRegister[n];
                                 }
                                 averageLowFrequencyPowerData = sumMinPower / 5;
