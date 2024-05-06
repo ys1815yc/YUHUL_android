@@ -14,6 +14,7 @@ import com.gis.heartio.UIOperationControlSubsystem.UserManagerCommon;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by brandon on 2017/8/14.
@@ -39,9 +40,17 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
     public static final String KEY_USER_ID_NUMBER = "IdentityNumber";
     public static final String KEY_USER_FIRST_NAME = "FirstName";
     public static final String KEY_USER_LAST_NAME = "LastName";
+    public static final String KEY_USER_HOSPITAL = "Hospital";
+    public static final String KEY_USER_NAME = "Name";
     public static final String KEY_USER_GENDER = "Gender";
+    public static final String KEY_USER_PHONE_NUMBER = "phoneNumber";
     public static final String KEY_USER_BIRTHDAY = "BirthDay";
     public static final String KEY_USER_HEIGHT = "Height";
+    public static final String KEY_USER_JOB = "Job";
+    public static final String KEY_USER_MARRY = "Marry";
+    public static final String KEY_USER_NATION = "Nation";
+    public static final String KEY_USER_OPERATION = "Operation";
+    public static final String KEY_USER_DISEASE = "Disease";
     public static final String KEY_USER_PULM_DIAMETER = "PulmDia";
     public static final String KEY_USER_PWORD = "PassWord";
     public static final String KEY_USER_EMAIL = "Email";
@@ -97,19 +106,35 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         int iReturn;
 
+//        String DATABASE_CREATE_TABLE_USER =
+//                "create table " + STR_TABLE_USER + "("
+//                        + KEY_USER_PRIMARY + " INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,"
+//                        + KEY_USER_ID_NUMBER + " TEXT, "
+//                        + KEY_USER_FIRST_NAME + " TEXT, "
+//                        + KEY_USER_LAST_NAME + " TEXT, "
+//                        + KEY_USER_HEIGHT_TO_CSA + " TEXT, "
+//                        + KEY_USER_BLE_MAC + " TEXT, "
+//                        + KEY_USER_HEIGHT + " INTEGER, "
+//                        + KEY_USER_PULM_DIAMETER + " REAL, "
+//                        + KEY_USER_ANGLE + " INTEGER, "
+//                        + KEY_USER_GENDER + " INTEGER, "
+//                        + KEY_USER_AGE + " INTEGER)";
+
         String DATABASE_CREATE_TABLE_USER =
                 "create table " + STR_TABLE_USER + "("
                         + KEY_USER_PRIMARY + " INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,"
                         + KEY_USER_ID_NUMBER + " TEXT, "
-                        + KEY_USER_FIRST_NAME + " TEXT, "
-                        + KEY_USER_LAST_NAME + " TEXT, "
-                        + KEY_USER_HEIGHT_TO_CSA + " TEXT, "
-                        + KEY_USER_BLE_MAC + " TEXT, "
-                        + KEY_USER_HEIGHT + " INTEGER, "
+                        + KEY_USER_NAME + " TEXT, "
+                        + KEY_USER_PHONE_NUMBER + " TEXT, "
+                        + KEY_USER_BIRTHDAY + " TEXT, "
+                        + KEY_USER_HOSPITAL + " TEXT, "
+                        + KEY_USER_JOB + " TEXT, "
+                        + KEY_USER_NATION + " TEXT, "
+                        + KEY_USER_OPERATION + " TEXT, "
+                        + KEY_USER_DISEASE + " TEXT, "
                         + KEY_USER_PULM_DIAMETER + " REAL, "
-                        + KEY_USER_ANGLE + " INTEGER, "
                         + KEY_USER_GENDER + " INTEGER, "
-                        + KEY_USER_AGE + " INTEGER)";
+                        + KEY_USER_MARRY + " INTEGER)";
 
         db.execSQL(DATABASE_CREATE_TABLE_USER);
 
@@ -181,15 +206,17 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
                         "CREATE TABLE TempTable("
                                 + KEY_USER_PRIMARY + " INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,"
                                 + KEY_USER_ID_NUMBER + " TEXT, "
-                                + KEY_USER_FIRST_NAME + " TEXT, "
-                                + KEY_USER_LAST_NAME + " TEXT, "
-                                + KEY_USER_HEIGHT_TO_CSA + " TEXT, "
-                                + KEY_USER_BLE_MAC + " TEXT, "
-                                + KEY_USER_HEIGHT + " INTEGER, "
+                                + KEY_USER_NAME + " TEXT, "
+                                + KEY_USER_PHONE_NUMBER + " TEXT, "
+                                + KEY_USER_BIRTHDAY + " TEXT, "
+                                + KEY_USER_HOSPITAL + " TEXT, "
+                                + KEY_USER_JOB + " TEXT, "
+                                + KEY_USER_NATION + " TEXT, "
+                                + KEY_USER_OPERATION + " TEXT, "
+                                + KEY_USER_DISEASE + " TEXT, "
                                 + KEY_USER_PULM_DIAMETER + " REAL, "
-                                + KEY_USER_ANGLE + " INTEGER, "
                                 + KEY_USER_GENDER + " INTEGER, "
-                                + KEY_USER_AGE + " INTEGER)";
+                                + KEY_USER_MARRY + " INTEGER)";
                 db.execSQL(DATABASE_ALTER_TEMP);
                 DATABASE_ALTER_TEMP = "INSERT INTO TempTable SELECT * FROM "+STR_TABLE_USER;
                 db.execSQL(DATABASE_ALTER_TEMP);
@@ -201,9 +228,11 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
         }
     }
 
+    // 每次打開歷史紀錄後都會執行
     @Override
     public void onOpen(SQLiteDatabase db) {
         boolean boolExist1, boolExist2;
+//        Log.d(TAG, "onOpen");
 
         super.onOpen(db);
 
@@ -294,6 +323,7 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
         addUserToDataBase(userInfo1);
     }*/
 
+    // 實際沒用到
     public void addGISTesterToDatabase(){
         userInfo userInfo1;
         //String[] userIDs=   {"Masha", "Amanda","奕仁","Una","Annie","Doris","Kay friend","Chiver","Darren","Serena","Paggy","Cavin", "Hugo","JF", "Jimmy", "旻哲", "Kay", "Rosa"};
@@ -322,7 +352,7 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
     }
 
 
-
+    // 實際沒用到
     public void addUserToDataBase(userInfo userInfo) {
         long lnReturn;
         try {
@@ -384,6 +414,7 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
         }
     }
 
+    // 新增 data 到 SQLite 資料庫
     public long addDataInfoToDB(dataInfo measureInfo){
         ContentValues cv1;
         long lnReturn = -1;
@@ -612,8 +643,13 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
 
     private String[] getAllFieldsFromTable(SQLiteDatabase db, String strTableName){
         String []  strColumnNames;
+        int strColumnCount, index1, index2, index3;
         Cursor c = db.query(strTableName,null,null,null,null,null,null);
         strColumnNames = c.getColumnNames();
+        strColumnCount = c.getColumnCount();
+        index1 = c.getColumnIndex(KEY_DATA_TABLE_HR);
+        index2 = c.getColumnIndex(KEY_DATA_TABLE_FILE_NAME);
+        index3 = c.getColumnIndex(KEY_USER_BLE_MAC);
         c.close();
         /*
         Cursor c = db.rawQuery("SELECT * FROM " + strTableName + " WHERE 0", null);
@@ -623,6 +659,10 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
         } finally {
             c.close();
         }*/
+        Log.d(TAG, Arrays.toString(strColumnNames));
+        Log.d(TAG, String.valueOf(index1));
+        Log.d(TAG, String.valueOf(index2));
+        Log.d(TAG, String.valueOf(index3));
         return strColumnNames;
     }
 
@@ -638,10 +678,11 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
             userIds = new String[1];
             userIds[0] = strUserID;
             columns = new String[]{KEY_USER_PRIMARY, KEY_USER_ID_NUMBER,
-                    KEY_USER_FIRST_NAME, KEY_USER_LAST_NAME,
-                    KEY_USER_HEIGHT_TO_CSA, KEY_USER_HEIGHT,
-                    KEY_USER_PULM_DIAMETER, KEY_USER_ANGLE,
-                    KEY_USER_BLE_MAC, KEY_USER_GENDER, KEY_USER_AGE};
+                    KEY_USER_NAME, KEY_USER_PHONE_NUMBER,
+                    KEY_USER_BIRTHDAY, KEY_USER_HOSPITAL,
+                    KEY_USER_JOB, KEY_USER_NATION,
+                    KEY_USER_OPERATION, KEY_USER_DISEASE,
+                    KEY_USER_PULM_DIAMETER, KEY_USER_GENDER, KEY_USER_MARRY};
             String selection = KEY_USER_PRIMARY + "=?";
             mCursor = inputHelper.mDBWrite.query(
                     STR_TABLE_USER,
@@ -662,19 +703,28 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
             }
 
             mUserInfo.userID = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_ID_NUMBER));
-            mUserInfo.lastName = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_LAST_NAME));
-            mUserInfo.firstName = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_FIRST_NAME));
-            mUserInfo.heightToCSA = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_HEIGHT_TO_CSA));
-            mUserInfo.height = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_HEIGHT));
-            //mUserInfo.pulmDiameter = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_PULM_DIAMETER));
+            mUserInfo.name = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_NAME));
+            mUserInfo.phoneNumber = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_PHONE_NUMBER));
+            mUserInfo.birthday = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_BIRTHDAY));
+            mUserInfo.hospital = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_HOSPITAL));
+            mUserInfo.job = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_JOB));
+            mUserInfo.nationality = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_NATION));
+            mUserInfo.operation = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_OPERATION));
+            mUserInfo.disease = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_DISEASE));
+//            mUserInfo.lastName = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_LAST_NAME));
+//            mUserInfo.firstName = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_FIRST_NAME));
+//            mUserInfo.heightToCSA = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_HEIGHT_TO_CSA));
+//            mUserInfo.height = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_HEIGHT));
+//            mUserInfo.pulmDiameter = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_PULM_DIAMETER));
             mUserInfo.pulmDiameter = mCursor.getDouble(mCursor.getColumnIndexOrThrow(KEY_USER_PULM_DIAMETER));
-            mUserInfo.angle = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_ANGLE));
+//            mUserInfo.angle = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_ANGLE));
             mUserInfo.gender = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_GENDER));
-            mUserInfo.age = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_AGE));
-            int idx =mCursor.getColumnIndexOrThrow(KEY_USER_BLE_MAC);
-            if (idx!=-1){
-                mUserInfo.bleMac = mCursor.getString(idx);
-            }
+            mUserInfo.marry = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_MARRY));
+//            mUserInfo.age = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_AGE));
+//            int idx =mCursor.getColumnIndexOrThrow(KEY_USER_BLE_MAC);
+//            if (idx!=-1){
+//                mUserInfo.bleMac = mCursor.getString(idx);
+//            }
 
             //getUserUltrasoundParameterFromObject();
 
@@ -697,10 +747,11 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
             mUserInfo = new userInfo();
             //userIds = new String[1];
             columns = new String[]{KEY_USER_PRIMARY, KEY_USER_ID_NUMBER,
-                    KEY_USER_FIRST_NAME, KEY_USER_LAST_NAME,
-                    KEY_USER_HEIGHT_TO_CSA, KEY_USER_HEIGHT,
-                    KEY_USER_PULM_DIAMETER, KEY_USER_ANGLE,
-                    KEY_USER_BLE_MAC};
+                    KEY_USER_NAME, KEY_USER_PHONE_NUMBER,
+                    KEY_USER_BIRTHDAY, KEY_USER_HOSPITAL,
+                    KEY_USER_JOB, KEY_USER_NATION,
+                    KEY_USER_OPERATION, KEY_USER_DISEASE,
+                    KEY_USER_PULM_DIAMETER, KEY_USER_GENDER, KEY_USER_MARRY};
             String selection = KEY_USER_PRIMARY + "=?";
             mCursor = inputHelper.mDBWrite.query(
                     STR_TABLE_USER,
@@ -716,19 +767,22 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
             for (int i = 0; i<mCursor.getCount(); i++){
                 mUserInfo.userCount = mCursor.getInt(mCursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_PRIMARY));
                 mUserInfo.userID = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_ID_NUMBER));
-                mUserInfo.lastName = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_LAST_NAME));
-                mUserInfo.firstName = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_FIRST_NAME));
-                mUserInfo.heightToCSA = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_HEIGHT_TO_CSA));
-                mUserInfo.height = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_HEIGHT));
+                mUserInfo.name = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_NAME));
+                mUserInfo.phoneNumber = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_PHONE_NUMBER));
+                mUserInfo.birthday = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_BIRTHDAY));
+                mUserInfo.hospital = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_HOSPITAL));
+                mUserInfo.job = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_JOB));
+                mUserInfo.nationality = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_NATION));
+                mUserInfo.operation = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_OPERATION));
+                mUserInfo.disease = mCursor.getString(mCursor.getColumnIndexOrThrow(KEY_USER_DISEASE));
                 //mUserInfo.pulmDiameter = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_PULM_DIAMETER));
                 mUserInfo.pulmDiameter = mCursor.getDouble(mCursor.getColumnIndexOrThrow(KEY_USER_PULM_DIAMETER));
-                mUserInfo.angle = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_ANGLE));
                 mUserInfo.gender = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_GENDER));
-                mUserInfo.age = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_AGE));
-                int idx =mCursor.getColumnIndexOrThrow(KEY_USER_BLE_MAC);
-                if (idx!=-1){
-                    mUserInfo.bleMac = mCursor.getString(idx);
-                }
+                mUserInfo.marry = mCursor.getInt(mCursor.getColumnIndexOrThrow(KEY_USER_MARRY));
+//                int idx =mCursor.getColumnIndexOrThrow(KEY_USER_BLE_MAC);
+//                if (idx!=-1){
+//                    mUserInfo.bleMac = mCursor.getString(idx);
+//                }
                 resultList.add(mUserInfo);
                 mCursor.moveToNext();
             }

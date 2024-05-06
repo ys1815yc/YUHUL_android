@@ -91,44 +91,42 @@ public class userFragment extends Fragment {
         mUserListView.setAdapter(adapter);*/
         //adapter.notifyDataSetChanged();
         mUserListCursorAdapter.notifyDataSetChanged();
-        mUserListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
-                if (mUserListCursorAdapter.getCount()>0){
-                    final Cursor cursor = (Cursor) mUserListCursorAdapter.getItem(i);
-                    final String selectStr = cursor.getString(0);
-                    final int selectedIdx = i;
-                    GIS_Log.d(TAG,"Selected String = "+selectStr);
-                    AlertDialog alertDialog = new AlertDialog.Builder(mActivity).create(); //Read Update
-                    alertDialog.setTitle("Action");
-                    //alertDialog.setMessage("Upgrade Text Here");
-                    alertDialog.setButton( Dialog.BUTTON_POSITIVE, getString(R.string.action_edit), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            updateWithAddEditUserFragment(userFragment.this,selectStr);
-                        }
-                    });
+        mUserListView.setOnItemClickListener((adapterView, view, i, l) -> {
+            if (mUserListCursorAdapter.getCount()>0){
+                final Cursor cursor = (Cursor) mUserListCursorAdapter.getItem(i);
+                final String selectStr = cursor.getString(0);
+                final int selectedIdx = i;
+                GIS_Log.d(TAG,"Selected String = "+selectStr);
+                Log.d(TAG,"Selected String = "+selectStr);
+                AlertDialog alertDialog = new AlertDialog.Builder(mActivity).create(); //Read Update
+                alertDialog.setTitle("Action");
+                //alertDialog.setMessage("Upgrade Text Here");
+                alertDialog.setButton( Dialog.BUTTON_POSITIVE, getString(R.string.action_edit), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        updateWithAddEditUserFragment(userFragment.this,selectStr);
+                    }
+                });
 
-                    alertDialog.setButton( Dialog.BUTTON_NEGATIVE, getString(R.string.action_del), new DialogInterface.OnClickListener()    {
-                        public void onClick(DialogInterface dialog, int which) {
-                            String deleteID = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_ID_NUMBER));
-                            String strMsg = getString(R.string.msg_sure_del_user) +deleteID;
-                            showDialogForDelete(strMsg, deleteID);
-                        }
-                    });
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.action_select), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            SharedPreferences sharedPref = mActivity.getPreferences(Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putInt(IwuSQLHelper.KEY_CURRENT_USER, Integer.parseInt(selectStr));
-                            editor.commit();
-                            mUserListCursorAdapter.notifyDataSetChanged();
-                            UserManagerCommon.initUserUltrasoundParameter(IwuSQLHelper.getUserInfoFromPrimaryID(selectStr,mHelper));
-                            //MainActivity.mRawDataProcessor.initStrBaseFolder();
-                            MainActivity.mRawDataProcessor.updateStrBaseFolder();
-                        }
-                    });
-                    alertDialog.show();  //<-- See This!
-                }
+                alertDialog.setButton( Dialog.BUTTON_NEGATIVE, getString(R.string.action_del), new DialogInterface.OnClickListener()    {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String deleteID = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_ID_NUMBER));
+                        String strMsg = getString(R.string.msg_sure_del_user) +deleteID;
+                        showDialogForDelete(strMsg, deleteID);
+                    }
+                });
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.action_select), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences sharedPref = mActivity.getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putInt(IwuSQLHelper.KEY_CURRENT_USER, Integer.parseInt(selectStr));
+                        editor.commit();
+                        mUserListCursorAdapter.notifyDataSetChanged();
+                        UserManagerCommon.initUserUltrasoundParameter(IwuSQLHelper.getUserInfoFromPrimaryID(selectStr,mHelper));
+                        //MainActivity.mRawDataProcessor.initStrBaseFolder();
+                        MainActivity.mRawDataProcessor.updateStrBaseFolder();
+                    }
+                });
+                alertDialog.show();  //<-- See This!
             }
         });
 
@@ -227,15 +225,15 @@ public class userFragment extends Fragment {
 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
-            TextView firstName = view.findViewById(R.id.firstNameTextView);
-            String strFirstName = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_FIRST_NAME));
-            firstName.setText(strFirstName);
-            TextView lastName = view.findViewById(R.id.lastNameTextView);
-            String strLastName = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_LAST_NAME));
-            lastName.setText(strLastName);
-            TextView userID = view.findViewById(R.id.idTextView);
-            String strUserID = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_ID_NUMBER));
-            userID.setText(strUserID);
+            TextView name = view.findViewById(R.id.nameTextView);
+            String strName = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_NAME));
+            name.setText(strName);
+            TextView phone = view.findViewById(R.id.phoneTextView);
+            String strPhone = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_PHONE_NUMBER));
+            phone.setText(strPhone);
+//            TextView userID = view.findViewById(R.id.idTextView);
+//            String strUserID = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_USER_ID_NUMBER));
+//            userID.setText(strUserID);
 
             ImageView currentUserIV = view.findViewById(R.id.selectUserImageView);
             //String strSelected = cursor.getString(cursor.getColumnIndexOrThrow(IwuSQLHelper.KEY_CURRENT_USER));
@@ -314,9 +312,13 @@ public class userFragment extends Fragment {
     }
 
     private void updateUserCursor(){
-        String[] mStrCursorQueryFields = new String[]{IwuSQLHelper.KEY_USER_PRIMARY, IwuSQLHelper.KEY_USER_ID_NUMBER, IwuSQLHelper.KEY_USER_FIRST_NAME
-                , IwuSQLHelper.KEY_USER_LAST_NAME, IwuSQLHelper.KEY_USER_HEIGHT_TO_CSA, IwuSQLHelper.KEY_USER_HEIGHT
-                , IwuSQLHelper.KEY_USER_PULM_DIAMETER, IwuSQLHelper.KEY_USER_ANGLE, IwuSQLHelper.KEY_USER_BLE_MAC};
+        String[] mStrCursorQueryFields = new String[]{
+                IwuSQLHelper.KEY_USER_PRIMARY, IwuSQLHelper.KEY_USER_ID_NUMBER,
+                IwuSQLHelper.KEY_USER_NAME, IwuSQLHelper.KEY_USER_PHONE_NUMBER,
+                IwuSQLHelper.KEY_USER_BIRTHDAY, IwuSQLHelper.KEY_USER_HOSPITAL,
+                IwuSQLHelper.KEY_USER_JOB, IwuSQLHelper.KEY_USER_NATION,
+                IwuSQLHelper.KEY_USER_OPERATION, IwuSQLHelper.KEY_USER_DISEASE,
+                IwuSQLHelper.KEY_USER_PULM_DIAMETER, IwuSQLHelper.KEY_USER_GENDER, IwuSQLHelper.KEY_USER_MARRY};
         mCursorUserList = mHelper.mDBWrite.query(IwuSQLHelper.STR_TABLE_USER,
                                                         mStrCursorQueryFields, null, null,
                                                         null, null,null);

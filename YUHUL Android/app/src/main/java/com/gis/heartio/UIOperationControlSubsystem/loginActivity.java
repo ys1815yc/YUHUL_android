@@ -57,10 +57,10 @@ public class loginActivity extends AppCompatActivity {
     LoginDatabaseAdapter loginDatabaseAdapter;
 
     /* OTA update參數 2023/4/10 by Doris */
-    private static final int version = BuildConfig.VERSION_CODE;
-    boolean updateFlag = false;
-    Thread otaRequest, otaDownload;
-    private DownloadManager downloadManager;
+//    private static final int version = BuildConfig.VERSION_CODE;
+//    boolean updateFlag = false;
+//    Thread otaRequest, otaDownload;
+//    private DownloadManager downloadManager;
 
     private SharedPreferences sharedPref;
     private boolean adminPoliciesAccepted;
@@ -90,23 +90,23 @@ public class loginActivity extends AppCompatActivity {
         this.sharedPref = getSharedPreferences("policies", Context.MODE_PRIVATE);
 
         /* OTA update 2023/4/10 by Doris */
-        WifiManager wifiManager = (WifiManager)getSystemService(Context.WIFI_SERVICE);
-        if(checkWifiIsEnable(wifiManager)){
-            otaRequest = new otaRequest();
-            otaRequest.start();
-            new Thread(() -> runOnUiThread(() -> {
-                try {
-                    otaRequest.join();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                if (updateFlag){
-                    getUpdateDialog();
-                }
-            })).start();
-
-            Log.i("updateFlag: ", String.valueOf(updateFlag));
-        }
+//        (checkWifiIsEnable(wifiManager)){
+//            WifiManager wifiManager = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+//            if   otaRequest = new otaRequest();
+//            otaRequest.start();
+//            new Thread(() -> runOnUiThread(() -> {
+//                try {
+//                    otaRequest.join();
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                if (updateFlag){
+//                    getUpdateDialog();
+//                }
+//            })).start();
+//
+//            Log.i("updateFlag: ", String.valueOf(updateFlag));
+//        }
 
         mHelper = new IwuSQLHelper(this);
         mHelper.tryAddDefaultAdmin();
@@ -338,113 +338,113 @@ public class loginActivity extends AppCompatActivity {
     }
 
     /* OTA update function --start-- 2023/4/10 by Doris */
-    class otaRequest extends Thread{
-        @Override
-        public void run() {
-            super.run();
-            // 建立OkHttpClient
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
-                    .build();
-
-            Request request = new Request.Builder()
-                    .url("http://ec2-54-252-152-206.ap-southeast-2.compute.amazonaws.com/apk.php?latest_version")
-                    .build();
-
-            // 建立Call
-            Call call = client.newCall(request);
-
-            //同步
-            try {
-                Response response = call.execute();
-                String result = response.body().string();
-
-                JSONObject jObject = new JSONObject(result);
-                if(jObject.getInt("version") > version){
-                    Log.i(TAG, "need to update apk");
-                    updateFlag = true;
-                }
-
-            } catch (IOException | JSONException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    class otaDownload extends Thread{
-        @Override
-        public void run() {
-            clearDownloadFile();
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse("http://ec2-54-252-152-206.ap-southeast-2.compute.amazonaws.com/apk.php?get_version"));
-            //設定通知提示
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-            request.setTitle("下載");
-            request.setDescription("正在下載新版APP");
-            request.setAllowedOverRoaming(false);
-            //下載後存在哪
-            request.setDestinationInExternalFilesDir(loginActivity.this, Environment.DIRECTORY_DOWNLOADS, "/temp.apk");
-            downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-            long id = downloadManager.enqueue(request);
-            downloadManager.getUriForDownloadedFile(id);
-
-            CompleteReceiver completeReceiver = new CompleteReceiver();
-            /*register download success broadcast */
-            registerReceiver(completeReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        }
-    }
-
-    class CompleteReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            updateFlag = false;
-            // get complete download id
-            long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            Toast.makeText(loginActivity.this, "下載完成~", Toast.LENGTH_LONG).show();
-
-            // Intent to open apk
-            Intent intentAPK = new Intent(Intent.ACTION_VIEW, downloadManager.getUriForDownloadedFile(completeDownloadId));
-            intentAPK.setDataAndType(downloadManager.getUriForDownloadedFile(completeDownloadId), "application/vnd.android.package-archive");
-            intentAPK.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(intentAPK);
-        }
-    }
-
-    public void clearDownloadFile(){
-        String directory = "/storage/emulated/0/Android/data/com.gis.heartio/files/Download";
-        File fileDir = new File(directory);
-        if (fileDir.exists()) {
-            File[] listFiles = fileDir.listFiles();
-            Log.d("listFiles", String.valueOf(listFiles.length));
-            for (File listFile : listFiles) {
-                if (!listFile.delete()) {
-                    Log.e("Unable to delete file", String.valueOf(listFile));
-                }
-            }
-        }
-    }
-
-    private boolean checkWifiIsEnable(WifiManager wifiManager){
-        Log.d("Wifi", String.valueOf(wifiManager.isWifiEnabled()));
-        return wifiManager.isWifiEnabled();
-    }
-
-    public void getUpdateDialog() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(loginActivity.this);
-        builder.setTitle("Detected new version")
-                .setMessage("Want to update?")
-                .setPositiveButton("GO", (dialogInterface, i) -> {
-                    Toast.makeText(loginActivity.this, "開始下載", Toast.LENGTH_SHORT).show();
-                    otaDownload = new otaDownload();
-                    otaDownload.start();
-                    try {
-                        otaDownload.join();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .setNegativeButton("NO", (dialogInterface, i) -> dialogInterface.dismiss())
-                .create()
-                .show();
-    }
+//    class otaRequest extends Thread{
+//        @Override
+//        public void run() {
+//            super.run();
+//            // 建立OkHttpClient
+//            OkHttpClient client = new OkHttpClient().newBuilder()
+//                    .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+//                    .build();
+//
+//            Request request = new Request.Builder()
+//                    .url("http://ec2-54-252-152-206.ap-southeast-2.compute.amazonaws.com/apk.php?latest_version")
+//                    .build();
+//
+//            // 建立Call
+//            Call call = client.newCall(request);
+//
+//            //同步
+//            try {
+//                Response response = call.execute();
+//                String result = response.body().string();
+//
+//                JSONObject jObject = new JSONObject(result);
+//                if(jObject.getInt("version") > version){
+//                    Log.i(TAG, "need to update apk");
+//                    updateFlag = true;
+//                }
+//
+//            } catch (IOException | JSONException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//    }
+//
+//    class otaDownload extends Thread{
+//        @Override
+//        public void run() {
+//            clearDownloadFile();
+//            DownloadManager.Request request = new DownloadManager.Request(Uri.parse("http://ec2-54-252-152-206.ap-southeast-2.compute.amazonaws.com/apk.php?get_version"));
+//            //設定通知提示
+//            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+//            request.setTitle("下載");
+//            request.setDescription("正在下載新版APP");
+//            request.setAllowedOverRoaming(false);
+//            //下載後存在哪
+//            request.setDestinationInExternalFilesDir(loginActivity.this, Environment.DIRECTORY_DOWNLOADS, "/temp.apk");
+//            downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+//            long id = downloadManager.enqueue(request);
+//            downloadManager.getUriForDownloadedFile(id);
+//
+//            CompleteReceiver completeReceiver = new CompleteReceiver();
+//            /*register download success broadcast */
+//            registerReceiver(completeReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//        }
+//    }
+//
+//    class CompleteReceiver extends BroadcastReceiver {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            updateFlag = false;
+//            // get complete download id
+//            long completeDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+//            Toast.makeText(loginActivity.this, "下載完成~", Toast.LENGTH_LONG).show();
+//
+//            // Intent to open apk
+//            Intent intentAPK = new Intent(Intent.ACTION_VIEW, downloadManager.getUriForDownloadedFile(completeDownloadId));
+//            intentAPK.setDataAndType(downloadManager.getUriForDownloadedFile(completeDownloadId), "application/vnd.android.package-archive");
+//            intentAPK.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            startActivity(intentAPK);
+//        }
+//    }
+//
+//    public void clearDownloadFile(){
+//        String directory = "/storage/emulated/0/Android/data/com.gis.heartio/files/Download";
+//        File fileDir = new File(directory);
+//        if (fileDir.exists()) {
+//            File[] listFiles = fileDir.listFiles();
+//            Log.d("listFiles", String.valueOf(listFiles.length));
+//            for (File listFile : listFiles) {
+//                if (!listFile.delete()) {
+//                    Log.e("Unable to delete file", String.valueOf(listFile));
+//                }
+//            }
+//        }
+//    }
+//
+//    private boolean checkWifiIsEnable(WifiManager wifiManager){
+//        Log.d("Wifi", String.valueOf(wifiManager.isWifiEnabled()));
+//        return wifiManager.isWifiEnabled();
+//    }
+//
+//    public void getUpdateDialog() {
+//        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(loginActivity.this);
+//        builder.setTitle("Detected new version")
+//                .setMessage("Want to update?")
+//                .setPositiveButton("GO", (dialogInterface, i) -> {
+//                    Toast.makeText(loginActivity.this, "開始下載", Toast.LENGTH_SHORT).show();
+//                    otaDownload = new otaDownload();
+//                    otaDownload.start();
+//                    try {
+//                        otaDownload.join();
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                })
+//                .setNegativeButton("NO", (dialogInterface, i) -> dialogInterface.dismiss())
+//                .create()
+//                .show();
+//    }
     /* OTA update function --end-- 2023/4/12 by Doris */
 }

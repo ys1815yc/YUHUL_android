@@ -235,6 +235,7 @@ public class dataFragment extends Fragment {
                             curCSV.getString(8),
                             curCSV.getString(9)};
                     csvWriter.writeNext(arrStr);
+//                    GIS_Log.d(TAG,"create CSV file");
                 }
                 csvWriter.close();
                 curCSV.close();

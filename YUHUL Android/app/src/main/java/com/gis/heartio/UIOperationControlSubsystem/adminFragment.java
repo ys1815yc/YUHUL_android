@@ -122,7 +122,7 @@ public class adminFragment extends Fragment {
             setHasOptionsMenu(true);
         }
 
-        updateAdminCursor();
+        updateAdminCursor(); // 新增admin使用者到DB
 
         mSimpleCursorAdapter = new SimpleCursorAdapter(getActivity(),
                 R.layout.listitem_admin, mCursor,

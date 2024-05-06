@@ -27,7 +27,7 @@
     <string name="title_dashboard">控制面板</string>
     <string name="title_edit_user">編輯使用者</string>
     <string name="hint_height">身高(公分)</string>
-    <string name="hint_user_id">身分證字號 如:A123456789</string>
+    <string name="hint_user_id">身分證字號 A12XXXXXXX</string>
     <string name="angle_hint">角度(度)</string>
     <string name="apply">送出</string>
     <string name="reset">重設</string>
@@ -398,5 +398,14 @@
     <string name="title_action">動作</string>
     <string name="ble_scan">BLE掃描裝置</string>
     <string name="ble_connect">BLE連線</string>
+    <string name="phoneName">電話號碼</string>
+    <string name="userName">姓名</string>
+    <string name="hospitalName">所屬醫院</string>
+    <string name="_19xx_xx_xx">出生日期 19XX/XX/XX</string>
+    <string name="job">職業</string>
+    <string name="nationality">民族</string>
+    <string name="operation">手術</string>
+    <string name="disease">疾病</string>
+    <string name="haveChooseHospital">所選醫院</string>
 
 </resources>

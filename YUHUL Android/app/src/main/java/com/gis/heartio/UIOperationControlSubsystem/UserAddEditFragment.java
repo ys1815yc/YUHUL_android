@@ -11,9 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -43,10 +45,14 @@ public class UserAddEditFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
 
-    private EditText mUserIDEditText, mFirstNameEditText, mLastNameEditText;
-    private EditText mPulmDiaEditText, mAgeEditText;
-    private RadioGroup mGenderGroup;
+    private EditText mUserNameText, mUserIDEditText, mPhoneNumberText, mBirthdayText, mJobText, mPulmDiaEditText, mNationalityText, mOperationText, mDiseaseText;
+//    private EditText mUserIDEditText, mFirstNameEditText, mLastNameEditText;
+//    private EditText mPulmDiaEditText, mPhoneNumber, mBirthday;
+//    private EditText mAgeEditText;
+    private RadioGroup mGenderGroup, mMarryGroup;
+    private Spinner mHospitalSpinner;
     private int intGender = -1;
+    private int intMarry = -1;
     private static IwuSQLHelper mHelper;
     private String inputUserPriID = null;
     private AppCompatActivity mActivity = null;
@@ -116,10 +122,20 @@ public class UserAddEditFragment extends Fragment {
         Button applyBtn = rootView.findViewById(R.id.userApplyBtn);
 
         mUserIDEditText = rootView.findViewById(R.id.userIDeditText);
-        mFirstNameEditText = rootView.findViewById(R.id.firstnameeditText);
-        mLastNameEditText = rootView.findViewById(R.id.lastnameeditText);
+        mUserNameText = rootView.findViewById(R.id.userName);
+        mPhoneNumberText = rootView.findViewById(R.id.phoneNumber);
+        mBirthdayText = rootView.findViewById(R.id.birthday);
+        mJobText = rootView.findViewById(R.id.job);
         mPulmDiaEditText = rootView.findViewById(R.id.pulmDiaeditText);
-        mAgeEditText = rootView.findViewById(R.id.ageEditTextNumber);
+        mNationalityText = rootView.findViewById(R.id.nationality);
+        mOperationText = rootView.findViewById(R.id.operation);
+        mDiseaseText = rootView.findViewById(R.id.disease);
+        mHospitalSpinner = rootView.findViewById(R.id.hospital);
+
+        String text = mHospitalSpinner.getSelectedItem().toString();
+//        mAgeEditText = rootView.findViewById(R.id.ageEditTextNumber);
+//        mFirstNameEditText = rootView.findViewById(R.id.firstnameeditText);
+//        mLastNameEditText = rootView.findViewById(R.id.lastnameeditText);
 
         if (mActivity.getSupportActionBar()!=null){
             GIS_Log.d(TAG,"inputUserPriID = "+inputUserPriID);
@@ -143,13 +159,24 @@ public class UserAddEditFragment extends Fragment {
             }
         });
 
+        mMarryGroup = rootView.findViewById(R.id.marryGroup);
+        mMarryGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if(checkedId == R.id.marriedRadioButton){
+                intMarry = 1;
+            }else if(checkedId == R.id.unmarriedRadioButton){
+                intMarry = 0;
+            }
+        });
+
         mPulmDiaEditText.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 if (mPulmDiaEditText.getText().length() == 0) {
                     try {
-                        String age = mAgeEditText.getText().toString();
-                        if(!age.isEmpty()){
-                            int inputAge = Integer.parseInt(mAgeEditText.getText().toString());
+                        //mBirthdayText type = androidx.appcompat.widget.AppCompatEditText
+                        String birthday = mBirthdayText.getText().toString();
+                        Log.d(TAG, "birthday = " + birthday);
+                        if(!birthday.isEmpty()){
+                            int inputAge = getAge(); //not yet
                             if (inputAge > 0 && intGender != -1) {
                                 mPulmDiaEditText.setText(String.valueOf(getPADiaByGenderAge(intGender, inputAge)));
                             }
@@ -163,25 +190,45 @@ public class UserAddEditFragment extends Fragment {
 
         if (inputUserPriID!=null){
             userInfo editUser = IwuSQLHelper.getUserInfoFromPrimaryID(inputUserPriID, mHelper);
+//            Log.d(TAG, "inputUserPriID = " + inputUserPriID);
             mUserIDEditText.setText(editUser.userID);
-            mFirstNameEditText.setText(editUser.firstName);
-            mLastNameEditText.setText(editUser.lastName);
+            mUserNameText.setText(editUser.name);
+            mPhoneNumberText.setText(editUser.phoneNumber);
+            mJobText.setText(editUser.job);
+            mNationalityText.setText(editUser.nationality);
+            mOperationText.setText(editUser.operation);
+            mDiseaseText.setText(editUser.disease);
+//            mFirstNameEditText.setText(editUser.firstName);
+//            mLastNameEditText.setText(editUser.lastName);
             mPulmDiaEditText.setText(String.valueOf(editUser.pulmDiameter));
+            mBirthdayText.setText(String.valueOf(editUser.birthday));
 
             if (editUser.gender == userInfo.FEMALE){
                 mGenderGroup.check(R.id.femaleRadioButton);
             } else {
                 mGenderGroup.check(R.id.maleRadioButton);
             }
-            mAgeEditText.setText(String.valueOf(editUser.age));
+            if (editUser.marry == 1){
+                mMarryGroup.check(R.id.marriedRadioButton);
+            } else {
+                mMarryGroup.check(R.id.unmarriedRadioButton);
+            }
         }
 
         resetBtn.setOnClickListener(view -> {
             mUserIDEditText.setText("");
-            mFirstNameEditText.setText("");
-            mLastNameEditText.setText("");
+            mUserNameText.setText("");
+            mPhoneNumberText.setText("");
+            mBirthdayText.setText("");
+            mJobText.setText("");
+            mNationalityText.setText("");
+            mOperationText.setText("");
+            mDiseaseText.setText("");
+//            mFirstNameEditText.setText("");
+//            mLastNameEditText.setText("");
             mGenderGroup.clearCheck();
-            mAgeEditText.setText("");
+            mMarryGroup.clearCheck();
+//            mAgeEditText.setText("");
             mPulmDiaEditText.setText("");
             intGender = -1;
         });
@@ -191,12 +238,21 @@ public class UserAddEditFragment extends Fragment {
             if (isInputComplete()){
                 userInfo addUser = new userInfo();
 
-                addUser.firstName = mFirstNameEditText.getText().toString();
-                addUser.lastName = mLastNameEditText.getText().toString();
+//                addUser.firstName = mFirstNameEditText.getText().toString();
+//                addUser.lastName = mLastNameEditText.getText().toString();
+                addUser.name = mUserNameText.getText().toString();
                 addUser.userID = mUserIDEditText.getText().toString();
                 addUser.pulmDiameter = Double.parseDouble(mPulmDiaEditText.getText().toString());
                 addUser.gender = intGender;
-                addUser.age = Integer.parseInt(mAgeEditText.getText().toString());
+                addUser.marry = intMarry;
+//                addUser.age = Integer.parseInt(mAgeEditText.getText().toString());
+                addUser.birthday = mBirthdayText.getText().toString();
+                addUser.phoneNumber = mPhoneNumberText.getText().toString();
+                addUser.job = mJobText.getText().toString();
+                addUser.nationality = mNationalityText.getText().toString();
+                addUser.operation = mOperationText.getText().toString();
+                addUser.disease = mDiseaseText.getText().toString();
+                addUser.hospital = mHospitalSpinner.getSelectedItem().toString();
 
                 if (inputUserPriID==null){
                     if (!isUserExist(addUser.userID)){
@@ -239,13 +295,48 @@ public class UserAddEditFragment extends Fragment {
             showInputErrorDialog(getString(R.string.msg_id_cannot_empty));
             return false;
         }
-        if (mFirstNameEditText.getText().toString().equalsIgnoreCase("")){
-            showInputErrorDialog(getString(R.string.msg_first_name_cannot_empty));
+
+        if (mUserNameText.getText().toString().equalsIgnoreCase("")){
+            showInputErrorDialog("User name can't be empty");
+            return false;
+        }
+//        if (mFirstNameEditText.getText().toString().equalsIgnoreCase("")){
+//            showInputErrorDialog(getString(R.string.msg_first_name_cannot_empty));
+//            return false;
+//        }
+
+//        if (mLastNameEditText.getText().toString().equalsIgnoreCase("")){
+//            showInputErrorDialog(getString(R.string.msg_last_name_cannot_empty));
+//            return false;
+//        }
+
+        if (mPhoneNumberText.getText().toString().equalsIgnoreCase("")){
+            showInputErrorDialog("請輸入電話號碼");
             return false;
         }
 
-        if (mLastNameEditText.getText().toString().equalsIgnoreCase("")){
-            showInputErrorDialog(getString(R.string.msg_last_name_cannot_empty));
+        if (mBirthdayText.getText().toString().equalsIgnoreCase("")){
+            showInputErrorDialog("請輸入生日");
+            return false;
+        }
+
+        if (mJobText.getText().toString().equalsIgnoreCase("")){
+            showInputErrorDialog("請輸入職業");
+            return false;
+        }
+
+        if (mOperationText.getText().toString().equalsIgnoreCase("")){
+            showInputErrorDialog("請輸入手術");
+            return false;
+        }
+
+        if (mDiseaseText.getText().toString().equalsIgnoreCase("")){
+            showInputErrorDialog("請輸入疾病");
+            return false;
+        }
+
+        if (mNationalityText.getText().toString().equalsIgnoreCase("")){
+            showInputErrorDialog("請輸入民族");
             return false;
         }
 
@@ -254,11 +345,16 @@ public class UserAddEditFragment extends Fragment {
             return false;
         }
 
-        String ageStr = mAgeEditText.getText().toString();
-        if(ageStr.isEmpty()){
-            showInputErrorDialog(getString(R.string.msg_age_cannot_empty));
+        if(mMarryGroup.getCheckedRadioButtonId() == -1){
+            showInputErrorDialog("請選擇婚姻狀態");
             return false;
         }
+
+//        String ageStr = mAgeEditText.getText().toString();
+//        if(ageStr.isEmpty()){
+//            showInputErrorDialog(getString(R.string.msg_age_cannot_empty));
+//            return false;
+//        }
 
         String pulmDiaStr = mPulmDiaEditText.getText().toString();
 
@@ -283,15 +379,24 @@ public class UserAddEditFragment extends Fragment {
     private void addUserInfoToDB(userInfo inputUser){
         ContentValues cv = new ContentValues();
         cv.put(IwuSQLHelper.KEY_USER_ID_NUMBER, inputUser.userID);
-        cv.put(IwuSQLHelper.KEY_USER_FIRST_NAME, inputUser.firstName);
-        cv.put(IwuSQLHelper.KEY_USER_LAST_NAME, inputUser.lastName);
-        cv.put(IwuSQLHelper.KEY_USER_HEIGHT, inputUser.height);
+        cv.put(IwuSQLHelper.KEY_USER_NAME, inputUser.name);
+        cv.put(IwuSQLHelper.KEY_USER_PHONE_NUMBER, inputUser.phoneNumber);
+        cv.put(IwuSQLHelper.KEY_USER_BIRTHDAY, inputUser.birthday);
+        cv.put(IwuSQLHelper.KEY_USER_HOSPITAL, inputUser.hospital);
+        cv.put(IwuSQLHelper.KEY_USER_JOB, inputUser.job);
+        cv.put(IwuSQLHelper.KEY_USER_NATION, inputUser.nationality);
+        cv.put(IwuSQLHelper.KEY_USER_OPERATION, inputUser.operation);
+        cv.put(IwuSQLHelper.KEY_USER_DISEASE, inputUser.disease);
+//        cv.put(IwuSQLHelper.KEY_USER_FIRST_NAME, inputUser.firstName);
+//        cv.put(IwuSQLHelper.KEY_USER_LAST_NAME, inputUser.lastName);
+//        cv.put(IwuSQLHelper.KEY_USER_HEIGHT, inputUser.height);
         cv.put(IwuSQLHelper.KEY_USER_PULM_DIAMETER, inputUser.pulmDiameter);
-        cv.put(IwuSQLHelper.KEY_USER_HEIGHT_TO_CSA, inputUser.heightToCSA);
-        cv.put(IwuSQLHelper.KEY_USER_ANGLE, inputUser.angle);
-        cv.put(IwuSQLHelper.KEY_USER_BLE_MAC, inputUser.bleMac);
+//        cv.put(IwuSQLHelper.KEY_USER_HEIGHT_TO_CSA, inputUser.heightToCSA);
+//        cv.put(IwuSQLHelper.KEY_USER_ANGLE, inputUser.angle);
+//        cv.put(IwuSQLHelper.KEY_USER_BLE_MAC, inputUser.bleMac);
         cv.put(IwuSQLHelper.KEY_USER_GENDER, inputUser.gender);
-        cv.put(IwuSQLHelper.KEY_USER_AGE, inputUser.age);
+        cv.put(IwuSQLHelper.KEY_USER_MARRY, inputUser.marry);
+//        cv.put(IwuSQLHelper.KEY_USER_AGE, inputUser.age);
 
         long lnReturn = mHelper.mDBWrite.insert(IwuSQLHelper.STR_TABLE_USER, "", cv);
         inputUser.userCount = (int)lnReturn;
@@ -308,11 +413,13 @@ public class UserAddEditFragment extends Fragment {
     private boolean isUserExist(String userID){
         boolean isExist = false;
         String[] columns, userIds;
+        Log.d(TAG, "isUserExist");
         columns = new String[]{IwuSQLHelper.KEY_USER_PRIMARY, IwuSQLHelper.KEY_USER_ID_NUMBER,
-                IwuSQLHelper.KEY_USER_FIRST_NAME, IwuSQLHelper.KEY_USER_LAST_NAME,
-                IwuSQLHelper.KEY_USER_HEIGHT_TO_CSA, IwuSQLHelper.KEY_USER_HEIGHT,
-                IwuSQLHelper.KEY_USER_PULM_DIAMETER, IwuSQLHelper.KEY_USER_ANGLE,
-                IwuSQLHelper.KEY_USER_BLE_MAC};
+                IwuSQLHelper.KEY_USER_NAME, IwuSQLHelper.KEY_USER_PHONE_NUMBER,
+                IwuSQLHelper.KEY_USER_BIRTHDAY, IwuSQLHelper.KEY_USER_HOSPITAL,
+                IwuSQLHelper.KEY_USER_JOB, IwuSQLHelper.KEY_USER_NATION,
+                IwuSQLHelper.KEY_USER_OPERATION, IwuSQLHelper.KEY_USER_DISEASE,
+                IwuSQLHelper.KEY_USER_PULM_DIAMETER, IwuSQLHelper.KEY_USER_GENDER, IwuSQLHelper.KEY_USER_MARRY};
         String selection = IwuSQLHelper.KEY_USER_ID_NUMBER + "=?";
         userIds = new String[1];
         userIds[0] = userID;
@@ -337,15 +444,17 @@ public class UserAddEditFragment extends Fragment {
         ContentValues cv = new ContentValues();
         String strID, strWhere;
         cv.put(IwuSQLHelper.KEY_USER_ID_NUMBER, updateInfo.userID);
-        cv.put(IwuSQLHelper.KEY_USER_FIRST_NAME, updateInfo.firstName);
-        cv.put(IwuSQLHelper.KEY_USER_LAST_NAME, updateInfo.lastName);
-        cv.put(IwuSQLHelper.KEY_USER_HEIGHT, updateInfo.height);
+        cv.put(IwuSQLHelper.KEY_USER_NAME, updateInfo.name);
+        cv.put(IwuSQLHelper.KEY_USER_PHONE_NUMBER, updateInfo.phoneNumber);
+        cv.put(IwuSQLHelper.KEY_USER_BIRTHDAY, updateInfo.birthday);
+        cv.put(IwuSQLHelper.KEY_USER_HOSPITAL, updateInfo.hospital);
+        cv.put(IwuSQLHelper.KEY_USER_JOB, updateInfo.job);
+        cv.put(IwuSQLHelper.KEY_USER_NATION, updateInfo.nationality);
+        cv.put(IwuSQLHelper.KEY_USER_OPERATION, updateInfo.operation);
+        cv.put(IwuSQLHelper.KEY_USER_DISEASE, updateInfo.disease);
         cv.put(IwuSQLHelper.KEY_USER_PULM_DIAMETER, updateInfo.pulmDiameter);
-        cv.put(IwuSQLHelper.KEY_USER_HEIGHT_TO_CSA, updateInfo.heightToCSA);
-        cv.put(IwuSQLHelper.KEY_USER_ANGLE, updateInfo.angle);
-        cv.put(IwuSQLHelper.KEY_USER_BLE_MAC, updateInfo.bleMac);
         cv.put(IwuSQLHelper.KEY_USER_GENDER, updateInfo.gender);
-        cv.put(IwuSQLHelper.KEY_USER_AGE, updateInfo.age);
+        cv.put(IwuSQLHelper.KEY_USER_MARRY, updateInfo.marry);
 
         strID = String.valueOf(updateInfo.userCount);
         strWhere = "_id="+strID;
@@ -374,5 +483,10 @@ public class UserAddEditFragment extends Fragment {
                 return 25.2;
             }
         }
+    }
+    // create by Doris 2024/05/02
+    private int getAge(){
+        int age = 40;
+        return age;
     }
 }

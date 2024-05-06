@@ -496,7 +496,8 @@ public class offlineFragment extends Fragment {
 
         this.calculateButton = rootView.findViewById(R.id.calculateBtn);
         calculateButton.setOnClickListener(btnCalculateOnClick);
-        calculateButton.setEnabled(false);
+//        calculateButton.setEnabled(false);
+        calculateButton.setVisibility(View.INVISIBLE);
 
         if (ContextCompat.checkSelfPermission(mActivity,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -1296,7 +1297,8 @@ public class offlineFragment extends Fragment {
                     }
 
                     // set UI status.
-                    calculateButton.setEnabled(true);
+//                    calculateButton.setEnabled(true);
+                    calculateButton.setVisibility(View.INVISIBLE);
                     mVTISwitch.setEnabled(true);
                     mPlaySoundBtn.setEnabled(true);
 
@@ -1402,7 +1404,9 @@ public class offlineFragment extends Fragment {
             //------------------------------------------------------------------
             //iHR = (int) MainActivity.mBVSignalProcessorPart2Selected.getHRAverage();
             iHR = inputData.HR;
-            if (iHR < 0) {
+//            if (iHR < 0) {
+            /* 當SV & CO顯示「--」，把HR也隱藏成「--」 2024/3/28 by Doris*/
+            if (iHR < 0 || inputData.SV <= 0 || inputData.CO <= 0) {
                 mHRValueTextView.setText("--");
             } else {
                 strHR = String.valueOf(iHR) + " ";

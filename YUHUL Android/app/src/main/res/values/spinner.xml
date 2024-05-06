@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_hospital">
+        <item>選擇醫院</item>
+        <item>AA醫院</item>
+        <item>BB醫院</item>
+        <item>OO醫院</item>
+        <item>XX醫院</item>
+    </string-array>
+</resources>

@@ -1000,7 +1000,7 @@ public class onlineFragment extends Fragment {
 //                    }
                     mTBtnRec.setChecked(false);
 //                    mTBtnRec.setVisibility(View.GONE);        // Viento want it visible after once record.
-                    mBtnCalculate.setEnabled(true);
+                    mBtnCalculate.setEnabled(false);
                     mBtnSave.setEnabled(true);
 
                     //SystemConfig.mMyEventLogger.appendDebugStr("Gain Level End = ", String.valueOf(SystemConfig.mIntGainLevel));
@@ -1236,7 +1236,9 @@ public class onlineFragment extends Fragment {
                 mTBtnRec.setTextColor(Color.GRAY);
             }
 
-            if (iHR <= 0) {
+//            if (iHR <= 0) {
+            /* 當SV & CO顯示「--」，把HR也隱藏成「--」 2024/3/28 by Doris*/
+            if (iHR <= 0 || inputData.SV <= 0 || inputData.CO <= 0) {
                 mHRValueTextView.setText("--");
             } else {
                 strHR = String.valueOf(iHR) + " ";
@@ -1904,6 +1906,7 @@ public class onlineFragment extends Fragment {
         SystemConfig.mIntSVDrawSizeBloodVelocity = iDrawSize;
     }
 
+    // 按下儲存按鈕後會執行，歷史資料會顯示該筆數據
     private boolean saveToDatabase(){
 //        dataInfo mDataInfo;
         Date date;
@@ -1920,6 +1923,7 @@ public class onlineFragment extends Fragment {
             currentResult.createdDate = simpleDateFormat.format(date);
 
             MainActivity.mIwuSQLHelper.addDataInfoToDB(currentResult);
+//            Log.d("saveToDatabase", "saveToDatabase");
             return true;
         } catch (Exception ex1) {
             ex1.printStackTrace();

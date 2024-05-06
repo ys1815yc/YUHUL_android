@@ -45,6 +45,7 @@ android {
     aaptOptions {
         noCompress "tflite"
     }
+    namespace 'com.gis.heartio'
 }
 
 dependencies {

@@ -398,5 +398,14 @@
     <string name="title_action">动作</string>
     <string name="ble_scan">BLE扫描装置</string>
     <string name="ble_connect">BLE联机</string>
+    <string name="phoneName">电话号码</string>
+    <string name="userName">姓名</string>
+    <string name="hospitalName">所属医院</string>
+    <string name="_19xx_xx_xx">出生日期 19XX/XX/XX</string>
+    <string name="job">职业</string>
+    <string name="nationality">民族</string>
+    <string name="operation">手术</string>
+    <string name="disease">疾病</string>
+    <string name="haveChooseHospital">所选医院</string>
 
 </resources>

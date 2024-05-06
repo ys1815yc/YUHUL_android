@@ -9,6 +9,15 @@ public class userInfo {
 
     public int userCount;
     public String userID;
+    public String name;
+    public String birthday;
+    public String phoneNumber;
+    public String hospital;
+    public String job;
+    public int marry;
+    public String nationality;
+    public String operation;
+    public String disease;
     public String firstName;
     public String lastName;
     public String heightToCSA;
