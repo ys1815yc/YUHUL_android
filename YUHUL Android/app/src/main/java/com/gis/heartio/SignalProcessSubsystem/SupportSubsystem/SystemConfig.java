@@ -479,6 +479,9 @@ public class SystemConfig {
     public static short voiceIndex = 0;
     public static String[] voiceCategory = new String[]{"BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG", "BG"};
 
+    /* API token 參數 2024/07/22 by Doris */
+    public static String cloudToken;
+
     public static void initItriDeviceCommon(){
         //
         // common part for online and offline

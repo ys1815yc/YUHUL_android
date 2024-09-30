@@ -1,5 +1,7 @@
 package com.gis.heartio.UIOperationControlSubsystem;
 
+import static com.gis.CommonFragments.ProfileScanningFragment.mSelectedMacAddress;
+
 import android.Manifest;
 import android.app.Dialog;
 import android.bluetooth.BluetoothGatt;
@@ -745,6 +747,8 @@ public class onlineFragment extends Fragment {
                 // Cavin 200903
                 //showResultBloodVelocityCommon(MainActivity.mSignalProcessController.getResultDataAfterSignalProcess());
                 currentResult = MainActivity.mSignalProcessController.getResultDataAfterSignalProcessByWu();
+                /* 改用Leslie改過的版本 2024/06/12 by Doris */
+//                currentResult = new GIS_DataController().getMeasureResult();
                 showResultBloodVelocityCommon(currentResult);
 
                 //?enableBloodVelocityStartFromCalculateAction();
@@ -1918,6 +1922,7 @@ public class onlineFragment extends Fragment {
 
             currentResult.userId = UserManagerCommon.mUserInfoCur.userID;
             currentResult.fileName = MainActivity.mRawDataProcessor.mStrCurFileName;
+            currentResult.macAddress = mSelectedMacAddress;
             simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.TAIWAN);
             date = new Date();
             currentResult.createdDate = simpleDateFormat.format(date);

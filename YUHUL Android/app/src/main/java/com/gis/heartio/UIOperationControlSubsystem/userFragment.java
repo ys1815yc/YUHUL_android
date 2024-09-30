@@ -1,22 +1,14 @@
 package com.gis.heartio.UIOperationControlSubsystem;
 
+import static com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.Utilitys.getToken;
+import static com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.Utilitys.isNetOnline;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-//import android.support.annotation.Nullable;
-//import androidx.core.app.Fragment;
-//import androidx.core.app.FragmentTransaction;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-//import android.support.v7.app.AlertDialog;
-//import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,11 +16,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.gis.CommonUtils.Constants;
 import com.gis.heartio.GIS_Log;
@@ -53,6 +53,7 @@ public class userFragment extends Fragment {
 
     // GUI elements
     private ListView mUserListView;
+    private SearchView mSearchView;
 
     public static userFragment newInstance() {
         return new userFragment();
@@ -76,7 +77,7 @@ public class userFragment extends Fragment {
             mActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-
+        mSearchView = rootView.findViewById(R.id.searchView);
         mUserListView = rootView.findViewById(R.id.userListView);
 
         setHasOptionsMenu(true);
@@ -97,7 +98,8 @@ public class userFragment extends Fragment {
                 final String selectStr = cursor.getString(0);
                 final int selectedIdx = i;
                 GIS_Log.d(TAG,"Selected String = "+selectStr);
-                Log.d(TAG,"Selected String = "+selectStr);
+//                Log.d(TAG,"Selected String = "+selectStr);
+//                Log.d(TAG, "mUserList : " + mUserList.size());
                 AlertDialog alertDialog = new AlertDialog.Builder(mActivity).create(); //Read Update
                 alertDialog.setTitle("Action");
                 //alertDialog.setMessage("Upgrade Text Here");
@@ -130,6 +132,34 @@ public class userFragment extends Fragment {
             }
         });
 
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mUserListCursorAdapter.getFilter().filter(query);
+                mUserListCursorAdapter.notifyDataSetChanged();
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mUserListCursorAdapter.getFilter().filter(newText);
+                updateSearchUserCursor(newText);
+                mUserListCursorAdapter = new userListCursorAdapter(mActivity,mCursorUserList,0);
+                mUserListView.setAdapter(mUserListCursorAdapter);
+//                mUserListCursorAdapter.notifyDataSetChanged();
+//                Log.d(TAG, String.valueOf(mUserListCursorAdapter));
+                return false;
+            }
+        });
+
+        mSearchView.setOnCloseListener(() -> {
+            updateUserCursor();
+            mUserListCursorAdapter = new userListCursorAdapter(mActivity,mCursorUserList,0);
+            mUserListView.setAdapter(mUserListCursorAdapter);
+            return false;
+        });
+
         return rootView;
     }
 
@@ -143,7 +173,13 @@ public class userFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_add:
-                updateWithAddEditUserFragment(this,null);
+//                Log.d(TAG, "mCursorUserList : " + mCursorUserList.getColumnCount());
+                mUserList = IwuSQLHelper.getAllUserInfo(mHelper);
+                if (mUserList.size() >= 6){
+                    Toast.makeText(mActivity, "超過使用人數上限，最多6人使用", Toast.LENGTH_LONG).show();
+                }else {
+                    updateWithAddEditUserFragment(this,null);
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -155,27 +191,48 @@ public class userFragment extends Fragment {
     public void onDestroy() {
         mHelper.closeDatabase();
         mCursorUserList.close();
+//        Log.d(TAG, "Destory");
         super.onDestroy();
+    }
+
+    /* 返回後顯示user list 2024/06/27 by Doris */
+    public void onResume() {
+        updateUserCursor();
+        mUserListCursorAdapter = new userListCursorAdapter(mActivity,mCursorUserList,0);
+        mUserListView.setAdapter(mUserListCursorAdapter);
+//        Log.d(TAG, "onResume");
+        super.onResume();
     }
 
     private void updateWithAddEditUserFragment(final Fragment fragment, String userID) {
         if (fragment!=null){
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             UserAddEditFragment uAEFrag;
-            if (userID!=null){
-                uAEFrag = UserAddEditFragment.newInstance(userID,null);
+
+//            WifiManager wifiManager = (WifiManager) mActivity.getApplicationContext().getSystemService(WIFI_SERVICE);
+//            Log.d(TAG, String.valueOf(wifiManager.getWifiState()));
+//            if (wifiManager.getWifiState()== WifiManager.WIFI_STATE_ENABLED){
+            if (isNetOnline(this.mActivity)){
+//                getToken(this.mActivity);
+                if (userID!=null){
+                    uAEFrag = UserAddEditFragment.newInstance(userID,null);
+                }else {
+                    uAEFrag = UserAddEditFragment.newInstance();
+                }
+                transaction.replace(R.id.frame_layout, uAEFrag,
+                        Constants.USER_ADD_EDIT_TAG);
+                transaction.addToBackStack(fragment.getClass().getName());
+
+                transaction.commit();
             }else {
-                uAEFrag = UserAddEditFragment.newInstance();
+//                Log.d(TAG, String.valueOf(wifiManager.isWifiEnabled()));
+                Toast.makeText(mActivity, "請連接網路", Toast.LENGTH_SHORT).show();
             }
 
-
-            transaction.replace(R.id.frame_layout, uAEFrag,
-                    Constants.USER_ADD_EDIT_TAG);
-            transaction.addToBackStack(fragment.getClass().getName());
-
-            transaction.commit();
         }
     }
+
+
 
     /**
         * Holder class for the list view view widgets
@@ -322,5 +379,11 @@ public class userFragment extends Fragment {
         mCursorUserList = mHelper.mDBWrite.query(IwuSQLHelper.STR_TABLE_USER,
                                                         mStrCursorQueryFields, null, null,
                                                         null, null,null);
+    }
+
+    public void updateSearchUserCursor(String phoneNumber) {
+        mCursorUserList = mHelper.mDBWrite.rawQuery(
+                "select * from " + IwuSQLHelper.STR_TABLE_USER + " where " + IwuSQLHelper.KEY_USER_PHONE_NUMBER + " = ?",
+                new String[]{phoneNumber});
     }
 }

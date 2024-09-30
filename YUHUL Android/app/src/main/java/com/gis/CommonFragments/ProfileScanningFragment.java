@@ -119,6 +119,7 @@ public class ProfileScanningFragment extends Fragment {
     // device details
     public static String mDeviceName = "name";
     public static String mDeviceAddress = "address";
+    public static String mSelectedMacAddress;
 
     //Pair status button and variables
     public static Button mPairButton;
@@ -218,17 +219,14 @@ public class ProfileScanningFragment extends Fragment {
                              byte[] scanRecord) {
             MainActivity mActivity = (MainActivity) getActivity();
             if (mActivity != null) {
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!mSearchEnabled) {
-                            mLeDeviceListAdapter.addDevice(device, rssi);
-                            try {
-                                mLeDeviceListAdapter.notifyDataSetChanged();
-                                //updateProfileListView();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                mActivity.runOnUiThread(() -> {
+                    if (!mSearchEnabled) {
+                        mLeDeviceListAdapter.addDevice(device, rssi);
+                        try {
+                            mLeDeviceListAdapter.notifyDataSetChanged();
+                            //updateProfileListView();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -356,6 +354,9 @@ public class ProfileScanningFragment extends Fragment {
                         final BluetoothDevice device = mLeDeviceListAdapter
                                 .getDevice(position);
                         if (device != null) {
+                            /* 取得目前選擇硬體的MAC Address 2024/5/22 by Doris*/
+                            mSelectedMacAddress = device.getAddress();
+                            Log.d(TAG, mSelectedMacAddress);
                             scanLeDevice(false);
                             connectDevice(device, true,false);
                             /*

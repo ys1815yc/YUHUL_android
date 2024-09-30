@@ -71,6 +71,7 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
     public static final String KEY_DATA_TABLE_SV = "SV";
     public static final String KEY_DATA_TABLE_CO = "CO";
     public static final String KEY_DATA_TABLE_FILE_NAME = "FileName";
+    public static final String  KEY_DATA_TABLE_DEVICE_MAC_ADDR = "MAC_Addr";
 
     public static final String STR_FAIL = "fail";
     public static final String STR_SUCESS = "sucess";
@@ -138,18 +139,34 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
 
         db.execSQL(DATABASE_CREATE_TABLE_USER);
 
+//        String DATABASE_CREATE_TABLE_DATA =
+//                "create table " + STR_TABLE_DATA + "("
+//                        + KEY_DATA_TABLE_PRIMARY + " INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,"
+//                        + KEY_DATA_TABLE_RESULT + " TEXT, "
+//                        //+ KEY_DATA_TABLE_USER_ID + " INTEGER, "
+//                        + KEY_DATA_TABLE_USER_ID + " TEXT, "
+//                        + KEY_DATA_TABLE_CREATED_DATE + " TEXT, "
+//                        + KEY_DATA_TABLE_HR + " INTEGER, "
+//                        + KEY_DATA_TABLE_VPK + " REAL, "
+//                        + KEY_DATA_TABLE_VTI + " REAL, "
+//                        + KEY_DATA_TABLE_SV + " REAL, "
+//                        + KEY_DATA_TABLE_CO + " REAL, "
+//                        + KEY_DATA_TABLE_FILE_NAME + " TEXT)";
+//        db.execSQL(DATABASE_CREATE_TABLE_DATA);
+
         String DATABASE_CREATE_TABLE_DATA =
                 "create table " + STR_TABLE_DATA + "("
                         + KEY_DATA_TABLE_PRIMARY + " INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL,"
-                        + KEY_DATA_TABLE_RESULT + " TEXT, "
-                        //+ KEY_DATA_TABLE_USER_ID + " INTEGER, "
-                        + KEY_DATA_TABLE_USER_ID + " TEXT, "
+//                        + KEY_DATA_TABLE_RESULT + " TEXT, "
+                        + KEY_DATA_TABLE_USER_ID + " INTEGER, "
+//                        + KEY_USER_PHONE_NUMBER + " TEXT, "
                         + KEY_DATA_TABLE_CREATED_DATE + " TEXT, "
                         + KEY_DATA_TABLE_HR + " INTEGER, "
                         + KEY_DATA_TABLE_VPK + " REAL, "
                         + KEY_DATA_TABLE_VTI + " REAL, "
                         + KEY_DATA_TABLE_SV + " REAL, "
                         + KEY_DATA_TABLE_CO + " REAL, "
+                        + KEY_DATA_TABLE_DEVICE_MAC_ADDR + " TEXT, "
                         + KEY_DATA_TABLE_FILE_NAME + " TEXT)";
         db.execSQL(DATABASE_CREATE_TABLE_DATA);
 
@@ -422,9 +439,10 @@ public class IwuSQLHelper extends SQLiteOpenHelper {
         try {
             cv1 = new ContentValues();
             cv1.put(IwuSQLHelper.KEY_DATA_TABLE_USER_ID, measureInfo.userId);
+            cv1.put(IwuSQLHelper.KEY_DATA_TABLE_DEVICE_MAC_ADDR, measureInfo.macAddress);
             cv1.put(IwuSQLHelper.KEY_DATA_TABLE_CREATED_DATE, measureInfo.createdDate);
             cv1.put(IwuSQLHelper.KEY_DATA_TABLE_HR, measureInfo.HR);
-            cv1.put(IwuSQLHelper.KEY_DATA_TABLE_RESULT, measureInfo.result);
+//            cv1.put(IwuSQLHelper.KEY_DATA_TABLE_RESULT, measureInfo.result);
             cv1.put(IwuSQLHelper.KEY_DATA_TABLE_VPK, measureInfo.Vpk);
             cv1.put(IwuSQLHelper.KEY_DATA_TABLE_VTI, measureInfo.VTI);
             cv1.put(IwuSQLHelper.KEY_DATA_TABLE_SV, measureInfo.SV);

@@ -291,6 +291,10 @@ public class data2Fragment extends SampleFragment {
                     }
                 });
 
+//                alertDialog.setButton( Dialog.BUTTON_NEUTRAL, "上傳", (dialog, which) -> {
+//                    showDialogForUpload();
+//                });
+
                 alertDialog.setButton( Dialog.BUTTON_NEGATIVE, getString(R.string.action_del), (dialog, which) -> {
                     //String strMsg = "Are you sure to delete the data ?";
                     showDialogForDelete(getString(R.string.alert_msg_sure_del_data), deleteID, deleteFilename);
@@ -318,15 +322,15 @@ public class data2Fragment extends SampleFragment {
                 delBtn.setScaleY(0.60f);
                 delBtn.setPadding(20,5,20,5);
 
-                final Button cancelBtn = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-                cancelBtn.setBackgroundResource(R.drawable.block_g2);
-                cancelBtn.setTextColor(Color.parseColor("#804A4A4A"));
+                final Button uploadBtn = alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+                uploadBtn.setBackgroundResource(R.drawable.block_g2);
+                uploadBtn.setTextColor(Color.parseColor("#804A4A4A"));
                 //cancelBtn.setBackgroundResource(R.drawable.block_b);
                 //cancelBtn.setTextColor(Color.WHITE);
-                cancelBtn.setTextSize(18f);
-                cancelBtn.setScaleX(0.60f);
-                cancelBtn.setScaleY(0.60f);
-                cancelBtn.setPadding(20,5,20,5);
+                uploadBtn.setTextSize(18f);
+                uploadBtn.setScaleX(0.60f);
+                uploadBtn.setScaleY(0.60f);
+                uploadBtn.setPadding(20,5,20,5);
             }
 
             @Override
@@ -410,9 +414,11 @@ public class data2Fragment extends SampleFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.data_menu,menu);
-        if (!SystemConfig.mTestMode){
-            menu.removeItem(R.id.action_export);
+        if (SystemConfig.mTestMode){
+            inflater.inflate(R.menu.data_menu,menu);
+//            menu.removeItem(R.id.action_export);
+        }else {
+//            inflater.inflate(R.menu.update_to_cloud_menu,menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -424,6 +430,9 @@ public class data2Fragment extends SampleFragment {
                 // TODO: export data to csv file.
                 exportDB();
                 return true;
+//            case R.id.update_data:
+//                Log.d(TAG,"update_data");
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -1121,6 +1130,7 @@ public class data2Fragment extends SampleFragment {
                 })
                 .show();
     }
+
 
     private void updateDataAndViews(){
         queryUserDataToList(UserManagerCommon.mUserInfoCur.userID);

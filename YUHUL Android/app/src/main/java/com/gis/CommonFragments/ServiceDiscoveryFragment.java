@@ -129,7 +129,7 @@ public class ServiceDiscoveryFragment extends Fragment {
         View rootView;
 
         rootView = inflater.inflate(R.layout.servicediscovery_temp_fragment, container, false);
-        mNoserviceDiscovered = (TextView) rootView.findViewById(R.id.no_service_text);
+        mNoserviceDiscovered = rootView.findViewById(R.id.no_service_text);
         mProgressDialog = new ProgressDialog(getActivity());
         mTimer = showServiceDiscoveryAlert(false);
         mApplication = (heartioApplication) getActivity().getApplication();

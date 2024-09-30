@@ -1,5 +1,8 @@
 package com.gis.heartio.UIOperationControlSubsystem;
 
+import static com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.Utilitys.getToken;
+import static com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.Utilitys.isNetOnline;
+
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -145,7 +148,14 @@ public class loginActivity extends AppCompatActivity {
         Typeface loginFont = Typeface.createFromAsset(getAssets(), "Lato-Bold.ttf");
         mLoginBtn.setTypeface(loginFont);
         mLoginBtn.setOnClickListener(view -> {
-            checkValidation();
+            /* 登入時先判斷裝置是否連網&取得token值 2024/07/22 by Doris */
+            if (isNetOnline(this)){
+                getToken(this);
+                checkValidation();
+            }else {
+                Toast.makeText(this, "請連接網路", Toast.LENGTH_SHORT).show();
+            }
+
             //goToMainActivity("");
         });
     }

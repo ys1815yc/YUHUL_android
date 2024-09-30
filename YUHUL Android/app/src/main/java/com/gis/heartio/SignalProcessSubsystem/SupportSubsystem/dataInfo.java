@@ -9,6 +9,7 @@ public class dataInfo {
     public String result;
     public String userId;
     public String createdDate;
+    public String macAddress;
     public int ErrCode;
     public int HR;
     public double tmpValue;

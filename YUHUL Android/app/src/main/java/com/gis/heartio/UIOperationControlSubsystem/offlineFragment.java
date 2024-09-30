@@ -1,6 +1,13 @@
 package com.gis.heartio.UIOperationControlSubsystem;
 
+import static com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.IwuSQLHelper.KEY_DATA_TABLE_DEVICE_MAC_ADDR;
+import static com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig.cloudToken;
+import static com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.Utilitys.getToken;
+import static com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.Utilitys.isNetOnline;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -12,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -22,7 +30,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
@@ -42,9 +53,14 @@ import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.dataInfo;
 import com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.dataInfoTestMode;
 import com.opencsv.CSVWriter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.SocketTimeoutException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,7 +69,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import yogesh.firzen.filelister.FileListerDialog;
 
 
@@ -66,6 +91,9 @@ public class offlineFragment extends Fragment {
 
     private static final String ARG_FILENAME = "filename";
     private static final String ARG_ID = "id";
+
+    private boolean uploadData = false;
+    private boolean uploadWav = false;
 
     boolean mBoolOfflineSoundDataExist = false;
 
@@ -125,8 +153,10 @@ public class offlineFragment extends Fragment {
     public static offlineFragment newInstance(String inputName, long id){
         offlineFragment fragment = new offlineFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_FILENAME, inputName);
-        args.putLong(ARG_ID,id);
+        args.putString(ARG_FILENAME, inputName); // wav file
+        args.putLong(ARG_ID,id); // _id
+//        Log.d("inputName ", inputName);
+//        Log.d("id ", String.valueOf(id));
         fragment.setArguments(args);
         return fragment;
     }
@@ -541,8 +571,214 @@ public class offlineFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fake_menu, menu);
+        inflater.inflate(R.menu.update_to_cloud_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection.
+        switch (item.getItemId()) {
+            case R.id.update_data:
+//                Log.d(TAG, "click upload~");
+                AlertDialog alertDialog = new AlertDialog.Builder(mActivity,R.style.MyDialogTheme).create(); //Read Update
+                alertDialog.setTitle("資料上傳");
+                alertDialog.setMessage("確定上傳該筆資料?");
+                alertDialog.setButton(Dialog.BUTTON_POSITIVE, "上傳", (dialog, id) -> {
+                    uploadData();
+//                    if (uploadSuccess){
+//                        Toast.makeText(mActivity, "上傳成功", Toast.LENGTH_SHORT).show();
+//                    }else {
+//                        Toast.makeText(mActivity, "上傳失敗", Toast.LENGTH_SHORT).show();
+//                    }
+                });
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.cancel), (dialog, id) -> {
+                    // Do nothing.
+                });
+                alertDialog.show();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /* Add upload function UI 2024/06/12 by Doris */
+    /* Finish upload function with API 2024/07/30 by Doris */
+    @SuppressLint("Range")
+    private void uploadData(){
+//        List<dataInfo> uploadDataInfo = new ArrayList<>();
+        dataInfo uploadDataInfo = new dataInfo();
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+        Cursor cursorCourses = db.rawQuery("select *  from "+IwuSQLHelper.STR_TABLE_DATA+" where " + IwuSQLHelper.KEY_DATA_TABLE_FILE_NAME +" = ?", new String[]{inputFileName});
+//        Cursor cursorCourses = db.rawQuery("select *  from "+IwuSQLHelper.STR_TABLE_DATA, null);
+//        Log.d(TAG, String.valueOf(cursorCourses));
+
+        while (cursorCourses.moveToNext()){
+//            String data = cursorCourses.getString(cursorCourses.getColumnIndex("HR"));
+            uploadDataInfo.userId = cursorCourses.getString(cursorCourses.getColumnIndex(IwuSQLHelper.KEY_DATA_TABLE_USER_ID));
+            uploadDataInfo.createdDate = cursorCourses.getString(cursorCourses.getColumnIndex(IwuSQLHelper.KEY_DATA_TABLE_CREATED_DATE));
+            uploadDataInfo.HR = Integer.parseInt(cursorCourses.getString(cursorCourses.getColumnIndex(IwuSQLHelper.KEY_DATA_TABLE_HR)));
+            uploadDataInfo.CO = Double.parseDouble(cursorCourses.getString(cursorCourses.getColumnIndex(IwuSQLHelper.KEY_DATA_TABLE_CO)));
+            uploadDataInfo.SV = Double.parseDouble(cursorCourses.getString(cursorCourses.getColumnIndex(IwuSQLHelper.KEY_DATA_TABLE_SV)));
+            uploadDataInfo.Vpk = Double.parseDouble(cursorCourses.getString(cursorCourses.getColumnIndex(IwuSQLHelper.KEY_DATA_TABLE_VPK)));
+            uploadDataInfo.VTI = Double.parseDouble(cursorCourses.getString(cursorCourses.getColumnIndex(IwuSQLHelper.KEY_DATA_TABLE_VTI)));
+            uploadDataInfo.fileName = cursorCourses.getString(cursorCourses.getColumnIndex(IwuSQLHelper.KEY_DATA_TABLE_FILE_NAME));
+            uploadDataInfo.macAddress = cursorCourses.getString(cursorCourses.getColumnIndex(KEY_DATA_TABLE_DEVICE_MAC_ADDR));
+        }
+
+//        Log.d(TAG, uploadDataInfo.toString());
+        cursorCourses.close();
+
+        /* 串接上傳使用者數據API 2024/07/29 by Doris */
+
+        if (isNetOnline(mActivity)){
+            getToken(mActivity);
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .build();
+            MediaType mediaType = MediaType.parse("application/json");
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("clientId", uploadDataInfo.macAddress);
+                jsonObject.put("hr", uploadDataInfo.HR);
+                jsonObject.put("sv", uploadDataInfo.SV);
+                jsonObject.put("co", uploadDataInfo.CO);
+                jsonObject.put("indexTime", uploadDataInfo.createdDate.replace('/', '-'));
+                jsonObject.put("fileName", uploadDataInfo.fileName);
+//                jsonObject.put("patientPhone", uploadDataInfo.userId);
+                jsonObject.put("userId", uploadDataInfo.userId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            //上傳數據
+            RequestBody formBody = RequestBody.create(mediaType, jsonObject.toString());
+            Request request = new Request.Builder()
+                    .url("http://139.196.4.88:8081/beplus/medical/patientHeart/add")
+                    .addHeader("X-Access-Token", cloudToken)
+//                                    .addHeader("Content-Type", "application/json")
+//                                    .addHeader("Authorization", "••••••")
+                    .post(formBody)
+                    .build();
+
+
+            // 建立Call
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response){
+                    //連線成功，取得回傳response
+                    try {
+                        String result = response.body().string();
+
+                        JSONObject jObject = new JSONObject(result);
+                        String status = jObject.getString("success");
+                        String message = jObject.getString("message");
+                        if (status.equals("true")){
+                            uploadData = true;
+                        }else {
+                            mActivity.runOnUiThread(()->{
+                                Toast.makeText(mActivity, "上傳失敗：" + message, Toast.LENGTH_SHORT).show();
+                            });
+                            return;
+                        }
+                        Log.d(TAG, "success = "+status);
+                        Log.d(TAG, "message = "+message);
+//                        Log.d(TAG, "uploadWav = " + uploadWav);
+
+//                        Log.d(TAG, "token = "+cloudToken);
+                    } catch (IOException | JSONException e) {
+                        mActivity.runOnUiThread(()->{
+                            Toast.makeText(mActivity, "執行上傳動作失敗", Toast.LENGTH_SHORT).show();
+                        });
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    mActivity.runOnUiThread(()->{
+                        Toast.makeText(mActivity, "伺服器連線異常，未執行上傳動作", Toast.LENGTH_SHORT).show();
+                    });
+                    //當連線失敗
+                    e.printStackTrace();
+                }
+            });
+
+            //上傳file
+            RequestBody fileBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("files",uploadDataInfo.fileName,
+                            RequestBody.create(MediaType.parse("application/octet-stream"),
+                                    new File(openFilePath)))
+                    .addFormDataPart("userId",uploadDataInfo.userId)
+                    .build();
+
+            Request fileRequest = new Request.Builder()
+                    .url("http://139.196.4.88:8081/beplus/medical/patientHeart/upload")
+                    .method("POST", fileBody)
+                    .addHeader("X-Access-Token", cloudToken)
+//                    .addHeader("Authorization", "••••••")
+                    .build();
+//            Response response = client.newCall(request).execute();
+
+            // 建立Call
+            Call fileCall = client.newCall(fileRequest);
+            fileCall.enqueue(new Callback() {
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response){
+                    //連線成功，取得回傳response
+                    try {
+                        String result = response.body().string();
+
+                        JSONObject jObject = new JSONObject(result);
+                        String status = jObject.getString("success");
+                        String message = jObject.getString("message");
+                        if (status.equals("true")){
+                            uploadWav = true;
+                        }
+                        mActivity.runOnUiThread(()->{
+                            if (uploadWav && uploadData){
+                                Toast.makeText(mActivity, "上傳成功", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(mActivity, "上傳失敗：" + message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+//                        uploadSuccess = true;
+                        Log.d(TAG, "success = "+status);
+                        Log.d(TAG, "message = "+message);
+//                        Toast.makeText(mActivity, "上傳成功", Toast.LENGTH_SHORT).show();
+//                        Log.d(TAG, "token = "+cloudToken);
+                    } catch (IOException | JSONException e) {
+                        mActivity.runOnUiThread(()->{
+                            Toast.makeText(mActivity, "執行上傳動作失敗", Toast.LENGTH_SHORT).show();
+                        });
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    mActivity.runOnUiThread(()->{
+                        Toast.makeText(mActivity, "伺服器連線異常，未執行上傳動作", Toast.LENGTH_SHORT).show();
+                    });
+                    //當連線失敗
+                    e.printStackTrace();
+                }
+            });
+        }else {
+            Toast.makeText(mActivity, "請連接網路", Toast.LENGTH_SHORT).show();
+        }
+
+        Log.d(TAG, uploadDataInfo.userId);
+        Log.d(TAG, uploadDataInfo.createdDate.replace('/', '-'));
+        Log.d(TAG, String.valueOf(uploadDataInfo.HR));
+        Log.d(TAG, String.valueOf(uploadDataInfo.CO));
+        Log.d(TAG, String.valueOf(uploadDataInfo.SV));
+        Log.d(TAG, String.valueOf(uploadDataInfo.Vpk));
+        Log.d(TAG, String.valueOf(uploadDataInfo.VTI));
+        Log.d(TAG, uploadDataInfo.macAddress);
+        Log.d(TAG, uploadDataInfo.fileName);
     }
 
     private void initSurfaceViews(View rootView){
@@ -612,6 +848,7 @@ public class offlineFragment extends Fragment {
 
         if (!inputFileName.equals("")){
             String mStrBaseFolder = Utilitys.getUserBaseFilePath(mActivity,UserManagerCommon.mUserInfoCur.userID);
+            Log.d(TAG, mStrBaseFolder);
             if (openFilePath.equals("")){
                 openFilePath = mStrBaseFolder + File.separator +inputFileName;
             }
@@ -1345,7 +1582,7 @@ public class offlineFragment extends Fragment {
         }
     }
 
-
+    // 最後秀出資料的function
     protected void showResultBloodVelocityCommon(dataInfo inputData) {
         final int iDrawStartIdx, iDrawSize, iHR;
         double doubleCardiacOutput, doubleHR, doubleRadius;

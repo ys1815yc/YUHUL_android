@@ -1,11 +1,35 @@
 package com.gis.heartio.SignalProcessSubsystem.SupportSubsystem;
 
+import static android.content.Context.CONNECTIVITY_SERVICE;
+
+import static com.gis.heartio.SignalProcessSubsystem.SupportSubsystem.SystemConfig.cloudToken;
+
 import android.app.Activity;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Created by Cavin on 2018/1/2.
@@ -218,4 +242,63 @@ public class Utilitys {
 //        return (item | ((inputNum >> 8 ) & 0x000000FF));
 ////        return inputNum;  // Do nothing!
 //    }
+
+    /* 判斷裝置是否連網&取得token值 2024/07/22 by Doris */
+    public static boolean isNetOnline(Activity mActivity) {
+        ConnectivityManager connMgr = (ConnectivityManager) mActivity.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        // get API token
+
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+    public static void getToken(Activity mActivity){
+        String TAG = "isNetOnline";
+        if (cloudToken==null){
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+
+            MediaType mediaType = MediaType.parse("application/json");
+            RequestBody body = RequestBody.create(mediaType, "{\r\n    \"username\": \"mobile\",\r\n    \"password\": \"mobile@123\"\r\n}");
+
+            Request request = new Request.Builder()
+                    .url("http://139.196.4.88:8081/beplus/sys/mLogin")
+                    .method("POST", body)
+                    .addHeader("Content-Type", "application/json")
+                    .build();
+
+            // 建立Call
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response){
+                    //連線成功，取得回傳response
+                    try {
+//                        assert response.body() != null;
+                        String result = response.body().string();
+//                        Log.i(TAG, "result = "+result);
+
+                        JSONObject jObject = new JSONObject(result);
+                        String status = jObject.getString("success");
+                        if (status.equals("true")){
+                            JSONObject tokenResult = jObject.getJSONObject("result");
+                            cloudToken = tokenResult.getString("token");
+                        }else {
+//                            Toast.makeText(mActivity, "伺服器連線異常", Toast.LENGTH_SHORT).show();
+                        }
+//                        Log.d(TAG, "success = "+status);
+//                        Log.d(TAG, "token = "+cloudToken);
+                    } catch (IOException | JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    //當連線失敗
+                    throw new RuntimeException(e);
+                }
+            });
+        }else {
+            Log.d("isNetOnline: ", cloudToken);
+        }
+    }
 }

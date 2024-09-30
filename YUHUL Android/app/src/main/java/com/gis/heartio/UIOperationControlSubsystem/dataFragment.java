@@ -182,9 +182,12 @@ public class dataFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.data_menu,menu);
-        if (!SystemConfig.mTestMode){
-            menu.removeItem(R.id.action_export);
+
+        if (SystemConfig.mTestMode){
+            inflater.inflate(R.menu.data_menu,menu);
+//            menu.removeItem(R.id.action_export);
+        }else {
+            inflater.inflate(R.menu.update_to_cloud_menu,menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -195,6 +198,9 @@ public class dataFragment extends Fragment {
             case R.id.action_export:
                 // TODO: export data to csv file.
                 exportDB();
+                return true;
+            case R.id.update_data:
+                Log.d(TAG,"update_data");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
